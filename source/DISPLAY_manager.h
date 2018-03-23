@@ -24,11 +24,14 @@
 #define TRANSISTOR_DECENAS_NUMBER  ((uint32_t)10U)
 #define TRANSISTOR_CENTENAS_NUMBER ((uint32_t)11U)
 
+/// SENALAMIENTOS
+#define SENALAMIENTO_CONTADOR ((uint32_t)12U)
+#define SENALAMIENTO_TEMPORIZADOR ((uint32_t)13U)
+#define SENALAMIENTO_ADC ((uint32_t)16U)
+
 #define BUTTON_RESET_PIN_NUMBER 	 ((uint32_t)0U)
 #define BUTTON_ASCENDENT_PIN_NUMBER  ((uint32_t)1U)
 #define BUTTON_DESCENDENT_PIN_NUMBER ((uint32_t)2U)
-
-
 
 
 extern void DISPLAY_manager_Output_Init(void);

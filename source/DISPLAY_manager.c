@@ -13,24 +13,10 @@
 #include "fsl_gpio.h"
 
 
-
-/*T_WORD contadorDeBounceRes=0;
-	T_UBYTE DISPLAY_manager_checkButtonReset(){
-
-		if(GPIO_ReadPinInput(GPIOB, BUTTON_RESET_PIN_NUMBER)==FALSE){ ///CHECK RESET BUTTON
-			if(contadorDeBounceRes>=2000){
-				contadorDeBounceRes=0;
-				return 1;
-					}
-else {  		contadorDeBounceRes++;
-				}
-		}
-		return 2;
-	}*/
-
-
 uint32_t contadorDeBounceAsc=0;
 uint32_t contadorDeBounceDesc=0;
+
+
 uint32_t DISPLAY_manager_checkButtonAsc_Desc(uint32_t valor){
 	uint32_t a=valor;
 			if(GPIO_ReadPinInput(GPIOB, BUTTON_ASCENDENT_PIN_NUMBER)==FALSE){ //CHECK ASCENDENT BUTTON
@@ -126,6 +112,10 @@ void DISPLAY_manager_Output_Init(void){
 	///OUTPUTS FOR MULTIPLEX
 	port_pin_config_t ls_Transistor_unidades,ls_Transistor_decenas,ls_Transistor_centenas;
 
+	///OUTPUTS FOR SENALAMIENTOS
+	port_pin_config_t ls_Led_Contador , ls_Led_Temporizador, ls_Led_ADC;
+
+
 	ls_LedA_PinGPIO.mux=kPORT_MuxAsGpio;
 	ls_LedB_PinGPIO.mux=kPORT_MuxAsGpio;
 	ls_LedC_PinGPIO.mux=kPORT_MuxAsGpio;
@@ -136,6 +126,9 @@ void DISPLAY_manager_Output_Init(void){
 	ls_Transistor_unidades.mux=kPORT_MuxAsGpio;
 	ls_Transistor_decenas.mux=kPORT_MuxAsGpio;
 	ls_Transistor_centenas.mux=kPORT_MuxAsGpio;
+	ls_Led_Contador.mux=kPORT_MuxAsGpio;
+	ls_Led_Temporizador.mux=kPORT_MuxAsGpio;;
+	ls_Led_ADC.mux=kPORT_MuxAsGpio;
 
 	//PIN CONFIGURATION
 	PORT_SetPinConfig(PORTC,LED_A_PIN_NUMBER,&ls_LedA_PinGPIO);//LED A
@@ -151,6 +144,12 @@ void DISPLAY_manager_Output_Init(void){
 	PORT_SetPinConfig(PORTC,TRANSISTOR_DECENAS_NUMBER,&ls_LedG_PinGPIO);//Transistor Decenas
 	PORT_SetPinConfig(PORTC,TRANSISTOR_CENTENAS_NUMBER,&ls_LedG_PinGPIO);//Transistor Centenas
 
+	/// LEDS SENALAMIENTOS
+	PORT_SetPinConfig(PORTC,SENALAMIENTO_CONTADOR,&ls_Led_Contador);//Transistor Unidades
+	PORT_SetPinConfig(PORTC,SENALAMIENTO_TEMPORIZADOR,&ls_Led_Temporizador);//Transistor Decenas
+	PORT_SetPinConfig(PORTC,SENALAMIENTO_ADC,&ls_Led_ADC);//Transistor Centenas
+
+
 
 	//PIN INITIALIZATION
 	//Pin Config Structures //Local Variables
@@ -158,6 +157,9 @@ void DISPLAY_manager_Output_Init(void){
 
 	//Pin Config Structures //Local Variables TRANSISTOR MUX
 	gpio_pin_config_t ls_TRANSISTOR_unidadesCfg ,ls_TRANSISTOR_decenasCfg,ls_TRANSISTOR_centenasCfg;
+
+	//Pin Config Structures //SENALAMIENTOS
+	gpio_pin_config_t ls_senal_ContadorCfg ,ls_senal_TemporizadorCfg,ls_senal_AdcCfg;
 
 	/// Pin As Outputs DISPLAY
 	ls_LedA_PinCfg.pinDirection=kGPIO_DigitalOutput;
@@ -172,12 +174,19 @@ void DISPLAY_manager_Output_Init(void){
 	ls_TRANSISTOR_unidadesCfg.pinDirection=kGPIO_DigitalOutput;
 	ls_TRANSISTOR_decenasCfg.pinDirection=kGPIO_DigitalOutput;
 	ls_TRANSISTOR_centenasCfg.pinDirection=kGPIO_DigitalOutput;
+
+	/// PIN AS OUTPUTS - SENALAMIENTOS
+	ls_senal_ContadorCfg.pinDirection=kGPIO_DigitalOutput;
+	ls_senal_TemporizadorCfg.pinDirection=kGPIO_DigitalOutput;
+	ls_senal_AdcCfg.pinDirection=kGPIO_DigitalOutput;
+
+
     /// MUX LOGIC OUTPUT
 	ls_TRANSISTOR_unidadesCfg.outputLogic= FALSE;
 	ls_TRANSISTOR_decenasCfg.outputLogic= FALSE;
 	ls_TRANSISTOR_centenasCfg.outputLogic= FALSE;
 
-
+//// LED LOGIC INITIALIZATION
 	ls_LedA_PinCfg.outputLogic= TRUE;
 	ls_LedB_PinCfg.outputLogic= TRUE;
 	ls_LedC_PinCfg.outputLogic= TRUE;
@@ -185,6 +194,9 @@ void DISPLAY_manager_Output_Init(void){
 	ls_LedE_PinCfg.outputLogic= TRUE;
 	ls_LedF_PinCfg.outputLogic= TRUE;
 	ls_LedG_PinCfg.outputLogic= TRUE;
+	ls_senal_ContadorCfg.outputLogic= TRUE;
+	ls_senal_TemporizadorCfg.outputLogic= TRUE;
+	ls_senal_AdcCfg.outputLogic= TRUE;
 
 	/// DISPLAY INIT
 	GPIO_PinInit(GPIOC, LED_A_PIN_NUMBER,&ls_LedA_PinCfg);//SALIDA A
@@ -199,6 +211,11 @@ void DISPLAY_manager_Output_Init(void){
 	GPIO_PinInit(GPIOC, TRANSISTOR_UNIDADES_NUMBER,&ls_TRANSISTOR_unidadesCfg);//SALIDA E
 	GPIO_PinInit(GPIOC, TRANSISTOR_DECENAS_NUMBER,&ls_TRANSISTOR_decenasCfg);//SALIDA F
 	GPIO_PinInit(GPIOC, TRANSISTOR_CENTENAS_NUMBER,&ls_TRANSISTOR_centenasCfg);//SALIDA G
+
+	/// SENALAMIENTOS INIT
+	GPIO_PinInit(GPIOC, SENALAMIENTO_CONTADOR,&ls_senal_ContadorCfg);//SALIDA E
+	GPIO_PinInit(GPIOC, SENALAMIENTO_TEMPORIZADOR,&ls_senal_TemporizadorCfg);//SALIDA F
+	GPIO_PinInit(GPIOC, SENALAMIENTO_ADC,&ls_senal_AdcCfg);//SALIDA G
 
 	return;
 }
