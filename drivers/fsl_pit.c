@@ -40,7 +40,7 @@
  *
  * @return The PIT instance
  */
-static uint32_t PIT_GetInstance(PIT_Type *base);
+static T_ULONG PIT_GetInstance(PIT_Type *base);
 
 /*******************************************************************************
  * Variables
@@ -56,9 +56,9 @@ static const clock_ip_name_t s_pitClocks[] = PIT_CLOCKS;
 /*******************************************************************************
  * Code
  ******************************************************************************/
-static uint32_t PIT_GetInstance(PIT_Type *base)
+static T_ULONG PIT_GetInstance(PIT_Type *base)
 {
-    uint32_t instance;
+    T_ULONG instance;
 
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_pitBases); instance++)
@@ -112,8 +112,8 @@ void PIT_Deinit(PIT_Type *base)
 
 uint64_t PIT_GetLifetimeTimerCount(PIT_Type *base)
 {
-    uint32_t valueH = 0U;
-    uint32_t valueL = 0U;
+    T_ULONG valueH = 0U;
+    T_ULONG valueL = 0U;
 
     /* LTMR64H should be read before LTMR64L */
     valueH = base->LTMR64H;

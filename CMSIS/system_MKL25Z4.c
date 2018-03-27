@@ -112,7 +112,7 @@
    -- Core clock
    ---------------------------------------------------------------------------- */
 
-uint32_t SystemCoreClock = DEFAULT_SYSTEM_CLOCK;
+T_ULONG SystemCoreClock = DEFAULT_SYSTEM_CLOCK;
 
 /* ----------------------------------------------------------------------------
    -- SystemInit()
@@ -121,7 +121,7 @@ uint32_t SystemCoreClock = DEFAULT_SYSTEM_CLOCK;
 void SystemInit (void) {
 #if (DISABLE_WDOG)
   /* SIM_COPC: COPT=0,COPCLKS=0,COPW=0 */
-  SIM->COPC = (uint32_t)0x00u;
+  SIM->COPC = (T_ULONG)0x00u;
 #endif /* (DISABLE_WDOG) */
 
 }
@@ -131,7 +131,7 @@ void SystemInit (void) {
    ---------------------------------------------------------------------------- */
 
 void SystemCoreClockUpdate (void) {
-  uint32_t MCGOUTClock;                /* Variable to store output clock frequency of the MCG module */
+  T_ULONG MCGOUTClock;                /* Variable to store output clock frequency of the MCG module */
   uint16_t Divider;
 
   if ((MCG->C1 & MCG_C1_CLKS_MASK) == 0x00U) {
@@ -192,7 +192,7 @@ void SystemCoreClockUpdate (void) {
     } else { /* (!((MCG->C6 & MCG_C6_PLLS_MASK) == 0x00U)) */
       /* PLL is selected */
       Divider = (((uint16_t)MCG->C5 & MCG_C5_PRDIV0_MASK) + 0x01U);
-      MCGOUTClock = (uint32_t)(CPU_XTAL_CLK_HZ / Divider); /* Calculate the PLL reference clock */
+      MCGOUTClock = (T_ULONG)(CPU_XTAL_CLK_HZ / Divider); /* Calculate the PLL reference clock */
       Divider = (((uint16_t)MCG->C6 & MCG_C6_VDIV0_MASK) + 24U);
       MCGOUTClock *= Divider;          /* Calculate the MCG output clock */
     } /* (!((MCG->C6 & MCG_C6_PLLS_MASK) == 0x00U)) */
@@ -202,7 +202,7 @@ void SystemCoreClockUpdate (void) {
       MCGOUTClock = CPU_INT_SLOW_CLK_HZ; /* Slow internal reference clock selected */
     } else { /* (!((MCG->C2 & MCG_C2_IRCS_MASK) == 0x00U)) */
       Divider = (uint16_t)(0x01LU << ((MCG->SC & MCG_SC_FCRDIV_MASK) >> MCG_SC_FCRDIV_SHIFT));
-      MCGOUTClock = (uint32_t) (CPU_INT_FAST_CLK_HZ / Divider); /* Fast internal reference clock selected */
+      MCGOUTClock = (T_ULONG) (CPU_INT_FAST_CLK_HZ / Divider); /* Fast internal reference clock selected */
     } /* (!((MCG->C2 & MCG_C2_IRCS_MASK) == 0x00U)) */
   } else if ((MCG->C1 & MCG_C1_CLKS_MASK) == 0x80U) {
     /* External reference clock is selected */

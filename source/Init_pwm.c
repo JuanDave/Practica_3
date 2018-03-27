@@ -42,7 +42,7 @@ void Init_pwm(){
     TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 }
 
-void update_pwm(uint32_t AssignedData){
+void update_pwm(T_ULONG AssignedData){
     /* Disable channel output before updating the dutycycle */
 TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, 0U);
 

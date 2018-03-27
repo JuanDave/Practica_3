@@ -153,7 +153,7 @@ enum _lpsci_status_flag_t
 /*! @brief LPSCI configure structure.*/
 typedef struct _lpsci_config
 {
-    uint32_t baudRate_Bps;          /*!< LPSCI baud rate  */
+    T_ULONG baudRate_Bps;          /*!< LPSCI baud rate  */
     lpsci_parity_mode_t parityMode; /*!< Parity mode, disabled (default), even, odd */
 #if defined(FSL_FEATURE_LPSCI_HAS_STOP_BIT_CONFIG_SUPPORT) && FSL_FEATURE_LPSCI_HAS_STOP_BIT_CONFIG_SUPPORT
     lpsci_stop_bit_count_t stopBitCount; /*!< Number of stop bits, 1 stop bit (default) or 2 stop bits  */
@@ -231,7 +231,7 @@ extern "C" {
 * @retval kStatus_LPSCI_BaudrateNotSupport Baudrate is not support in current clock source.
 * @retval kStatus_Success LPSCI initialize succeed
 */
-status_t LPSCI_Init(UART0_Type *base, const lpsci_config_t *config, uint32_t srcClock_Hz);
+status_t LPSCI_Init(UART0_Type *base, const lpsci_config_t *config, T_ULONG srcClock_Hz);
 
 /*!
  * @brief Deinitializes an LPSCI instance.
@@ -272,7 +272,7 @@ void LPSCI_GetDefaultConfig(lpsci_config_t *config);
  * @retval kStatus_LPSCI_BaudrateNotSupport Baudrate is not supported in the current clock source.
  * @retval kStatus_Success Set baudrate succeed
  */
-status_t LPSCI_SetBaudRate(UART0_Type *base, uint32_t baudRate_Bps, uint32_t srcClock_Hz);
+status_t LPSCI_SetBaudRate(UART0_Type *base, T_ULONG baudRate_Bps, T_ULONG srcClock_Hz);
 
 /* @} */
 
@@ -298,7 +298,7 @@ status_t LPSCI_SetBaudRate(UART0_Type *base, uint32_t baudRate_Bps, uint32_t src
  * @param base LPSCI peripheral base address.
  * @return LPSCI status flags which are ORed by the enumerators in the _lpsci_flags.
  */
-uint32_t LPSCI_GetStatusFlags(UART0_Type *base);
+T_ULONG LPSCI_GetStatusFlags(UART0_Type *base);
 
 /* @brief Clears status flags with a provided mask.
 *
@@ -315,7 +315,7 @@ uint32_t LPSCI_GetStatusFlags(UART0_Type *base);
 * automatically by hardware.
 * @retval kStatus_Success Status in the mask are cleared.
 */
-status_t LPSCI_ClearStatusFlags(UART0_Type *base, uint32_t mask);
+status_t LPSCI_ClearStatusFlags(UART0_Type *base, T_ULONG mask);
 
 /* @} */
 
@@ -337,7 +337,7 @@ status_t LPSCI_ClearStatusFlags(UART0_Type *base, uint32_t mask);
 * @param base LPSCI peripheral base address.
 * @param mask The interrupts to enable. Logical OR of @ref _lpsci_interrupt_enable.
 */
-void LPSCI_EnableInterrupts(UART0_Type *base, uint32_t mask);
+void LPSCI_EnableInterrupts(UART0_Type *base, T_ULONG mask);
 
 /*!
  * @brief Disables the LPSCI interrupt according to a provided mask.
@@ -352,7 +352,7 @@ void LPSCI_EnableInterrupts(UART0_Type *base, uint32_t mask);
  * @param base LPSCI peripheral base address.
  * @param mask The interrupts to disable. Logical OR of @ref _LPSCI_interrupt_enable.
  */
-void LPSCI_DisableInterrupts(UART0_Type *base, uint32_t mask);
+void LPSCI_DisableInterrupts(UART0_Type *base, T_ULONG mask);
 
 /*!
  * @brief Gets the enabled LPSCI interrupts.
@@ -374,7 +374,7 @@ void LPSCI_DisableInterrupts(UART0_Type *base, uint32_t mask);
  * @param base LPSCI peripheral base address.
  * @return LPSCI interrupt flags which are logical OR of the enumerators in @ref _LPSCI_interrupt_enable.
  */
-uint32_t LPSCI_GetEnabledInterrupts(UART0_Type *base);
+T_ULONG LPSCI_GetEnabledInterrupts(UART0_Type *base);
 
 /* @} */
 
@@ -393,9 +393,9 @@ uint32_t LPSCI_GetEnabledInterrupts(UART0_Type *base);
  * @param base LPSCI peripheral base address.
  * @return LPSCI data register address which are used both by transmitter and receiver.
  */
-static inline uint32_t LPSCI_GetDataRegisterAddress(UART0_Type *base)
+static inline T_ULONG LPSCI_GetDataRegisterAddress(UART0_Type *base)
 {
-    return (uint32_t) & (base->D);
+    return (T_ULONG) & (base->D);
 }
 
 /*!
@@ -655,7 +655,7 @@ void LPSCI_TransferAbortSend(UART0_Type *base, lpsci_handle_t *handle);
  * @retval kStatus_InvalidArgument Parameter is invalid.
  * @retval kStatus_Success Get successfully through the parameter \p count;
  */
-status_t LPSCI_TransferGetSendCount(UART0_Type *base, lpsci_handle_t *handle, uint32_t *count);
+status_t LPSCI_TransferGetSendCount(UART0_Type *base, lpsci_handle_t *handle, T_ULONG *count);
 
 /*!
  * @brief Receives buffer of data using the interrupt method.
@@ -708,7 +708,7 @@ void LPSCI_TransferAbortReceive(UART0_Type *base, lpsci_handle_t *handle);
  * @retval kStatus_InvalidArgument Parameter is invalid.
  * @retval kStatus_Success Get successfully through the parameter \p count;
  */
-status_t LPSCI_TransferGetReceiveCount(UART0_Type *base, lpsci_handle_t *handle, uint32_t *count);
+status_t LPSCI_TransferGetReceiveCount(UART0_Type *base, lpsci_handle_t *handle, T_ULONG *count);
 
 /*!
  * @brief LPSCI IRQ handle function.

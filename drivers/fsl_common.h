@@ -262,16 +262,16 @@ static inline void DisableIRQ(IRQn_Type interrupt)
  *
  * @return Current primask value.
  */
-static inline uint32_t DisableGlobalIRQ(void)
+static inline T_ULONG DisableGlobalIRQ(void)
 {
 #if defined(CPSR_I_Msk)
-    uint32_t cpsr = __get_CPSR() & CPSR_I_Msk;
+    T_ULONG cpsr = __get_CPSR() & CPSR_I_Msk;
 
     __disable_irq();
 
     return cpsr;
 #else
-    uint32_t regPrimask = __get_PRIMASK();
+    T_ULONG regPrimask = __get_PRIMASK();
 
     __disable_irq();
 
@@ -289,7 +289,7 @@ static inline uint32_t DisableGlobalIRQ(void)
  * @param primask value of primask register to be restored. The primask value is supposed to be provided by the
  * DisableGlobalIRQ().
  */
-static inline void EnableGlobalIRQ(uint32_t primask)
+static inline void EnableGlobalIRQ(T_ULONG primask)
 {
 #if defined(CPSR_I_Msk)
     __set_CPSR((__get_CPSR() & ~CPSR_I_Msk) | primask);
@@ -305,7 +305,7 @@ static inline void EnableGlobalIRQ(uint32_t primask)
  * @param irqHandler IRQ handler address
  * @return The old IRQ handler address
  */
-uint32_t InstallIRQHandler(IRQn_Type irq, uint32_t irqHandler);
+T_ULONG InstallIRQHandler(IRQn_Type irq, T_ULONG irqHandler);
 
 #if (defined(FSL_FEATURE_SOC_SYSCON_COUNT) && (FSL_FEATURE_SOC_SYSCON_COUNT > 0))
 /*!

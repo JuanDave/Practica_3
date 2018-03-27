@@ -386,9 +386,9 @@ enum _flash_config_area_range
 
 #if FLASH_DRIVER_IS_FLASH_RESIDENT
 /*! @brief Copy flash_run_command() to RAM*/
-static void copy_flash_run_command(uint32_t *flashRunCommand);
+static void copy_flash_run_command(T_ULONG *flashRunCommand);
 /*! @brief Copy flash_cache_clear_command() to RAM*/
-static void copy_flash_common_bit_operation(uint32_t *flashCommonBitOperation);
+static void copy_flash_common_bit_operation(T_ULONG *flashCommonBitOperation);
 /*! @brief Check whether flash execute-in-ram functions are ready*/
 static status_t flash_check_execute_in_ram_function_info(flash_config_t *config);
 #endif /* FLASH_DRIVER_IS_FLASH_RESIDENT */
@@ -404,15 +404,15 @@ static void flash_cache_clear_process(flash_config_t *config, flash_cache_clear_
 
 /*! @brief Validates the range and alignment of the given address range.*/
 static status_t flash_check_range(flash_config_t *config,
-                                  uint32_t startAddress,
-                                  uint32_t lengthInBytes,
-                                  uint32_t alignmentBaseline);
+                                  T_ULONG startAddress,
+                                  T_ULONG lengthInBytes,
+                                  T_ULONG alignmentBaseline);
 /*! @brief Gets the right address, sector and block size of current flash type which is indicated by address.*/
 static status_t flash_get_matched_operation_info(flash_config_t *config,
-                                                 uint32_t address,
+                                                 T_ULONG address,
                                                  flash_operation_config_t *info);
 /*! @brief Validates the given user key for flash erase APIs.*/
-static status_t flash_check_user_key(uint32_t key);
+static status_t flash_check_user_key(T_ULONG key);
 
 #if FLASH_SSD_IS_FLEXNVM_ENABLED
 /*! @brief Updates FlexNVM memory partition status according to data flash 0 IFR.*/
@@ -421,9 +421,9 @@ static status_t flash_update_flexnvm_memory_partition_status(flash_config_t *con
 
 #if defined(FSL_FEATURE_FLASH_HAS_READ_RESOURCE_CMD) && FSL_FEATURE_FLASH_HAS_READ_RESOURCE_CMD
 /*! @brief Validates the range of the given resource address.*/
-static status_t flash_check_resource_range(uint32_t start,
-                                           uint32_t lengthInBytes,
-                                           uint32_t alignmentBaseline,
+static status_t flash_check_resource_range(T_ULONG start,
+                                           T_ULONG lengthInBytes,
+                                           T_ULONG alignmentBaseline,
                                            flash_read_resource_option_t option);
 #endif /* FSL_FEATURE_FLASH_HAS_READ_RESOURCE_CMD */
 
@@ -434,7 +434,7 @@ static status_t flash_check_swap_control_option(flash_swap_control_option_t opti
 
 #if defined(FSL_FEATURE_FLASH_HAS_PFLASH_BLOCK_SWAP) && FSL_FEATURE_FLASH_HAS_PFLASH_BLOCK_SWAP
 /*! @brief Validates the gived address to see if it is equal to swap indicator address in pflash swap IFR.*/
-static status_t flash_validate_swap_indicator_address(flash_config_t *config, uint32_t address);
+static status_t flash_validate_swap_indicator_address(flash_config_t *config, T_ULONG address);
 #endif /* FSL_FEATURE_FLASH_HAS_PFLASH_BLOCK_SWAP */
 
 #if defined(FSL_FEATURE_FLASH_HAS_SET_FLEXRAM_FUNCTION_CMD) && FSL_FEATURE_FLASH_HAS_SET_FLEXRAM_FUNCTION_CMD
@@ -475,11 +475,11 @@ void fmc_flash_prefetch_speculation_clear(void);
  ******************************************************************************/
 
 /*! @brief Access to FTFx->FCCOB */
-volatile uint32_t *const kFCCOBx = (volatile uint32_t *)&FTFx_FCCOB3_REG;
+volatile T_ULONG *const kFCCOBx = (volatile T_ULONG *)&FTFx_FCCOB3_REG;
 /*! @brief Access to FTFx->FPROT */
-volatile uint32_t *const kFPROTL = (volatile uint32_t *)&FTFx_FPROT_LOW_REG;
+volatile T_ULONG *const kFPROTL = (volatile T_ULONG *)&FTFx_FPROT_LOW_REG;
 #if defined(FTFx_FPROT_HIGH_REG)
-volatile uint32_t *const kFPROTH = (volatile uint32_t *)&FTFx_FPROT_HIGH_REG;
+volatile T_ULONG *const kFPROTH = (volatile T_ULONG *)&FTFx_FPROT_HIGH_REG;
 #endif
 
 #if FLASH_SSD_IS_SECONDARY_FLASH_ENABLED && FLASH_SSD_SECONDARY_FLASH_HAS_ITS_OWN_PROTECTION_REGISTER
@@ -492,9 +492,9 @@ volatile uint8_t *const kFPROTSH = (volatile uint8_t *)&FTFx_FPROTSH_REG;
 static void (*callFlashRunCommand)(FTFx_REG8_ACCESS_TYPE ftfx_fstat);
 /*! @brief A function pointer used to point to relocated flash_common_bit_operation() */
 static void (*callFlashCommonBitOperation)(FTFx_REG32_ACCESS_TYPE base,
-                                           uint32_t bitMask,
-                                           uint32_t bitShift,
-                                           uint32_t bitValue);
+                                           T_ULONG bitMask,
+                                           T_ULONG bitShift,
+                                           T_ULONG bitValue);
 
 /*!
  * @brief Position independent code of flash_run_command()
@@ -564,9 +564,9 @@ const static uint16_t s_flashCommonBitOperationFunctionCode[] = {
 
 #if (FLASH_DRIVER_IS_FLASH_RESIDENT && !FLASH_DRIVER_IS_EXPORTED)
 /*! @brief A static buffer used to hold flash_run_command() */
-static uint32_t s_flashRunCommand[kFLASH_ExecuteInRamFunctionMaxSizeInWords];
+static T_ULONG s_flashRunCommand[kFLASH_ExecuteInRamFunctionMaxSizeInWords];
 /*! @brief A static buffer used to hold flash_common_bit_operation() */
-static uint32_t s_flashCommonBitOperation[kFLASH_ExecuteInRamFunctionMaxSizeInWords];
+static T_ULONG s_flashCommonBitOperation[kFLASH_ExecuteInRamFunctionMaxSizeInWords];
 /*! @brief Flash execute-in-ram function information */
 static flash_execute_in_ram_function_config_t s_flashExecuteInRamFunctionInfo;
 #endif
@@ -645,7 +645,7 @@ status_t FLASH_Init(flash_config_t *config)
     {
 /* calculate the flash density from SIM_FCFG1.PFSIZE */
 #if defined(SIM_FCFG1_CORE1_PFSIZE_MASK)
-        uint32_t flashDensity;
+        T_ULONG flashDensity;
         uint8_t pfsize = (SIM->FCFG1 & SIM_FCFG1_CORE1_PFSIZE_MASK) >> SIM_FCFG1_CORE1_PFSIZE_SHIFT;
         if (pfsize == 0xf)
         {
@@ -653,7 +653,7 @@ status_t FLASH_Init(flash_config_t *config)
         }
         else
         {
-            flashDensity = ((uint32_t)kPFlashDensities[pfsize]) << 10;
+            flashDensity = ((T_ULONG)kPFlashDensities[pfsize]) << 10;
         }
         config->PFlashTotalSize = flashDensity;
 #else
@@ -668,7 +668,7 @@ status_t FLASH_Init(flash_config_t *config)
     else
 #endif /* FLASH_SSD_IS_SECONDARY_FLASH_ENABLED */
     {
-        uint32_t flashDensity;
+        T_ULONG flashDensity;
 
 /* calculate the flash density from SIM_FCFG1.PFSIZE */
 #if defined(SIM_FCFG1_CORE0_PFSIZE_MASK)
@@ -686,7 +686,7 @@ status_t FLASH_Init(flash_config_t *config)
         }
         else
         {
-            flashDensity = ((uint32_t)kPFlashDensities[pfsize]) << 10;
+            flashDensity = ((T_ULONG)kPFlashDensities[pfsize]) << 10;
         }
 
         /* fill out a few of the structure members */
@@ -780,7 +780,7 @@ status_t FLASH_PrepareExecuteInRamFunctions(flash_config_t *config)
 }
 #endif /* FLASH_DRIVER_IS_FLASH_RESIDENT */
 
-status_t FLASH_EraseAll(flash_config_t *config, uint32_t key)
+status_t FLASH_EraseAll(flash_config_t *config, T_ULONG key)
 {
     status_t returnCode;
 
@@ -818,12 +818,12 @@ status_t FLASH_EraseAll(flash_config_t *config, uint32_t key)
     return returnCode;
 }
 
-status_t FLASH_Erase(flash_config_t *config, uint32_t start, uint32_t lengthInBytes, uint32_t key)
+status_t FLASH_Erase(flash_config_t *config, T_ULONG start, T_ULONG lengthInBytes, T_ULONG key)
 {
-    uint32_t sectorSize;
+    T_ULONG sectorSize;
     flash_operation_config_t flashOperationInfo;
-    uint32_t endAddress;      /* storing end address */
-    uint32_t numberOfSectors; /* number of sectors calculated by endAddress */
+    T_ULONG endAddress;      /* storing end address */
+    T_ULONG numberOfSectors; /* number of sectors calculated by endAddress */
     status_t returnCode;
 
     flash_get_matched_operation_info(config, start, &flashOperationInfo);
@@ -892,7 +892,7 @@ status_t FLASH_Erase(flash_config_t *config, uint32_t start, uint32_t lengthInBy
 }
 
 #if defined(FSL_FEATURE_FLASH_HAS_ERASE_ALL_BLOCKS_UNSECURE_CMD) && FSL_FEATURE_FLASH_HAS_ERASE_ALL_BLOCKS_UNSECURE_CMD
-status_t FLASH_EraseAllUnsecure(flash_config_t *config, uint32_t key)
+status_t FLASH_EraseAllUnsecure(flash_config_t *config, T_ULONG key)
 {
     status_t returnCode;
 
@@ -931,7 +931,7 @@ status_t FLASH_EraseAllUnsecure(flash_config_t *config, uint32_t key)
 }
 #endif /* FSL_FEATURE_FLASH_HAS_ERASE_ALL_BLOCKS_UNSECURE_CMD */
 
-status_t FLASH_EraseAllExecuteOnlySegments(flash_config_t *config, uint32_t key)
+status_t FLASH_EraseAllExecuteOnlySegments(flash_config_t *config, T_ULONG key)
 {
     status_t returnCode;
 
@@ -961,7 +961,7 @@ status_t FLASH_EraseAllExecuteOnlySegments(flash_config_t *config, uint32_t key)
     return returnCode;
 }
 
-status_t FLASH_Program(flash_config_t *config, uint32_t start, uint32_t *src, uint32_t lengthInBytes)
+status_t FLASH_Program(flash_config_t *config, T_ULONG start, T_ULONG *src, T_ULONG lengthInBytes)
 {
     status_t returnCode;
     flash_operation_config_t flashOperationInfo;
@@ -1030,7 +1030,7 @@ status_t FLASH_Program(flash_config_t *config, uint32_t start, uint32_t *src, ui
     return (returnCode);
 }
 
-status_t FLASH_ProgramOnce(flash_config_t *config, uint32_t index, uint32_t *src, uint32_t lengthInBytes)
+status_t FLASH_ProgramOnce(flash_config_t *config, T_ULONG index, T_ULONG *src, T_ULONG lengthInBytes)
 {
     status_t returnCode;
 
@@ -1069,10 +1069,10 @@ status_t FLASH_ProgramOnce(flash_config_t *config, uint32_t index, uint32_t *src
 }
 
 #if defined(FSL_FEATURE_FLASH_HAS_PROGRAM_SECTION_CMD) && FSL_FEATURE_FLASH_HAS_PROGRAM_SECTION_CMD
-status_t FLASH_ProgramSection(flash_config_t *config, uint32_t start, uint32_t *src, uint32_t lengthInBytes)
+status_t FLASH_ProgramSection(flash_config_t *config, T_ULONG start, T_ULONG *src, T_ULONG lengthInBytes)
 {
     status_t returnCode;
-    uint32_t sectorSize;
+    T_ULONG sectorSize;
     flash_operation_config_t flashOperationInfo;
 #if defined(FSL_FEATURE_FLASH_HAS_SET_FLEXRAM_FUNCTION_CMD) && FSL_FEATURE_FLASH_HAS_SET_FLEXRAM_FUNCTION_CMD
     bool needSwitchFlexRamMode = false;
@@ -1114,9 +1114,9 @@ status_t FLASH_ProgramSection(flash_config_t *config, uint32_t start, uint32_t *
     while (lengthInBytes > 0)
     {
         /* Make sure the write operation doesn't span two sectors */
-        uint32_t endAddressOfCurrentSector = ALIGN_UP(start, sectorSize);
-        uint32_t lengthTobeProgrammedOfCurrentSector;
-        uint32_t currentOffset = 0;
+        T_ULONG endAddressOfCurrentSector = ALIGN_UP(start, sectorSize);
+        T_ULONG lengthTobeProgrammedOfCurrentSector;
+        T_ULONG currentOffset = 0;
 
         if (endAddressOfCurrentSector == start)
         {
@@ -1136,8 +1136,8 @@ status_t FLASH_ProgramSection(flash_config_t *config, uint32_t start, uint32_t *
         while (lengthTobeProgrammedOfCurrentSector > 0)
         {
             /* Make sure the program size doesn't exceeds Acceleration RAM size */
-            uint32_t programSizeOfCurrentPass;
-            uint32_t numberOfPhases;
+            T_ULONG programSizeOfCurrentPass;
+            T_ULONG numberOfPhases;
 
             if (lengthTobeProgrammedOfCurrentSector > kFLASH_AccelerationRamSize)
             {
@@ -1200,7 +1200,7 @@ status_t FLASH_ProgramSection(flash_config_t *config, uint32_t start, uint32_t *
 #endif /* FSL_FEATURE_FLASH_HAS_PROGRAM_SECTION_CMD */
 
 #if FLASH_SSD_IS_FLEXNVM_ENABLED
-status_t FLASH_EepromWrite(flash_config_t *config, uint32_t start, uint8_t *src, uint32_t lengthInBytes)
+status_t FLASH_EepromWrite(flash_config_t *config, T_ULONG start, uint8_t *src, T_ULONG lengthInBytes)
 {
     status_t returnCode;
     bool needSwitchFlexRamMode = false;
@@ -1236,7 +1236,7 @@ status_t FLASH_EepromWrite(flash_config_t *config, uint32_t start, uint8_t *src,
     {
         if ((!(start & 0x3U)) && (lengthInBytes >= 4))
         {
-            *(uint32_t *)start = *(uint32_t *)src;
+            *(T_ULONG *)start = *(T_ULONG *)src;
             start += 4;
             src += 4;
             lengthInBytes -= 4;
@@ -1283,7 +1283,7 @@ status_t FLASH_EepromWrite(flash_config_t *config, uint32_t start, uint8_t *src,
 
 #if defined(FSL_FEATURE_FLASH_HAS_READ_RESOURCE_CMD) && FSL_FEATURE_FLASH_HAS_READ_RESOURCE_CMD
 status_t FLASH_ReadResource(
-    flash_config_t *config, uint32_t start, uint32_t *dst, uint32_t lengthInBytes, flash_read_resource_option_t option)
+    flash_config_t *config, T_ULONG start, T_ULONG *dst, T_ULONG lengthInBytes, flash_read_resource_option_t option)
 {
     status_t returnCode;
     flash_operation_config_t flashOperationInfo;
@@ -1343,7 +1343,7 @@ status_t FLASH_ReadResource(
 }
 #endif /* FSL_FEATURE_FLASH_HAS_READ_RESOURCE_CMD */
 
-status_t FLASH_ReadOnce(flash_config_t *config, uint32_t index, uint32_t *dst, uint32_t lengthInBytes)
+status_t FLASH_ReadOnce(flash_config_t *config, T_ULONG index, T_ULONG *dst, T_ULONG lengthInBytes)
 {
     status_t returnCode;
 
@@ -1463,13 +1463,13 @@ status_t FLASH_VerifyEraseAll(flash_config_t *config, flash_margin_value_t margi
     return flash_command_sequence(config);
 }
 
-status_t FLASH_VerifyErase(flash_config_t *config, uint32_t start, uint32_t lengthInBytes, flash_margin_value_t margin)
+status_t FLASH_VerifyErase(flash_config_t *config, T_ULONG start, T_ULONG lengthInBytes, flash_margin_value_t margin)
 {
     /* Check arguments. */
-    uint32_t blockSize;
+    T_ULONG blockSize;
     flash_operation_config_t flashOperationInfo;
-    uint32_t nextBlockStartAddress;
-    uint32_t remainingBytes;
+    T_ULONG nextBlockStartAddress;
+    T_ULONG remainingBytes;
     status_t returnCode;
 
     flash_get_matched_operation_info(config, start, &flashOperationInfo);
@@ -1494,8 +1494,8 @@ status_t FLASH_VerifyErase(flash_config_t *config, uint32_t start, uint32_t leng
 
     while (remainingBytes)
     {
-        uint32_t numberOfPhrases;
-        uint32_t verifyLength = nextBlockStartAddress - start;
+        T_ULONG numberOfPhrases;
+        T_ULONG verifyLength = nextBlockStartAddress - start;
         if (verifyLength > remainingBytes)
         {
             verifyLength = remainingBytes;
@@ -1523,12 +1523,12 @@ status_t FLASH_VerifyErase(flash_config_t *config, uint32_t start, uint32_t leng
 }
 
 status_t FLASH_VerifyProgram(flash_config_t *config,
-                             uint32_t start,
-                             uint32_t lengthInBytes,
-                             const uint32_t *expectedData,
+                             T_ULONG start,
+                             T_ULONG lengthInBytes,
+                             const T_ULONG *expectedData,
                              flash_margin_value_t margin,
-                             uint32_t *failedAddress,
-                             uint32_t *failedData)
+                             T_ULONG *failedAddress,
+                             T_ULONG *failedData)
 {
     status_t returnCode;
     flash_operation_config_t flashOperationInfo;
@@ -1595,21 +1595,21 @@ status_t FLASH_VerifyEraseAllExecuteOnlySegments(flash_config_t *config, flash_m
 }
 
 status_t FLASH_IsProtected(flash_config_t *config,
-                           uint32_t start,
-                           uint32_t lengthInBytes,
+                           T_ULONG start,
+                           T_ULONG lengthInBytes,
                            flash_protection_state_t *protection_state)
 {
-    uint32_t endAddress;           /* end address for protection check */
-    uint32_t regionCheckedCounter; /* increments each time the flash address was checked for
+    T_ULONG endAddress;           /* end address for protection check */
+    T_ULONG regionCheckedCounter; /* increments each time the flash address was checked for
                                     * protection status */
-    uint32_t regionCounter;        /* incrementing variable used to increment through the flash
+    T_ULONG regionCounter;        /* incrementing variable used to increment through the flash
                                     * protection regions */
-    uint32_t protectStatusCounter; /* increments each time a flash region was detected as protected */
+    T_ULONG protectStatusCounter; /* increments each time a flash region was detected as protected */
 
     uint8_t flashRegionProtectStatus[FSL_FEATURE_FLASH_PFLASH_PROTECTION_REGION_COUNT]; /* array of the protection
                                                                       * status for each
                                                                       * protection region */
-    uint32_t flashRegionAddress[FSL_FEATURE_FLASH_PFLASH_PROTECTION_REGION_COUNT +
+    T_ULONG flashRegionAddress[FSL_FEATURE_FLASH_PFLASH_PROTECTION_REGION_COUNT +
                                 1];                /* array of the start addresses for each flash
                                  * protection region. Note this is REGION_COUNT+1
                                  * due to requiring the next start address after
@@ -1787,8 +1787,8 @@ status_t FLASH_IsProtected(flash_config_t *config,
 }
 
 status_t FLASH_IsExecuteOnly(flash_config_t *config,
-                             uint32_t start,
-                             uint32_t lengthInBytes,
+                             T_ULONG start,
+                             T_ULONG lengthInBytes,
                              flash_execute_only_access_state_t *access_state)
 {
 #if defined(FSL_FEATURE_FLASH_HAS_ACCESS_CONTROL) && FSL_FEATURE_FLASH_HAS_ACCESS_CONTROL
@@ -1817,22 +1817,22 @@ status_t FLASH_IsExecuteOnly(flash_config_t *config,
     }
 
     {
-        uint32_t executeOnlySegmentCounter = 0;
+        T_ULONG executeOnlySegmentCounter = 0;
 
         /* calculating end address */
-        uint32_t endAddress = start + lengthInBytes;
+        T_ULONG endAddress = start + lengthInBytes;
 
         /* Aligning start address and end address */
-        uint32_t alignedStartAddress = ALIGN_DOWN(start, flashAccessInfo.SegmentSize);
-        uint32_t alignedEndAddress = ALIGN_UP(endAddress, flashAccessInfo.SegmentSize);
+        T_ULONG alignedStartAddress = ALIGN_DOWN(start, flashAccessInfo.SegmentSize);
+        T_ULONG alignedEndAddress = ALIGN_UP(endAddress, flashAccessInfo.SegmentSize);
 
-        uint32_t segmentIndex = 0;
-        uint32_t maxSupportedExecuteOnlySegmentCount =
+        T_ULONG segmentIndex = 0;
+        T_ULONG maxSupportedExecuteOnlySegmentCount =
             (alignedEndAddress - alignedStartAddress) / flashAccessInfo.SegmentSize;
 
         while (start < endAddress)
         {
-            uint32_t xacc;
+            T_ULONG xacc;
 
             segmentIndex = (start - flashAccessInfo.SegmentBase) / flashAccessInfo.SegmentSize;
 
@@ -1862,11 +1862,11 @@ status_t FLASH_IsExecuteOnly(flash_config_t *config,
                  */
                 if (segmentIndex < 32)
                 {
-                    xacc = *(const volatile uint32_t *)&FTFx_XACCL3_REG;
+                    xacc = *(const volatile T_ULONG *)&FTFx_XACCL3_REG;
                 }
                 else if (segmentIndex < flashAccessInfo.SegmentCount)
                 {
-                    xacc = *(const volatile uint32_t *)&FTFx_XACCH3_REG;
+                    xacc = *(const volatile T_ULONG *)&FTFx_XACCH3_REG;
                     segmentIndex -= 32;
                 }
                 else
@@ -1904,7 +1904,7 @@ status_t FLASH_IsExecuteOnly(flash_config_t *config,
     return (returnCode);
 }
 
-status_t FLASH_GetProperty(flash_config_t *config, flash_property_tag_t whichProperty, uint32_t *value)
+status_t FLASH_GetProperty(flash_config_t *config, flash_property_tag_t whichProperty, T_ULONG *value)
 {
     if ((config == NULL) || (value == NULL))
     {
@@ -1926,7 +1926,7 @@ status_t FLASH_GetProperty(flash_config_t *config, flash_property_tag_t whichPro
             break;
 
         case kFLASH_PropertyPflashBlockCount:
-            *value = (uint32_t)config->PFlashBlockCount;
+            *value = (T_ULONG)config->PFlashBlockCount;
             break;
 
         case kFLASH_PropertyPflashBlockBaseAddr:
@@ -1985,7 +1985,7 @@ status_t FLASH_GetProperty(flash_config_t *config, flash_property_tag_t whichPro
     return kStatus_FLASH_Success;
 }
 
-status_t FLASH_SetProperty(flash_config_t *config, flash_property_tag_t whichProperty, uint32_t value)
+status_t FLASH_SetProperty(flash_config_t *config, flash_property_tag_t whichProperty, T_ULONG value)
 {
     status_t status = kStatus_FLASH_Success;
 
@@ -1998,8 +1998,8 @@ status_t FLASH_SetProperty(flash_config_t *config, flash_property_tag_t whichPro
     {
 #if FLASH_SSD_IS_SECONDARY_FLASH_ENABLED
         case kFLASH_PropertyFlashMemoryIndex:
-            if ((value != (uint32_t)kFLASH_MemoryIndexPrimaryFlash) &&
-                (value != (uint32_t)kFLASH_MemoryIndexSecondaryFlash))
+            if ((value != (T_ULONG)kFLASH_MemoryIndexPrimaryFlash) &&
+                (value != (T_ULONG)kFLASH_MemoryIndexSecondaryFlash))
             {
                 return kStatus_FLASH_InvalidPropertyValue;
             }
@@ -2008,8 +2008,8 @@ status_t FLASH_SetProperty(flash_config_t *config, flash_property_tag_t whichPro
 #endif /* FLASH_SSD_IS_SECONDARY_FLASH_ENABLED */
 
         case kFLASH_PropertyFlashCacheControllerIndex:
-            if ((value != (uint32_t)kFLASH_CacheControllerIndexForCore0) &&
-                (value != (uint32_t)kFLASH_CacheControllerIndexForCore1))
+            if ((value != (T_ULONG)kFLASH_CacheControllerIndexForCore0) &&
+                (value != (T_ULONG)kFLASH_CacheControllerIndexForCore1))
             {
                 return kStatus_FLASH_InvalidPropertyValue;
             }
@@ -2070,7 +2070,7 @@ status_t FLASH_SetFlexramFunction(flash_config_t *config, flash_flexram_function
 
 #if defined(FSL_FEATURE_FLASH_HAS_SWAP_CONTROL_CMD) && FSL_FEATURE_FLASH_HAS_SWAP_CONTROL_CMD
 status_t FLASH_SwapControl(flash_config_t *config,
-                           uint32_t address,
+                           T_ULONG address,
                            flash_swap_control_option_t option,
                            flash_swap_state_config_t *returnInfo)
 {
@@ -2114,7 +2114,7 @@ status_t FLASH_SwapControl(flash_config_t *config,
 #endif /* FSL_FEATURE_FLASH_HAS_SWAP_CONTROL_CMD */
 
 #if defined(FSL_FEATURE_FLASH_HAS_PFLASH_BLOCK_SWAP) && FSL_FEATURE_FLASH_HAS_PFLASH_BLOCK_SWAP
-status_t FLASH_Swap(flash_config_t *config, uint32_t address, flash_swap_function_option_t option)
+status_t FLASH_Swap(flash_config_t *config, T_ULONG address, flash_swap_function_option_t option)
 {
     flash_swap_state_config_t returnInfo;
     status_t returnCode;
@@ -2208,8 +2208,8 @@ status_t FLASH_Swap(flash_config_t *config, uint32_t address, flash_swap_functio
 #if defined(FSL_FEATURE_FLASH_HAS_PROGRAM_PARTITION_CMD) && FSL_FEATURE_FLASH_HAS_PROGRAM_PARTITION_CMD
 status_t FLASH_ProgramPartition(flash_config_t *config,
                                 flash_partition_flexram_load_option_t option,
-                                uint32_t eepromDataSizeCode,
-                                uint32_t flexnvmPartitionCode)
+                                T_ULONG eepromDataSizeCode,
+                                T_ULONG flexnvmPartitionCode)
 {
     status_t returnCode;
 
@@ -2436,7 +2436,7 @@ status_t FLASH_PflashSetPrefetchSpeculation(flash_prefetch_speculation_status_t 
 #elif FLASH_PREFETCH_SPECULATION_IS_CONTROLLED_BY_FMC
     {
         FTFx_REG32_ACCESS_TYPE regBase;
-        uint32_t b0dpeMask, b0ipeMask;
+        T_ULONG b0dpeMask, b0ipeMask;
 #if defined(FMC_PFB01CR_B0DPE_MASK)
         regBase = (FTFx_REG32_ACCESS_TYPE)&FMC->PFB01CR;
         b0dpeMask = FMC_PFB01CR_B0DPE_MASK;
@@ -2477,7 +2477,7 @@ status_t FLASH_PflashSetPrefetchSpeculation(flash_prefetch_speculation_status_t 
 #elif FLASH_PREFETCH_SPECULATION_IS_CONTROLLED_BY_MSCM
     {
         FTFx_REG32_ACCESS_TYPE regBase;
-        uint32_t flashSpeculationMask, dataPrefetchMask;
+        T_ULONG flashSpeculationMask, dataPrefetchMask;
         regBase = (FTFx_REG32_ACCESS_TYPE)&MSCM->OCMDR[0];
         flashSpeculationMask = MSCM_OCMDR_OCMC1_DFCS_MASK;
         dataPrefetchMask = MSCM_OCMDR_OCMC1_DFDS_MASK;
@@ -2521,7 +2521,7 @@ status_t FLASH_PflashGetPrefetchSpeculation(flash_prefetch_speculation_status_t 
 
 #if FLASH_PREFETCH_SPECULATION_IS_CONTROLLED_BY_MCM
     {
-        uint32_t value;
+        T_ULONG value;
 #if defined(MCM)
         value = MCM->PLACR;
 #elif defined(MCM0)
@@ -2545,8 +2545,8 @@ status_t FLASH_PflashGetPrefetchSpeculation(flash_prefetch_speculation_status_t 
     }
 #elif FLASH_PREFETCH_SPECULATION_IS_CONTROLLED_BY_FMC
     {
-        uint32_t value;
-        uint32_t b0dpeMask, b0ipeMask;
+        T_ULONG value;
+        T_ULONG b0dpeMask, b0ipeMask;
 #if defined(FMC_PFB01CR_B0DPE_MASK)
         value = FMC->PFB01CR;
         b0dpeMask = FMC_PFB01CR_B0DPE_MASK;
@@ -2569,8 +2569,8 @@ status_t FLASH_PflashGetPrefetchSpeculation(flash_prefetch_speculation_status_t 
     }
 #elif FLASH_PREFETCH_SPECULATION_IS_CONTROLLED_BY_MSCM
     {
-        uint32_t value;
-        uint32_t flashSpeculationMask, dataPrefetchMask;
+        T_ULONG value;
+        T_ULONG flashSpeculationMask, dataPrefetchMask;
         value = MSCM->OCMDR[0];
         flashSpeculationMask = MSCM_OCMDR_OCMC1_DFCS_MASK;
         dataPrefetchMask = MSCM_OCMDR_OCMC1_DFDS_MASK;
@@ -2600,14 +2600,14 @@ status_t FLASH_PflashGetPrefetchSpeculation(flash_prefetch_speculation_status_t 
 /*!
  * @brief Copy PIC of flash_run_command() to RAM
  */
-static void copy_flash_run_command(uint32_t *flashRunCommand)
+static void copy_flash_run_command(T_ULONG *flashRunCommand)
 {
     assert(sizeof(s_flashRunCommandFunctionCode) <= (kFLASH_ExecuteInRamFunctionMaxSizeInWords * 4));
 
     /* Since the value of ARM function pointer is always odd, but the real start address
      * of function memory should be even, that's why +1 operation exist. */
     memcpy((void *)flashRunCommand, (void *)s_flashRunCommandFunctionCode, sizeof(s_flashRunCommandFunctionCode));
-    callFlashRunCommand = (void (*)(FTFx_REG8_ACCESS_TYPE ftfx_fstat))((uint32_t)flashRunCommand + 1);
+    callFlashRunCommand = (void (*)(FTFx_REG8_ACCESS_TYPE ftfx_fstat))((T_ULONG)flashRunCommand + 1);
 }
 #endif /* FLASH_DRIVER_IS_FLASH_RESIDENT */
 
@@ -2681,7 +2681,7 @@ static status_t flash_command_sequence(flash_config_t *config)
  * @brief Copy PIC of flash_common_bit_operation() to RAM
  *
  */
-static void copy_flash_common_bit_operation(uint32_t *flashCommonBitOperation)
+static void copy_flash_common_bit_operation(T_ULONG *flashCommonBitOperation)
 {
     assert(sizeof(s_flashCommonBitOperationFunctionCode) <= (kFLASH_ExecuteInRamFunctionMaxSizeInWords * 4));
 
@@ -2689,8 +2689,8 @@ static void copy_flash_common_bit_operation(uint32_t *flashCommonBitOperation)
      * of function memory should be even, that's why +1 operation exist. */
     memcpy((void *)flashCommonBitOperation, (void *)s_flashCommonBitOperationFunctionCode,
            sizeof(s_flashCommonBitOperationFunctionCode));
-    callFlashCommonBitOperation = (void (*)(FTFx_REG32_ACCESS_TYPE base, uint32_t bitMask, uint32_t bitShift,
-                                            uint32_t bitValue))((uint32_t)flashCommonBitOperation + 1);
+    callFlashCommonBitOperation = (void (*)(FTFx_REG32_ACCESS_TYPE base, T_ULONG bitMask, T_ULONG bitShift,
+                                            T_ULONG bitValue))((T_ULONG)flashCommonBitOperation + 1);
     /* Workround for some devices which doesn't need this function */
     callFlashCommonBitOperation((FTFx_REG32_ACCESS_TYPE)0, 0, 0, 0);
 }
@@ -2905,9 +2905,9 @@ static status_t flash_check_execute_in_ram_function_info(flash_config_t *config)
 
 /*! @brief Validates the range and alignment of the given address range.*/
 static status_t flash_check_range(flash_config_t *config,
-                                  uint32_t startAddress,
-                                  uint32_t lengthInBytes,
-                                  uint32_t alignmentBaseline)
+                                  T_ULONG startAddress,
+                                  T_ULONG lengthInBytes,
+                                  T_ULONG alignmentBaseline)
 {
     if (config == NULL)
     {
@@ -2937,7 +2937,7 @@ static status_t flash_check_range(flash_config_t *config,
 
 /*! @brief Gets the right address, sector and block size of current flash type which is indicated by address.*/
 static status_t flash_get_matched_operation_info(flash_config_t *config,
-                                                 uint32_t address,
+                                                 T_ULONG address,
                                                  flash_operation_config_t *info)
 {
     if (config == NULL)
@@ -2995,7 +2995,7 @@ static status_t flash_get_matched_operation_info(flash_config_t *config,
 }
 
 /*! @brief Validates the given user key for flash erase APIs.*/
-static status_t flash_check_user_key(uint32_t key)
+static status_t flash_check_user_key(T_ULONG key)
 {
     /* Validate the user key */
     if (key != kFLASH_ApiEraseKey)
@@ -3012,7 +3012,7 @@ static status_t flash_update_flexnvm_memory_partition_status(flash_config_t *con
 {
     struct
     {
-        uint32_t reserved0;
+        T_ULONG reserved0;
         uint8_t FlexNVMPartitionCode;
         uint8_t EEPROMDataSetSize;
         uint16_t reserved1;
@@ -3026,7 +3026,7 @@ static status_t flash_update_flexnvm_memory_partition_status(flash_config_t *con
 
 #if defined(FSL_FEATURE_FLASH_HAS_READ_RESOURCE_CMD) && FSL_FEATURE_FLASH_HAS_READ_RESOURCE_CMD
     /* Get FlexNVM memory partition info from data flash IFR */
-    returnCode = FLASH_ReadResource(config, DFLASH_IFR_READRESOURCE_START_ADDRESS, (uint32_t *)&dataIFRReadOut,
+    returnCode = FLASH_ReadResource(config, DFLASH_IFR_READRESOURCE_START_ADDRESS, (T_ULONG *)&dataIFRReadOut,
                                     sizeof(dataIFRReadOut), kFLASH_ResourceOptionFlashIfr);
     if (returnCode != kStatus_FLASH_Success)
     {
@@ -3220,13 +3220,13 @@ static status_t flash_update_flexnvm_memory_partition_status(flash_config_t *con
 
 #if defined(FSL_FEATURE_FLASH_HAS_READ_RESOURCE_CMD) && FSL_FEATURE_FLASH_HAS_READ_RESOURCE_CMD
 /*! @brief Validates the range of the given resource address.*/
-static status_t flash_check_resource_range(uint32_t start,
-                                           uint32_t lengthInBytes,
-                                           uint32_t alignmentBaseline,
+static status_t flash_check_resource_range(T_ULONG start,
+                                           T_ULONG lengthInBytes,
+                                           T_ULONG alignmentBaseline,
                                            flash_read_resource_option_t option)
 {
     status_t status;
-    uint32_t maxReadbleAddress;
+    T_ULONG maxReadbleAddress;
 
     if ((start & (alignmentBaseline - 1)) || (lengthInBytes & (alignmentBaseline - 1)))
     {
@@ -3290,10 +3290,10 @@ static status_t flash_check_swap_control_option(flash_swap_control_option_t opti
 
 #if defined(FSL_FEATURE_FLASH_HAS_PFLASH_BLOCK_SWAP) && FSL_FEATURE_FLASH_HAS_PFLASH_BLOCK_SWAP
 /*! @brief Validates the gived address to see if it is equal to swap indicator address in pflash swap IFR.*/
-static status_t flash_validate_swap_indicator_address(flash_config_t *config, uint32_t address)
+static status_t flash_validate_swap_indicator_address(flash_config_t *config, T_ULONG address)
 {
     flash_swap_ifr_field_data_t flashSwapIfrFieldData;
-    uint32_t swapIndicatorAddress;
+    T_ULONG swapIndicatorAddress;
 
     status_t returnCode;
 #if defined(FSL_FEATURE_FLASH_HAS_READ_RESOURCE_CMD) && FSL_FEATURE_FLASH_HAS_READ_RESOURCE_CMD
@@ -3308,7 +3308,7 @@ static status_t flash_validate_swap_indicator_address(flash_config_t *config, ui
 #else
     {
         /* From RM, the actual info are stored in FCCOB6,7 */
-        uint32_t returnValue[2];
+        T_ULONG returnValue[2];
         returnCode = FLASH_ReadOnce(config, kFLASH_RecordIndexSwapAddr, returnValue, 4);
         if (returnCode != kStatus_FLASH_Success)
         {
@@ -3332,7 +3332,7 @@ static status_t flash_validate_swap_indicator_address(flash_config_t *config, ui
 
     /* The high bits value of Swap Indicator Address is stored in Program Flash Swap IFR Field,
      * the low severval bit value of Swap Indicator Address is always 1'b0 */
-    swapIndicatorAddress = (uint32_t)flashSwapIfrFieldData.flashSwapIfrField.swapIndicatorAddress *
+    swapIndicatorAddress = (T_ULONG)flashSwapIfrFieldData.flashSwapIfrField.swapIndicatorAddress *
                            FSL_FEATURE_FLASH_PFLASH_SWAP_CONTROL_CMD_ADDRESS_ALIGMENT;
     if (address != swapIndicatorAddress)
     {
@@ -3360,7 +3360,7 @@ static inline status_t flasn_check_flexram_function_option_range(flash_flexram_f
 /*! @brief Gets the flash protection information (region size, region count).*/
 static status_t flash_get_protection_info(flash_config_t *config, flash_protection_config_t *info)
 {
-    uint32_t pflashTotalSize;
+    T_ULONG pflashTotalSize;
 
     if (config == NULL)
     {

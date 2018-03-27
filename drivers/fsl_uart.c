@@ -58,7 +58,7 @@ typedef void (*uart_isr_t)(UART_Type *base, uart_handle_t *handle);
  * @param base UART peripheral base address.
  * @return UART instance.
  */
-uint32_t UART_GetInstance(UART_Type *base);
+T_ULONG UART_GetInstance(UART_Type *base);
 
 /*!
  * @brief Get the length of received data in RX ring buffer.
@@ -152,10 +152,10 @@ static uart_isr_t s_uartIsr;
  * Code
  ******************************************************************************/
 
-uint32_t UART_GetInstance(UART_Type *base)
+T_ULONG UART_GetInstance(UART_Type *base)
 {
-    uint32_t instance;
-    uint32_t uartArrayCount = (sizeof(s_uartBases) / sizeof(s_uartBases[0]));
+    T_ULONG instance;
+    T_ULONG uartArrayCount = (sizeof(s_uartBases) / sizeof(s_uartBases[0]));
 
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < uartArrayCount; instance++)
@@ -207,7 +207,7 @@ static bool UART_TransferIsRxRingBufferFull(uart_handle_t *handle)
     return full;
 }
 
-status_t UART_Init(UART_Type *base, const uart_config_t *config, uint32_t srcClock_Hz)
+status_t UART_Init(UART_Type *base, const uart_config_t *config, T_ULONG srcClock_Hz)
 {
     assert(config);
     assert(config->baudRate_Bps);
@@ -218,7 +218,7 @@ status_t UART_Init(UART_Type *base, const uart_config_t *config, uint32_t srcClo
 
     uint16_t sbr = 0;
     uint8_t temp = 0;
-    uint32_t baudDiff = 0;
+    T_ULONG baudDiff = 0;
 
     /* Calculate the baud rate modulo divisor, sbr*/
     sbr = srcClock_Hz / (config->baudRate_Bps * 16);
@@ -231,7 +231,7 @@ status_t UART_Init(UART_Type *base, const uart_config_t *config, uint32_t srcClo
     /* Determine if a fractional divider is needed to fine tune closer to the
      * desired baud, each value of brfa is in 1/32 increments,
      * hence the multiply-by-32. */
-    uint32_t tempBaud = 0;
+    T_ULONG tempBaud = 0;
 
     uint16_t brfa = (2 * srcClock_Hz / (config->baudRate_Bps)) - 32 * sbr;
 
@@ -361,12 +361,12 @@ void UART_GetDefaultConfig(uart_config_t *config)
     config->enableRx = false;
 }
 
-status_t UART_SetBaudRate(UART_Type *base, uint32_t baudRate_Bps, uint32_t srcClock_Hz)
+status_t UART_SetBaudRate(UART_Type *base, T_ULONG baudRate_Bps, T_ULONG srcClock_Hz)
 {
     assert(baudRate_Bps);
 
     uint16_t sbr = 0;
-    uint32_t baudDiff = 0;
+    T_ULONG baudDiff = 0;
     uint8_t oldCtrl;
 
     /* Calculate the baud rate modulo divisor, sbr*/
@@ -380,7 +380,7 @@ status_t UART_SetBaudRate(UART_Type *base, uint32_t baudRate_Bps, uint32_t srcCl
     /* Determine if a fractional divider is needed to fine tune closer to the
      * desired baud, each value of brfa is in 1/32 increments,
      * hence the multiply-by-32. */
-    uint32_t tempBaud = 0;
+    T_ULONG tempBaud = 0;
 
     uint16_t brfa = (2 * srcClock_Hz / (baudRate_Bps)) - 32 * sbr;
 
@@ -429,7 +429,7 @@ status_t UART_SetBaudRate(UART_Type *base, uint32_t baudRate_Bps, uint32_t srcCl
     }
 }
 
-void UART_EnableInterrupts(UART_Type *base, uint32_t mask)
+void UART_EnableInterrupts(UART_Type *base, T_ULONG mask)
 {
     mask &= kUART_AllInterruptsEnable;
 
@@ -444,7 +444,7 @@ void UART_EnableInterrupts(UART_Type *base, uint32_t mask)
 #endif
 }
 
-void UART_DisableInterrupts(UART_Type *base, uint32_t mask)
+void UART_DisableInterrupts(UART_Type *base, T_ULONG mask)
 {
     mask &= kUART_AllInterruptsEnable;
 
@@ -459,37 +459,37 @@ void UART_DisableInterrupts(UART_Type *base, uint32_t mask)
 #endif
 }
 
-uint32_t UART_GetEnabledInterrupts(UART_Type *base)
+T_ULONG UART_GetEnabledInterrupts(UART_Type *base)
 {
-    uint32_t temp;
+    T_ULONG temp;
 
-    temp = base->BDH | ((uint32_t)(base->C2) << 8) | ((uint32_t)(base->C3) << 16);
+    temp = base->BDH | ((T_ULONG)(base->C2) << 8) | ((T_ULONG)(base->C3) << 16);
 
 #if defined(FSL_FEATURE_UART_HAS_FIFO) && FSL_FEATURE_UART_HAS_FIFO
-    temp |= ((uint32_t)(base->CFIFO) << 24);
+    temp |= ((T_ULONG)(base->CFIFO) << 24);
 #endif
 
     return temp & kUART_AllInterruptsEnable;
 }
 
-uint32_t UART_GetStatusFlags(UART_Type *base)
+T_ULONG UART_GetStatusFlags(UART_Type *base)
 {
-    uint32_t status_flag;
+    T_ULONG status_flag;
 
-    status_flag = base->S1 | ((uint32_t)(base->S2) << 8);
+    status_flag = base->S1 | ((T_ULONG)(base->S2) << 8);
 
 #if defined(FSL_FEATURE_UART_HAS_EXTENDED_DATA_REGISTER_FLAGS) && FSL_FEATURE_UART_HAS_EXTENDED_DATA_REGISTER_FLAGS
-    status_flag |= ((uint32_t)(base->ED) << 16);
+    status_flag |= ((T_ULONG)(base->ED) << 16);
 #endif
 
 #if defined(FSL_FEATURE_UART_HAS_FIFO) && FSL_FEATURE_UART_HAS_FIFO
-    status_flag |= ((uint32_t)(base->SFIFO) << 24);
+    status_flag |= ((T_ULONG)(base->SFIFO) << 24);
 #endif
 
     return status_flag;
 }
 
-status_t UART_ClearStatusFlags(UART_Type *base, uint32_t mask)
+status_t UART_ClearStatusFlags(UART_Type *base, T_ULONG mask)
 {
     uint8_t reg = base->S2;
     status_t status;
@@ -571,7 +571,7 @@ status_t UART_ReadBlocking(UART_Type *base, uint8_t *data, size_t length)
 {
     assert(data);
 
-    uint32_t statusFlag;
+    T_ULONG statusFlag;
 
     while (length--)
     {
@@ -630,7 +630,7 @@ void UART_TransferCreateHandle(UART_Type *base,
 {
     assert(handle);
 
-    uint32_t instance;
+    T_ULONG instance;
 
     /* Zero the handle. */
     memset(handle, 0, sizeof(*handle));
@@ -748,7 +748,7 @@ void UART_TransferAbortSend(UART_Type *base, uart_handle_t *handle)
     handle->txState = kUART_TxIdle;
 }
 
-status_t UART_TransferGetSendCount(UART_Type *base, uart_handle_t *handle, uint32_t *count)
+status_t UART_TransferGetSendCount(UART_Type *base, uart_handle_t *handle, T_ULONG *count)
 {
     assert(handle);
     assert(count);
@@ -773,7 +773,7 @@ status_t UART_TransferReceiveNonBlocking(UART_Type *base,
     assert(xfer->data);
     assert(xfer->dataSize);
 
-    uint32_t i;
+    T_ULONG i;
     status_t status;
     /* How many bytes to copy from ring buffer to user memory. */
     size_t bytesToCopy = 0U;
@@ -906,7 +906,7 @@ void UART_TransferAbortReceive(UART_Type *base, uart_handle_t *handle)
     handle->rxState = kUART_RxIdle;
 }
 
-status_t UART_TransferGetReceiveCount(UART_Type *base, uart_handle_t *handle, uint32_t *count)
+status_t UART_TransferGetReceiveCount(UART_Type *base, uart_handle_t *handle, T_ULONG *count)
 {
     assert(handle);
     assert(count);

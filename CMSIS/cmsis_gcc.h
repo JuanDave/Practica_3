@@ -77,9 +77,9 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_irq(void)
   \details Returns the content of the Control Register.
   \return               Control Register value
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_CONTROL(void)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __get_CONTROL(void)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("MRS %0, control" : "=r" (result) );
   return(result);
@@ -91,7 +91,7 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_CONTROL(void)
   \details Writes the given value to the Control Register.
   \param [in]    control  Control Register value to set
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_CONTROL(uint32_t control)
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_CONTROL(T_ULONG control)
 {
   __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
 }
@@ -102,9 +102,9 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE void __set_CONTROL(uint32_t c
   \details Returns the content of the IPSR Register.
   \return               IPSR Register value
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_IPSR(void)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __get_IPSR(void)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("MRS %0, ipsr" : "=r" (result) );
   return(result);
@@ -116,9 +116,9 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_IPSR(void)
   \details Returns the content of the APSR Register.
   \return               APSR Register value
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_APSR(void)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __get_APSR(void)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("MRS %0, apsr" : "=r" (result) );
   return(result);
@@ -131,9 +131,9 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_APSR(void)
 
     \return               xPSR Register value
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_xPSR(void)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __get_xPSR(void)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("MRS %0, xpsr" : "=r" (result) );
   return(result);
@@ -145,9 +145,9 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_xPSR(void)
   \details Returns the current value of the Process Stack Pointer (PSP).
   \return               PSP Register value
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_PSP(void)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __get_PSP(void)
 {
-  register uint32_t result;
+  register T_ULONG result;
 
   __ASM volatile ("MRS %0, psp\n"  : "=r" (result) );
   return(result);
@@ -159,7 +159,7 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_PSP(void)
   \details Assigns the given value to the Process Stack Pointer (PSP).
   \param [in]    topOfProcStack  Process Stack Pointer value to set
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_PSP(uint32_t topOfProcStack)
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_PSP(T_ULONG topOfProcStack)
 {
   __ASM volatile ("MSR psp, %0\n" : : "r" (topOfProcStack) : "sp");
 }
@@ -170,9 +170,9 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE void __set_PSP(uint32_t topOf
   \details Returns the current value of the Main Stack Pointer (MSP).
   \return               MSP Register value
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_MSP(void)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __get_MSP(void)
 {
-  register uint32_t result;
+  register T_ULONG result;
 
   __ASM volatile ("MRS %0, msp\n" : "=r" (result) );
   return(result);
@@ -185,7 +185,7 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_MSP(void)
 
     \param [in]    topOfMainStack  Main Stack Pointer value to set
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_MSP(uint32_t topOfMainStack)
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_MSP(T_ULONG topOfMainStack)
 {
   __ASM volatile ("MSR msp, %0\n" : : "r" (topOfMainStack) : "sp");
 }
@@ -196,9 +196,9 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE void __set_MSP(uint32_t topOf
   \details Returns the current state of the priority mask bit from the Priority Mask Register.
   \return               Priority Mask value
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_PRIMASK(void)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __get_PRIMASK(void)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("MRS %0, primask" : "=r" (result) );
   return(result);
@@ -210,7 +210,7 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_PRIMASK(void)
   \details Assigns the given value to the Priority Mask Register.
   \param [in]    priMask  Priority Mask
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_PRIMASK(uint32_t priMask)
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_PRIMASK(T_ULONG priMask)
 {
   __ASM volatile ("MSR primask, %0" : : "r" (priMask) : "memory");
 }
@@ -245,9 +245,9 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_fault_irq(void
   \details Returns the current value of the Base Priority register.
   \return               Base Priority register value
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_BASEPRI(void)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __get_BASEPRI(void)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("MRS %0, basepri" : "=r" (result) );
   return(result);
@@ -259,7 +259,7 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_BASEPRI(void)
   \details Assigns the given value to the Base Priority register.
   \param [in]    basePri  Base Priority value to set
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_BASEPRI(uint32_t value)
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_BASEPRI(T_ULONG value)
 {
   __ASM volatile ("MSR basepri, %0" : : "r" (value) : "memory");
 }
@@ -271,7 +271,7 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE void __set_BASEPRI(uint32_t v
            or the new value increases the BASEPRI priority level.
   \param [in]    basePri  Base Priority value to set
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_BASEPRI_MAX(uint32_t value)
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_BASEPRI_MAX(T_ULONG value)
 {
   __ASM volatile ("MSR basepri_max, %0" : : "r" (value) : "memory");
 }
@@ -282,9 +282,9 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE void __set_BASEPRI_MAX(uint32
   \details Returns the current value of the Fault Mask register.
   \return               Fault Mask register value
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_FAULTMASK(void)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __get_FAULTMASK(void)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("MRS %0, faultmask" : "=r" (result) );
   return(result);
@@ -296,7 +296,7 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_FAULTMASK(void
   \details Assigns the given value to the Fault Mask register.
   \param [in]    faultMask  Fault Mask value to set
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_FAULTMASK(uint32_t faultMask)
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_FAULTMASK(T_ULONG faultMask)
 {
   __ASM volatile ("MSR faultmask, %0" : : "r" (faultMask) : "memory");
 }
@@ -311,10 +311,10 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE void __set_FAULTMASK(uint32_t
   \details Returns the current value of the Floating Point Status/Control register.
   \return               Floating Point Status/Control register value
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_FPSCR(void)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __get_FPSCR(void)
 {
 #if (__FPU_PRESENT == 1U) && (__FPU_USED == 1U)
-  uint32_t result;
+  T_ULONG result;
 
   /* Empty asm statement works as a scheduling barrier */
   __ASM volatile ("");
@@ -332,7 +332,7 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_FPSCR(void)
   \details Assigns the given value to the Floating Point Status/Control register.
   \param [in]    fpscr  Floating Point Status/Control value to set
  */
-__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_FPSCR(uint32_t fpscr)
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_FPSCR(T_ULONG fpscr)
 {
 #if (__FPU_PRESENT == 1U) && (__FPU_USED == 1U)
   /* Empty asm statement works as a scheduling barrier */
@@ -447,12 +447,12 @@ __attribute__((always_inline)) __STATIC_INLINE void __DMB(void)
   \param [in]    value  Value to reverse
   \return               Reversed value
  */
-__attribute__((always_inline)) __STATIC_INLINE uint32_t __REV(uint32_t value)
+__attribute__((always_inline)) __STATIC_INLINE T_ULONG __REV(T_ULONG value)
 {
 #if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
   return __builtin_bswap32(value);
 #else
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("rev %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
   return(result);
@@ -466,9 +466,9 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __REV(uint32_t value)
   \param [in]    value  Value to reverse
   \return               Reversed value
  */
-__attribute__((always_inline)) __STATIC_INLINE uint32_t __REV16(uint32_t value)
+__attribute__((always_inline)) __STATIC_INLINE T_ULONG __REV16(T_ULONG value)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("rev16 %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
   return(result);
@@ -501,7 +501,7 @@ __attribute__((always_inline)) __STATIC_INLINE int32_t __REVSH(int32_t value)
   \param [in]    value  Number of Bits to rotate
   \return               Rotated value
  */
-__attribute__((always_inline)) __STATIC_INLINE uint32_t __ROR(uint32_t op1, uint32_t op2)
+__attribute__((always_inline)) __STATIC_INLINE T_ULONG __ROR(T_ULONG op1, T_ULONG op2)
 {
   return (op1 >> op2) | (op1 << (32U - op2));
 }
@@ -523,9 +523,9 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __ROR(uint32_t op1, uint
   \param [in]    value  Value to reverse
   \return               Reversed value
  */
-__attribute__((always_inline)) __STATIC_INLINE uint32_t __RBIT(uint32_t value)
+__attribute__((always_inline)) __STATIC_INLINE T_ULONG __RBIT(T_ULONG value)
 {
-  uint32_t result;
+  T_ULONG result;
 
 #if       (__CORTEX_M >= 0x03U) || (__CORTEX_SC >= 300U)
    __ASM volatile ("rbit %0, %1" : "=r" (result) : "r" (value) );
@@ -564,7 +564,7 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __RBIT(uint32_t value)
  */
 __attribute__((always_inline)) __STATIC_INLINE uint8_t __LDREXB(volatile uint8_t *addr)
 {
-    uint32_t result;
+    T_ULONG result;
 
 #if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
    __ASM volatile ("ldrexb %0, %1" : "=r" (result) : "Q" (*addr) );
@@ -586,7 +586,7 @@ __attribute__((always_inline)) __STATIC_INLINE uint8_t __LDREXB(volatile uint8_t
  */
 __attribute__((always_inline)) __STATIC_INLINE uint16_t __LDREXH(volatile uint16_t *addr)
 {
-    uint32_t result;
+    T_ULONG result;
 
 #if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
    __ASM volatile ("ldrexh %0, %1" : "=r" (result) : "Q" (*addr) );
@@ -606,9 +606,9 @@ __attribute__((always_inline)) __STATIC_INLINE uint16_t __LDREXH(volatile uint16
   \param [in]    ptr  Pointer to data
   \return        value of type uint32_t at (*ptr)
  */
-__attribute__((always_inline)) __STATIC_INLINE uint32_t __LDREXW(volatile uint32_t *addr)
+__attribute__((always_inline)) __STATIC_INLINE T_ULONG __LDREXW(volatile T_ULONG *addr)
 {
-    uint32_t result;
+    T_ULONG result;
 
    __ASM volatile ("ldrex %0, %1" : "=r" (result) : "Q" (*addr) );
    return(result);
@@ -623,11 +623,11 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __LDREXW(volatile uint32
   \return          0  Function succeeded
   \return          1  Function failed
  */
-__attribute__((always_inline)) __STATIC_INLINE uint32_t __STREXB(uint8_t value, volatile uint8_t *addr)
+__attribute__((always_inline)) __STATIC_INLINE T_ULONG __STREXB(uint8_t value, volatile uint8_t *addr)
 {
-   uint32_t result;
+   T_ULONG result;
 
-   __ASM volatile ("strexb %0, %2, %1" : "=&r" (result), "=Q" (*addr) : "r" ((uint32_t)value) );
+   __ASM volatile ("strexb %0, %2, %1" : "=&r" (result), "=Q" (*addr) : "r" ((T_ULONG)value) );
    return(result);
 }
 
@@ -640,11 +640,11 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __STREXB(uint8_t value, 
   \return          0  Function succeeded
   \return          1  Function failed
  */
-__attribute__((always_inline)) __STATIC_INLINE uint32_t __STREXH(uint16_t value, volatile uint16_t *addr)
+__attribute__((always_inline)) __STATIC_INLINE T_ULONG __STREXH(uint16_t value, volatile uint16_t *addr)
 {
-   uint32_t result;
+   T_ULONG result;
 
-   __ASM volatile ("strexh %0, %2, %1" : "=&r" (result), "=Q" (*addr) : "r" ((uint32_t)value) );
+   __ASM volatile ("strexh %0, %2, %1" : "=&r" (result), "=Q" (*addr) : "r" ((T_ULONG)value) );
    return(result);
 }
 
@@ -657,9 +657,9 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __STREXH(uint16_t value,
   \return          0  Function succeeded
   \return          1  Function failed
  */
-__attribute__((always_inline)) __STATIC_INLINE uint32_t __STREXW(uint32_t value, volatile uint32_t *addr)
+__attribute__((always_inline)) __STATIC_INLINE T_ULONG __STREXW(T_ULONG value, volatile T_ULONG *addr)
 {
-   uint32_t result;
+   T_ULONG result;
 
    __ASM volatile ("strex %0, %2, %1" : "=&r" (result), "=Q" (*addr) : "r" (value) );
    return(result);
@@ -713,9 +713,9 @@ __attribute__((always_inline)) __STATIC_INLINE void __CLREX(void)
   \param [in]    value  Value to rotate
   \return               Rotated value
  */
-__attribute__((always_inline)) __STATIC_INLINE uint32_t __RRX(uint32_t value)
+__attribute__((always_inline)) __STATIC_INLINE T_ULONG __RRX(T_ULONG value)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("rrx %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
   return(result);
@@ -730,7 +730,7 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __RRX(uint32_t value)
  */
 __attribute__((always_inline)) __STATIC_INLINE uint8_t __LDRBT(volatile uint8_t *addr)
 {
-    uint32_t result;
+    T_ULONG result;
 
 #if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
    __ASM volatile ("ldrbt %0, %1" : "=r" (result) : "Q" (*addr) );
@@ -752,7 +752,7 @@ __attribute__((always_inline)) __STATIC_INLINE uint8_t __LDRBT(volatile uint8_t 
  */
 __attribute__((always_inline)) __STATIC_INLINE uint16_t __LDRHT(volatile uint16_t *addr)
 {
-    uint32_t result;
+    T_ULONG result;
 
 #if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
    __ASM volatile ("ldrht %0, %1" : "=r" (result) : "Q" (*addr) );
@@ -772,9 +772,9 @@ __attribute__((always_inline)) __STATIC_INLINE uint16_t __LDRHT(volatile uint16_
   \param [in]    ptr  Pointer to data
   \return        value of type uint32_t at (*ptr)
  */
-__attribute__((always_inline)) __STATIC_INLINE uint32_t __LDRT(volatile uint32_t *addr)
+__attribute__((always_inline)) __STATIC_INLINE T_ULONG __LDRT(volatile T_ULONG *addr)
 {
-    uint32_t result;
+    T_ULONG result;
 
    __ASM volatile ("ldrt %0, %1" : "=r" (result) : "Q" (*addr) );
    return(result);
@@ -789,7 +789,7 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __LDRT(volatile uint32_t
  */
 __attribute__((always_inline)) __STATIC_INLINE void __STRBT(uint8_t value, volatile uint8_t *addr)
 {
-   __ASM volatile ("strbt %1, %0" : "=Q" (*addr) : "r" ((uint32_t)value) );
+   __ASM volatile ("strbt %1, %0" : "=Q" (*addr) : "r" ((T_ULONG)value) );
 }
 
 
@@ -801,7 +801,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __STRBT(uint8_t value, volat
  */
 __attribute__((always_inline)) __STATIC_INLINE void __STRHT(uint16_t value, volatile uint16_t *addr)
 {
-   __ASM volatile ("strht %1, %0" : "=Q" (*addr) : "r" ((uint32_t)value) );
+   __ASM volatile ("strht %1, %0" : "=Q" (*addr) : "r" ((T_ULONG)value) );
 }
 
 
@@ -811,7 +811,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __STRHT(uint16_t value, vola
   \param [in]  value  Value to store
   \param [in]    ptr  Pointer to location
  */
-__attribute__((always_inline)) __STATIC_INLINE void __STRT(uint32_t value, volatile uint32_t *addr)
+__attribute__((always_inline)) __STATIC_INLINE void __STRT(T_ULONG value, volatile T_ULONG *addr)
 {
    __ASM volatile ("strt %1, %0" : "=Q" (*addr) : "r" (value) );
 }
@@ -829,307 +829,307 @@ __attribute__((always_inline)) __STATIC_INLINE void __STRT(uint32_t value, volat
 
 #if (__CORTEX_M >= 0x04U)  /* only for Cortex-M4 and above */
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SADD8(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SADD8(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("sadd8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __QADD8(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __QADD8(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("qadd8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SHADD8(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SHADD8(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("shadd8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UADD8(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UADD8(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uadd8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UQADD8(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UQADD8(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uqadd8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UHADD8(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UHADD8(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uhadd8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SSUB8(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SSUB8(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("ssub8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __QSUB8(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __QSUB8(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("qsub8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SHSUB8(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SHSUB8(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("shsub8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __USUB8(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __USUB8(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("usub8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UQSUB8(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UQSUB8(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uqsub8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UHSUB8(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UHSUB8(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uhsub8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SADD16(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SADD16(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("sadd16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __QADD16(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __QADD16(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("qadd16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SHADD16(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SHADD16(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("shadd16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UADD16(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UADD16(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uadd16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UQADD16(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UQADD16(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uqadd16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UHADD16(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UHADD16(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uhadd16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SSUB16(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SSUB16(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("ssub16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __QSUB16(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __QSUB16(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("qsub16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SHSUB16(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SHSUB16(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("shsub16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __USUB16(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __USUB16(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("usub16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UQSUB16(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UQSUB16(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uqsub16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UHSUB16(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UHSUB16(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uhsub16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SASX(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SASX(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("sasx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __QASX(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __QASX(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("qasx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SHASX(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SHASX(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("shasx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UASX(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UASX(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uasx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UQASX(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UQASX(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uqasx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UHASX(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UHASX(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uhasx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SSAX(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SSAX(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("ssax %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __QSAX(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __QSAX(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("qsax %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SHSAX(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SHSAX(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("shsax %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __USAX(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __USAX(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("usax %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UQSAX(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UQSAX(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uqsax %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UHSAX(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UHSAX(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uhsax %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __USAD8(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __USAD8(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("usad8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __USADA8(uint32_t op1, uint32_t op2, uint32_t op3)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __USADA8(T_ULONG op1, T_ULONG op2, T_ULONG op3)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("usada8 %0, %1, %2, %3" : "=r" (result) : "r" (op1), "r" (op2), "r" (op3) );
   return(result);
@@ -1149,74 +1149,74 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __USADA8(uint32_t op
   __RES; \
  })
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UXTB16(uint32_t op1)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UXTB16(T_ULONG op1)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uxtb16 %0, %1" : "=r" (result) : "r" (op1));
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UXTAB16(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __UXTAB16(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("uxtab16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SXTB16(uint32_t op1)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SXTB16(T_ULONG op1)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("sxtb16 %0, %1" : "=r" (result) : "r" (op1));
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SXTAB16(uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SXTAB16(T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("sxtab16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMUAD  (uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SMUAD  (T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("smuad %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMUADX (uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SMUADX (T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("smuadx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMLAD (uint32_t op1, uint32_t op2, uint32_t op3)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SMLAD (T_ULONG op1, T_ULONG op2, T_ULONG op3)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("smlad %0, %1, %2, %3" : "=r" (result) : "r" (op1), "r" (op2), "r" (op3) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMLADX (uint32_t op1, uint32_t op2, uint32_t op3)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SMLADX (T_ULONG op1, T_ULONG op2, T_ULONG op3)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("smladx %0, %1, %2, %3" : "=r" (result) : "r" (op1), "r" (op2), "r" (op3) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLALD (uint32_t op1, uint32_t op2, uint64_t acc)
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLALD (T_ULONG op1, T_ULONG op2, uint64_t acc)
 {
   union llreg_u{
-    uint32_t w32[2];
+    T_ULONG w32[2];
     uint64_t w64;
   } llr;
   llr.w64 = acc;
@@ -1230,10 +1230,10 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLALD (uint32_t o
   return(llr.w64);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLALDX (uint32_t op1, uint32_t op2, uint64_t acc)
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLALDX (T_ULONG op1, T_ULONG op2, uint64_t acc)
 {
   union llreg_u{
-    uint32_t w32[2];
+    T_ULONG w32[2];
     uint64_t w64;
   } llr;
   llr.w64 = acc;
@@ -1247,42 +1247,42 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLALDX (uint32_t 
   return(llr.w64);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMUSD  (uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SMUSD  (T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("smusd %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMUSDX (uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SMUSDX (T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("smusdx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMLSD (uint32_t op1, uint32_t op2, uint32_t op3)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SMLSD (T_ULONG op1, T_ULONG op2, T_ULONG op3)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("smlsd %0, %1, %2, %3" : "=r" (result) : "r" (op1), "r" (op2), "r" (op3) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMLSDX (uint32_t op1, uint32_t op2, uint32_t op3)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SMLSDX (T_ULONG op1, T_ULONG op2, T_ULONG op3)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("smlsdx %0, %1, %2, %3" : "=r" (result) : "r" (op1), "r" (op2), "r" (op3) );
   return(result);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLSLD (uint32_t op1, uint32_t op2, uint64_t acc)
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLSLD (T_ULONG op1, T_ULONG op2, uint64_t acc)
 {
   union llreg_u{
-    uint32_t w32[2];
+    T_ULONG w32[2];
     uint64_t w64;
   } llr;
   llr.w64 = acc;
@@ -1296,10 +1296,10 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLSLD (uint32_t o
   return(llr.w64);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLSLDX (uint32_t op1, uint32_t op2, uint64_t acc)
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLSLDX (T_ULONG op1, T_ULONG op2, uint64_t acc)
 {
   union llreg_u{
-    uint32_t w32[2];
+    T_ULONG w32[2];
     uint64_t w64;
   } llr;
   llr.w64 = acc;
@@ -1313,9 +1313,9 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLSLDX (uint32_t 
   return(llr.w64);
 }
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SEL  (uint32_t op1, uint32_t op2)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SEL  (T_ULONG op1, T_ULONG op2)
 {
-  uint32_t result;
+  T_ULONG result;
 
   __ASM volatile ("sel %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
   return(result);
@@ -1354,7 +1354,7 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE  int32_t __QSUB( int32_t op1,
   __RES; \
  })
 
-__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMMLA (int32_t op1, int32_t op2, int32_t op3)
+__attribute__( ( always_inline ) ) __STATIC_INLINE T_ULONG __SMMLA (int32_t op1, int32_t op2, int32_t op3)
 {
  int32_t result;
 

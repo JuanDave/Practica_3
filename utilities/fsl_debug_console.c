@@ -229,7 +229,7 @@ double modf(double input_dbl, double *intpart_ptr);
 /*************Code for DbgConsole Init, Deinit, Printf, Scanf *******************************/
 
 /* See fsl_debug_console.h for documentation of this function. */
-status_t DbgConsole_Init(uint32_t baseAddr, uint32_t baudRate, uint8_t device, uint32_t clkSrcFreq)
+status_t DbgConsole_Init(T_ULONG baseAddr, T_ULONG baudRate, uint8_t device, T_ULONG clkSrcFreq)
 {
     if (s_debugConsole.type != DEBUG_CONSOLE_DEVICE_TYPE_NONE)
     {
@@ -494,7 +494,7 @@ int DbgConsole_Getchar(void)
  * @param[in]   s The address of the string pointer to update.
  * @return      String without white spaces.
  */
-static uint32_t DbgConsole_ScanIgnoreWhiteSpace(const char **s)
+static T_ULONG DbgConsole_ScanIgnoreWhiteSpace(const char **s)
 {
     uint8_t count = 0;
     uint8_t c;
@@ -556,9 +556,9 @@ static int32_t DbgConsole_ConvertRadixNumToString(char *numstr, void *nump, int3
     int32_t b;
     int32_t c;
 
-    uint32_t ua;
-    uint32_t ub;
-    uint32_t uc;
+    T_ULONG ua;
+    T_ULONG ub;
+    T_ULONG uc;
 #endif /* PRINTF_ADVANCED_ENABLE */
 
     int32_t nlen;
@@ -596,8 +596,8 @@ static int32_t DbgConsole_ConvertRadixNumToString(char *numstr, void *nump, int3
             c = a - (b * radix);
             if (c < 0)
             {
-                uc = (uint32_t)c;
-                c = (uint32_t)(~uc) + 1 + '0';
+                uc = (T_ULONG)c;
+                c = (T_ULONG)(~uc) + 1 + '0';
             }
 #endif /* PRINTF_ADVANCED_ENABLE */
             else
@@ -614,7 +614,7 @@ static int32_t DbgConsole_ConvertRadixNumToString(char *numstr, void *nump, int3
 #if PRINTF_ADVANCED_ENABLE
         ua = *(uint64_t *)nump;
 #else
-        ua = *(uint32_t *)nump;
+        ua = *(T_ULONG *)nump;
 #endif /* PRINTF_ADVANCED_ENABLE */
         if (ua == 0)
         {
@@ -628,8 +628,8 @@ static int32_t DbgConsole_ConvertRadixNumToString(char *numstr, void *nump, int3
             ub = (uint64_t)ua / (uint64_t)radix;
             uc = (uint64_t)ua - ((uint64_t)ub * (uint64_t)radix);
 #else
-            ub = ua / (uint32_t)radix;
-            uc = ua - (ub * (uint32_t)radix);
+            ub = ua / (T_ULONG)radix;
+            uc = ua - (ub * (T_ULONG)radix);
 #endif /* PRINTF_ADVANCED_ENABLE */
 
             if (uc < 10)
@@ -662,13 +662,13 @@ static int32_t DbgConsole_ConvertRadixNumToString(char *numstr, void *nump, int3
 static int32_t DbgConsole_ConvertFloatRadixNumToString(char *numstr,
                                                        void *nump,
                                                        int32_t radix,
-                                                       uint32_t precision_width)
+                                                       T_ULONG precision_width)
 {
     int32_t a;
     int32_t b;
     int32_t c;
     int32_t i;
-    uint32_t uc;
+    T_ULONG uc;
     double fa;
     double dc;
     double fb;
@@ -717,7 +717,7 @@ static int32_t DbgConsole_ConvertFloatRadixNumToString(char *numstr,
         c = (int32_t)dc;
         if (c < 0)
         {
-            uc = (uint32_t)c;
+            uc = (T_ULONG)c;
             c = (int32_t)(~uc) + 1 + '0';
         }
         else
@@ -744,7 +744,7 @@ static int32_t DbgConsole_ConvertFloatRadixNumToString(char *numstr,
             c = (int32_t)a - ((int32_t)b * (int32_t)radix);
             if (c < 0)
             {
-                uc = (uint32_t)c;
+                uc = (T_ULONG)c;
                 c = (int32_t)(~uc) + 1 + '0';
             }
             else
@@ -785,22 +785,22 @@ static int DbgConsole_PrintfFormattedData(PUTCHAR_FUNC func_ptr, const char *fmt
     int32_t done;
     int32_t count = 0;
 
-    uint32_t field_width;
-    uint32_t precision_width;
+    T_ULONG field_width;
+    T_ULONG precision_width;
     char *sval;
     int32_t cval;
     bool use_caps;
     uint8_t radix = 0;
 
 #if PRINTF_ADVANCED_ENABLE
-    uint32_t flags_used;
+    T_ULONG flags_used;
     int32_t schar, dschar;
     int64_t ival;
     uint64_t uval = 0;
     bool valid_precision_width;
 #else
     int32_t ival;
-    uint32_t uval = 0;
+    T_ULONG uval = 0;
 #endif /* PRINTF_ADVANCED_ENABLE */
 
 #if PRINTF_FLOAT_ENABLE
@@ -871,7 +871,7 @@ static int DbgConsole_PrintfFormattedData(PUTCHAR_FUNC func_ptr, const char *fmt
 #if PRINTF_ADVANCED_ENABLE
             else if (c == '*')
             {
-                field_width = (uint32_t)va_arg(ap, uint32_t);
+                field_width = (T_ULONG)va_arg(ap, T_ULONG);
             }
 #endif /* PRINTF_ADVANCED_ENABLE */
             else
@@ -904,7 +904,7 @@ static int DbgConsole_PrintfFormattedData(PUTCHAR_FUNC func_ptr, const char *fmt
 #if PRINTF_ADVANCED_ENABLE
                 else if (c == '*')
                 {
-                    precision_width = (uint32_t)va_arg(ap, uint32_t);
+                    precision_width = (T_ULONG)va_arg(ap, T_ULONG);
                     valid_precision_width = true;
                 }
 #endif /* PRINTF_ADVANCED_ENABLE */
@@ -1117,7 +1117,7 @@ static int DbgConsole_PrintfFormattedData(PUTCHAR_FUNC func_ptr, const char *fmt
                     else
 #endif /* PRINTF_ADVANCED_ENABLE */
                     {
-                        uval = (uint32_t)va_arg(ap, uint32_t);
+                        uval = (T_ULONG)va_arg(ap, T_ULONG);
                     }
                     vlen = DbgConsole_ConvertRadixNumToString(vstr, &uval, false, 16, use_caps);
                     vstrp = &vstr[vlen];
@@ -1176,7 +1176,7 @@ static int DbgConsole_PrintfFormattedData(PUTCHAR_FUNC func_ptr, const char *fmt
                     else
 #endif /* PRINTF_ADVANCED_ENABLE */
                     {
-                        uval = (uint32_t)va_arg(ap, uint32_t);
+                        uval = (T_ULONG)va_arg(ap, T_ULONG);
                     }
                     switch (c)
                     {
@@ -1232,7 +1232,7 @@ static int DbgConsole_PrintfFormattedData(PUTCHAR_FUNC func_ptr, const char *fmt
             }
             else if (c == 'c')
             {
-                cval = (char)va_arg(ap, uint32_t);
+                cval = (char)va_arg(ap, T_ULONG);
                 func_ptr(cval);
                 count++;
             }
@@ -1322,13 +1322,13 @@ static int DbgConsole_ScanfFormattedData(const char *line_ptr, char *format, va_
     char temp;
     char *buf;
     /* Flag telling the conversion specification. */
-    uint32_t flag = 0;
+    T_ULONG flag = 0;
     /* Filed width for the matching input streams. */
-    uint32_t field_width;
+    T_ULONG field_width;
     /* How many arguments are assigned except the suppress. */
-    uint32_t nassigned = 0;
+    T_ULONG nassigned = 0;
     /* How many characters are read from the input streams. */
-    uint32_t n_decode = 0;
+    T_ULONG n_decode = 0;
 
     int32_t val;
 

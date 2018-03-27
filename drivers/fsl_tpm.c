@@ -45,7 +45,7 @@
  *
  * @return The TPM instance
  */
-static uint32_t TPM_GetInstance(TPM_Type *base);
+static T_ULONG TPM_GetInstance(TPM_Type *base);
 
 /*******************************************************************************
  * Variables
@@ -61,10 +61,10 @@ static const clock_ip_name_t s_tpmClocks[] = TPM_CLOCKS;
 /*******************************************************************************
  * Code
  ******************************************************************************/
-static uint32_t TPM_GetInstance(TPM_Type *base)
+static T_ULONG TPM_GetInstance(TPM_Type *base)
 {
-    uint32_t instance;
-    uint32_t tpmArrayCount = (sizeof(s_tpmBases) / sizeof(s_tpmBases[0]));
+    T_ULONG instance;
+    T_ULONG tpmArrayCount = (sizeof(s_tpmBases) / sizeof(s_tpmBases[0]));
 
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < tpmArrayCount; instance++)
@@ -161,8 +161,8 @@ status_t TPM_SetupPwm(TPM_Type *base,
                       const tpm_chnl_pwm_signal_param_t *chnlParams,
                       uint8_t numOfChnls,
                       tpm_pwm_mode_t mode,
-                      uint32_t pwmFreq_Hz,
-                      uint32_t srcClock_Hz)
+                      T_ULONG pwmFreq_Hz,
+                      T_ULONG srcClock_Hz)
 {
     assert(chnlParams);
     assert(pwmFreq_Hz);
@@ -175,8 +175,8 @@ status_t TPM_SetupPwm(TPM_Type *base,
     }
 #endif
 
-    uint32_t mod;
-    uint32_t tpmClock = (srcClock_Hz / (1U << (base->SC & TPM_SC_PS_MASK)));
+    T_ULONG mod;
+    T_ULONG tpmClock = (srcClock_Hz / (1U << (base->SC & TPM_SC_PS_MASK)));
     uint16_t cnv;
     uint8_t i;
 
@@ -415,7 +415,7 @@ void TPM_UpdateChnlEdgeLevelSelect(TPM_Type *base, tpm_chnl_t chnlNumber, uint8_
 {
     assert(chnlNumber < FSL_FEATURE_TPM_CHANNEL_COUNTn(base));
 
-    uint32_t reg = base->CONTROLS[chnlNumber].CnSC & ~(TPM_CnSC_CHF_MASK);
+    T_ULONG reg = base->CONTROLS[chnlNumber].CnSC & ~(TPM_CnSC_CHF_MASK);
 
     /* When switching mode, disable channel first  */
     base->CONTROLS[chnlNumber].CnSC &=
@@ -429,7 +429,7 @@ void TPM_UpdateChnlEdgeLevelSelect(TPM_Type *base, tpm_chnl_t chnlNumber, uint8_
 
     /* Clear the field and write the new level value */
     reg &= ~(TPM_CnSC_ELSA_MASK | TPM_CnSC_ELSB_MASK);
-    reg |= ((uint32_t)level << TPM_CnSC_ELSA_SHIFT) & (TPM_CnSC_ELSA_MASK | TPM_CnSC_ELSB_MASK);
+    reg |= ((T_ULONG)level << TPM_CnSC_ELSA_SHIFT) & (TPM_CnSC_ELSA_MASK | TPM_CnSC_ELSB_MASK);
 
     base->CONTROLS[chnlNumber].CnSC = reg;
 
@@ -489,7 +489,7 @@ void TPM_SetupInputCapture(TPM_Type *base, tpm_chnl_t chnlNumber, tpm_input_capt
 void TPM_SetupOutputCompare(TPM_Type *base,
                             tpm_chnl_t chnlNumber,
                             tpm_output_compare_mode_t compareMode,
-                            uint32_t compareValue)
+                            T_ULONG compareValue)
 {
     assert(chnlNumber < FSL_FEATURE_TPM_CHANNEL_COUNTn(base));
 
@@ -532,13 +532,13 @@ void TPM_SetupOutputCompare(TPM_Type *base,
 void TPM_SetupDualEdgeCapture(TPM_Type *base,
                               tpm_chnl_t chnlPairNumber,
                               const tpm_dual_edge_capture_param_t *edgeParam,
-                              uint32_t filterValue)
+                              T_ULONG filterValue)
 {
     assert(edgeParam);
     assert(chnlPairNumber < FSL_FEATURE_TPM_CHANNEL_COUNTn(base) / 2);
     assert(FSL_FEATURE_TPM_COMBINE_HAS_EFFECTn(base));
 
-    uint32_t reg;
+    T_ULONG reg;
 
 #if defined(FSL_FEATURE_TPM_HAS_QDCTRL) && FSL_FEATURE_TPM_HAS_QDCTRL
     /* The TPM's QDCTRL register required to be effective */
@@ -637,7 +637,7 @@ void TPM_SetupQuadDecode(TPM_Type *base,
     while ((base->CONTROLS[0].CnSC & (TPM_CnSC_MSA_MASK | TPM_CnSC_MSB_MASK | TPM_CnSC_ELSA_MASK | TPM_CnSC_ELSB_MASK)))
     {
     }
-    uint32_t reg;
+    T_ULONG reg;
 
     /* Set Phase A filter value */
     reg = base->FILTER;
@@ -692,9 +692,9 @@ void TPM_SetupQuadDecode(TPM_Type *base,
 
 #endif
 
-void TPM_EnableInterrupts(TPM_Type *base, uint32_t mask)
+void TPM_EnableInterrupts(TPM_Type *base, T_ULONG mask)
 {
-    uint32_t chnlInterrupts = (mask & 0xFF);
+    T_ULONG chnlInterrupts = (mask & 0xFF);
     uint8_t chnlNumber = 0;
 
     /* Enable the timer overflow interrupt */
@@ -715,9 +715,9 @@ void TPM_EnableInterrupts(TPM_Type *base, uint32_t mask)
     }
 }
 
-void TPM_DisableInterrupts(TPM_Type *base, uint32_t mask)
+void TPM_DisableInterrupts(TPM_Type *base, T_ULONG mask)
 {
-    uint32_t chnlInterrupts = (mask & 0xFF);
+    T_ULONG chnlInterrupts = (mask & 0xFF);
     uint8_t chnlNumber = 0;
 
     /* Disable the timer overflow interrupt */
@@ -738,9 +738,9 @@ void TPM_DisableInterrupts(TPM_Type *base, uint32_t mask)
     }
 }
 
-uint32_t TPM_GetEnabledInterrupts(TPM_Type *base)
+T_ULONG TPM_GetEnabledInterrupts(TPM_Type *base)
 {
-    uint32_t enabledInterrupts = 0;
+    T_ULONG enabledInterrupts = 0;
     int8_t chnlCount = FSL_FEATURE_TPM_CHANNEL_COUNTn(base);
 
     /* The CHANNEL_COUNT macro returns -1 if it cannot match the TPM instance */

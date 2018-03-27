@@ -67,41 +67,41 @@ void __assert_func(const char *file, int line, const char *func, const char *fai
 #endif /* NDEBUG */
 
 #ifndef __GIC_PRIO_BITS
-uint32_t InstallIRQHandler(IRQn_Type irq, uint32_t irqHandler)
+T_ULONG InstallIRQHandler(IRQn_Type irq, T_ULONG irqHandler)
 {
 /* Addresses for VECTOR_TABLE and VECTOR_RAM come from the linker file */
 #if defined(__CC_ARM)
-    extern uint32_t Image$$VECTOR_ROM$$Base[];
-    extern uint32_t Image$$VECTOR_RAM$$Base[];
-    extern uint32_t Image$$RW_m_data$$Base[];
+    extern T_ULONG Image$$VECTOR_ROM$$Base[];
+    extern T_ULONG Image$$VECTOR_RAM$$Base[];
+    extern T_ULONG Image$$RW_m_data$$Base[];
 
 #define __VECTOR_TABLE Image$$VECTOR_ROM$$Base
 #define __VECTOR_RAM Image$$VECTOR_RAM$$Base
 #define __RAM_VECTOR_TABLE_SIZE (((uint32_t)Image$$RW_m_data$$Base - (uint32_t)Image$$VECTOR_RAM$$Base))
 #elif defined(__ICCARM__)
-    extern uint32_t __RAM_VECTOR_TABLE_SIZE[];
-    extern uint32_t __VECTOR_TABLE[];
-    extern uint32_t __VECTOR_RAM[];
+    extern T_ULONG __RAM_VECTOR_TABLE_SIZE[];
+    extern T_ULONG __VECTOR_TABLE[];
+    extern T_ULONG __VECTOR_RAM[];
 #elif defined(__GNUC__)
-    extern uint32_t __VECTOR_TABLE[];
-    extern uint32_t __VECTOR_RAM[];
-    extern uint32_t __RAM_VECTOR_TABLE_SIZE_BYTES[];
-    uint32_t __RAM_VECTOR_TABLE_SIZE = (uint32_t)(__RAM_VECTOR_TABLE_SIZE_BYTES);
+    extern T_ULONG __VECTOR_TABLE[];
+    extern T_ULONG __VECTOR_RAM[];
+    extern T_ULONG __RAM_VECTOR_TABLE_SIZE_BYTES[];
+    T_ULONG __RAM_VECTOR_TABLE_SIZE = (T_ULONG)(__RAM_VECTOR_TABLE_SIZE_BYTES);
 #endif /* defined(__CC_ARM) */
-    uint32_t n;
-    uint32_t ret;
-    uint32_t irqMaskValue;
+    T_ULONG n;
+    T_ULONG ret;
+    T_ULONG irqMaskValue;
 
     irqMaskValue = DisableGlobalIRQ();
-    if (SCB->VTOR != (uint32_t)__VECTOR_RAM)
+    if (SCB->VTOR != (T_ULONG)__VECTOR_RAM)
     {
         /* Copy the vector table from ROM to RAM */
-        for (n = 0; n < ((uint32_t)__RAM_VECTOR_TABLE_SIZE) / sizeof(uint32_t); n++)
+        for (n = 0; n < ((T_ULONG)__RAM_VECTOR_TABLE_SIZE) / sizeof(T_ULONG); n++)
         {
             __VECTOR_RAM[n] = __VECTOR_TABLE[n];
         }
         /* Point the VTOR to the position of vector table */
-        SCB->VTOR = (uint32_t)__VECTOR_RAM;
+        SCB->VTOR = (T_ULONG)__VECTOR_RAM;
     }
 
     ret = __VECTOR_RAM[irq + 16];
@@ -119,8 +119,8 @@ uint32_t InstallIRQHandler(IRQn_Type irq, uint32_t irqHandler)
 
 void EnableDeepSleepIRQ(IRQn_Type interrupt)
 {
-    uint32_t index = 0;
-    uint32_t intNumber = (uint32_t)interrupt;
+    T_ULONG index = 0;
+    T_ULONG intNumber = (T_ULONG)interrupt;
     while (intNumber >= 32u)
     {
         index++;
@@ -133,8 +133,8 @@ void EnableDeepSleepIRQ(IRQn_Type interrupt)
 
 void DisableDeepSleepIRQ(IRQn_Type interrupt)
 {
-    uint32_t index = 0;
-    uint32_t intNumber = (uint32_t)interrupt;
+    T_ULONG index = 0;
+    T_ULONG intNumber = (T_ULONG)interrupt;
     while (intNumber >= 32u)
     {
         index++;
@@ -148,8 +148,8 @@ void DisableDeepSleepIRQ(IRQn_Type interrupt)
 #else
 void EnableDeepSleepIRQ(IRQn_Type interrupt)
 {
-    uint32_t index = 0;
-    uint32_t intNumber = (uint32_t)interrupt;
+    T_ULONG index = 0;
+    T_ULONG intNumber = (T_ULONG)interrupt;
     while (intNumber >= 32u)
     {
         index++;
@@ -162,8 +162,8 @@ void EnableDeepSleepIRQ(IRQn_Type interrupt)
 
 void DisableDeepSleepIRQ(IRQn_Type interrupt)
 {
-    uint32_t index = 0;
-    uint32_t intNumber = (uint32_t)interrupt;
+    T_ULONG index = 0;
+    T_ULONG intNumber = (T_ULONG)interrupt;
     while (intNumber >= 32u)
     {
         index++;

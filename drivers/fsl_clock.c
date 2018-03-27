@@ -112,14 +112,14 @@ enum _mcg_pllst
  ******************************************************************************/
 
 /* Slow internal reference clock frequency. */
-static uint32_t s_slowIrcFreq = 32768U;
+static T_ULONG s_slowIrcFreq = 32768U;
 /* Fast internal reference clock frequency. */
-static uint32_t s_fastIrcFreq = 4000000U;
+static T_ULONG s_fastIrcFreq = 4000000U;
 
 /* External XTAL0 (OSC0) clock frequency. */
-uint32_t g_xtal0Freq;
+T_ULONG g_xtal0Freq;
 /* External XTAL32K clock frequency. */
-uint32_t g_xtal32Freq;
+T_ULONG g_xtal32Freq;
 
 /*******************************************************************************
  * Prototypes
@@ -133,7 +133,7 @@ uint32_t g_xtal32Freq;
  *
  * @return MCG external reference clock frequency in Hz.
  */
-static uint32_t CLOCK_GetMcgExtClkFreq(void);
+static T_ULONG CLOCK_GetMcgExtClkFreq(void);
 
 /*!
  * @brief Get the MCG FLL external reference clock frequency.
@@ -143,7 +143,7 @@ static uint32_t CLOCK_GetMcgExtClkFreq(void);
  *
  * @return MCG FLL external reference clock frequency in Hz.
  */
-static uint32_t CLOCK_GetFllExtRefClkFreq(void);
+static T_ULONG CLOCK_GetFllExtRefClkFreq(void);
 
 /*!
  * @brief Get the MCG FLL reference clock frequency.
@@ -153,7 +153,7 @@ static uint32_t CLOCK_GetFllExtRefClkFreq(void);
  *
  * @return MCG FLL reference clock frequency in Hz.
  */
-static uint32_t CLOCK_GetFllRefClkFreq(void);
+static T_ULONG CLOCK_GetFllRefClkFreq(void);
 
 /*!
  * @brief Get the frequency of clock selected by MCG_C2[IRCS].
@@ -164,7 +164,7 @@ static uint32_t CLOCK_GetFllRefClkFreq(void);
  *
  * @return The frequency in Hz.
  */
-static uint32_t CLOCK_GetInternalRefClkSelectFreq(void);
+static T_ULONG CLOCK_GetInternalRefClkSelectFreq(void);
 
 /*!
  * @brief Get the MCG PLL/PLL0 reference clock frequency.
@@ -174,7 +174,7 @@ static uint32_t CLOCK_GetInternalRefClkSelectFreq(void);
  *
  * @return MCG PLL/PLL0 reference clock frequency in Hz.
  */
-static uint32_t CLOCK_GetPll0RefFreq(void);
+static T_ULONG CLOCK_GetPll0RefFreq(void);
 
 /*!
  * @brief Calculate the RANGE value base on crystal frequency.
@@ -186,7 +186,7 @@ static uint32_t CLOCK_GetPll0RefFreq(void);
  * @param freq Crystal frequency in Hz.
  * @return The RANGE value.
  */
-static uint8_t CLOCK_GetOscRangeFromFreq(uint32_t freq);
+static uint8_t CLOCK_GetOscRangeFromFreq(T_ULONG freq);
 
 /*******************************************************************************
  * Code
@@ -205,7 +205,7 @@ void CLOCK_FllStableDelay(void)
        Should wait at least 1ms. Because in these modes, the core clock is 100MHz
        at most, so this function could obtain the 1ms delay.
      */
-    volatile uint32_t i = 30000U;
+    volatile T_ULONG i = 30000U;
     while (i--)
     {
         __NOP();
@@ -219,20 +219,20 @@ void CLOCK_FllStableDelay(void)
 extern void CLOCK_FllStableDelay(void);
 #endif /* MCG_USER_CONFIG_FLL_STABLE_DELAY_EN */
 
-static uint32_t CLOCK_GetMcgExtClkFreq(void)
+static T_ULONG CLOCK_GetMcgExtClkFreq(void)
 {
     /* Please call CLOCK_SetXtal0Freq base on board setting before using OSC0 clock. */
     assert(g_xtal0Freq);
     return g_xtal0Freq;
 }
 
-static uint32_t CLOCK_GetFllExtRefClkFreq(void)
+static T_ULONG CLOCK_GetFllExtRefClkFreq(void)
 {
     /* FllExtRef = McgExtRef / FllExtRefDiv */
     uint8_t frdiv;
     uint8_t range;
 
-    uint32_t freq = CLOCK_GetMcgExtClkFreq();
+    T_ULONG freq = CLOCK_GetMcgExtClkFreq();
 
     if (!freq)
     {
@@ -278,7 +278,7 @@ static uint32_t CLOCK_GetFllExtRefClkFreq(void)
     return freq;
 }
 
-static uint32_t CLOCK_GetInternalRefClkSelectFreq(void)
+static T_ULONG CLOCK_GetInternalRefClkSelectFreq(void)
 {
     if (kMCG_IrcSlow == MCG_S_IRCST_VAL)
     {
@@ -292,7 +292,7 @@ static uint32_t CLOCK_GetInternalRefClkSelectFreq(void)
     }
 }
 
-static uint32_t CLOCK_GetFllRefClkFreq(void)
+static T_ULONG CLOCK_GetFllRefClkFreq(void)
 {
     /* If use external reference clock. */
     if (kMCG_FllSrcExternal == MCG_S_IREFST_VAL)
@@ -306,13 +306,13 @@ static uint32_t CLOCK_GetFllRefClkFreq(void)
     }
 }
 
-static uint32_t CLOCK_GetPll0RefFreq(void)
+static T_ULONG CLOCK_GetPll0RefFreq(void)
 {
     /* MCG external reference clock. */
     return CLOCK_GetMcgExtClkFreq();
 }
 
-static uint8_t CLOCK_GetOscRangeFromFreq(uint32_t freq)
+static uint8_t CLOCK_GetOscRangeFromFreq(T_ULONG freq)
 {
     uint8_t range;
 
@@ -332,7 +332,7 @@ static uint8_t CLOCK_GetOscRangeFromFreq(uint32_t freq)
     return range;
 }
 
-uint32_t CLOCK_GetOsc0ErClkFreq(void)
+T_ULONG CLOCK_GetOsc0ErClkFreq(void)
 {
     if (OSC0->CR & OSC_CR_ERCLKEN_MASK)
     {
@@ -346,9 +346,9 @@ uint32_t CLOCK_GetOsc0ErClkFreq(void)
     }
 }
 
-uint32_t CLOCK_GetEr32kClkFreq(void)
+T_ULONG CLOCK_GetEr32kClkFreq(void)
 {
-    uint32_t freq;
+    T_ULONG freq;
 
     switch (SIM_SOPT1_OSC32KSEL_VAL)
     {
@@ -370,9 +370,9 @@ uint32_t CLOCK_GetEr32kClkFreq(void)
     return freq;
 }
 
-uint32_t CLOCK_GetPllFllSelClkFreq(void)
+T_ULONG CLOCK_GetPllFllSelClkFreq(void)
 {
-    uint32_t freq;
+    T_ULONG freq;
 
     switch (SIM_SOPT2_PLLFLLSEL_VAL)
     {
@@ -391,14 +391,14 @@ uint32_t CLOCK_GetPllFllSelClkFreq(void)
     return freq;
 }
 
-uint32_t CLOCK_GetPlatClkFreq(void)
+T_ULONG CLOCK_GetPlatClkFreq(void)
 {
     return CLOCK_GetOutClkFreq() / (SIM_CLKDIV1_OUTDIV1_VAL + 1);
 }
 
-uint32_t CLOCK_GetFlashClkFreq(void)
+T_ULONG CLOCK_GetFlashClkFreq(void)
 {
-    uint32_t freq;
+    T_ULONG freq;
 
     freq = CLOCK_GetOutClkFreq() / (SIM_CLKDIV1_OUTDIV1_VAL + 1);
     freq /= (SIM_CLKDIV1_OUTDIV4_VAL + 1);
@@ -406,9 +406,9 @@ uint32_t CLOCK_GetFlashClkFreq(void)
     return freq;
 }
 
-uint32_t CLOCK_GetBusClkFreq(void)
+T_ULONG CLOCK_GetBusClkFreq(void)
 {
-    uint32_t freq;
+    T_ULONG freq;
 
     freq = CLOCK_GetOutClkFreq() / (SIM_CLKDIV1_OUTDIV1_VAL + 1);
     freq /= (SIM_CLKDIV1_OUTDIV4_VAL + 1);
@@ -416,14 +416,14 @@ uint32_t CLOCK_GetBusClkFreq(void)
     return freq;
 }
 
-uint32_t CLOCK_GetCoreSysClkFreq(void)
+T_ULONG CLOCK_GetCoreSysClkFreq(void)
 {
     return CLOCK_GetOutClkFreq() / (SIM_CLKDIV1_OUTDIV1_VAL + 1);
 }
 
-uint32_t CLOCK_GetFreq(clock_name_t clockName)
+T_ULONG CLOCK_GetFreq(clock_name_t clockName)
 {
-    uint32_t freq;
+    T_ULONG freq;
 
     switch (clockName)
     {
@@ -475,7 +475,7 @@ void CLOCK_SetSimConfig(sim_clock_config_t const *config)
     CLOCK_SetEr32kClock(config->er32kSrc);
 }
 
-bool CLOCK_EnableUsbfs0Clock(clock_usb_src_t src, uint32_t freq)
+bool CLOCK_EnableUsbfs0Clock(clock_usb_src_t src, T_ULONG freq)
 {
     bool ret = true;
 
@@ -492,7 +492,7 @@ bool CLOCK_EnableUsbfs0Clock(clock_usb_src_t src, uint32_t freq)
             ret = false;
         }
 
-        SIM->SOPT2 = ((SIM->SOPT2 & ~(SIM_SOPT2_PLLFLLSEL_MASK | SIM_SOPT2_USBSRC_MASK)) | (uint32_t)src);
+        SIM->SOPT2 = ((SIM->SOPT2 & ~(SIM_SOPT2_PLLFLLSEL_MASK | SIM_SOPT2_USBSRC_MASK)) | (T_ULONG)src);
     }
 
     CLOCK_EnableClock(kCLOCK_Usbfs0);
@@ -500,10 +500,10 @@ bool CLOCK_EnableUsbfs0Clock(clock_usb_src_t src, uint32_t freq)
     return ret;
 }
 
-uint32_t CLOCK_GetOutClkFreq(void)
+T_ULONG CLOCK_GetOutClkFreq(void)
 {
-    uint32_t mcgoutclk;
-    uint32_t clkst = MCG_S_CLKST_VAL;
+    T_ULONG mcgoutclk;
+    T_ULONG clkst = MCG_S_CLKST_VAL;
 
     switch (clkst)
     {
@@ -526,12 +526,12 @@ uint32_t CLOCK_GetOutClkFreq(void)
     return mcgoutclk;
 }
 
-uint32_t CLOCK_GetFllFreq(void)
+T_ULONG CLOCK_GetFllFreq(void)
 {
     static const uint16_t fllFactorTable[4][2] = {{640, 732}, {1280, 1464}, {1920, 2197}, {2560, 2929}};
 
     uint8_t drs, dmx32;
-    uint32_t freq;
+    T_ULONG freq;
 
     /* If FLL is not enabled currently, then return 0U. */
     if ((MCG->C2 & MCG_C2_LP_MASK) || (MCG->S & MCG_S_PLLST_MASK))
@@ -552,7 +552,7 @@ uint32_t CLOCK_GetFllFreq(void)
     return freq * fllFactorTable[drs][dmx32];
 }
 
-uint32_t CLOCK_GetInternalRefClkFreq(void)
+T_ULONG CLOCK_GetInternalRefClkFreq(void)
 {
     /* If MCGIRCLK is gated. */
     if (!(MCG->C1 & MCG_C1_IRCLKEN_MASK))
@@ -563,9 +563,9 @@ uint32_t CLOCK_GetInternalRefClkFreq(void)
     return CLOCK_GetInternalRefClkSelectFreq();
 }
 
-uint32_t CLOCK_GetFixedFreqClkFreq(void)
+T_ULONG CLOCK_GetFixedFreqClkFreq(void)
 {
-    uint32_t freq = CLOCK_GetFllRefClkFreq();
+    T_ULONG freq = CLOCK_GetFllRefClkFreq();
 
     /* MCGFFCLK must be no more than MCGOUTCLK/8. */
     if ((freq) && (freq <= (CLOCK_GetOutClkFreq() / 8U)))
@@ -578,9 +578,9 @@ uint32_t CLOCK_GetFixedFreqClkFreq(void)
     }
 }
 
-uint32_t CLOCK_GetPll0Freq(void)
+T_ULONG CLOCK_GetPll0Freq(void)
 {
-    uint32_t mcgpll0clk;
+    T_ULONG mcgpll0clk;
 
     /* If PLL0 is not enabled, return 0. */
     if (!(MCG->S & MCG_S_LOCK0_MASK))
@@ -612,7 +612,7 @@ status_t CLOCK_SetExternalRefClkConfig(mcg_oscsel_t oscsel)
 
 status_t CLOCK_SetInternalRefClkConfig(uint8_t enableMode, mcg_irc_mode_t ircs, uint8_t fcrdiv)
 {
-    uint32_t mcgOutClkState = MCG_S_CLKST_VAL;
+    T_ULONG mcgOutClkState = MCG_S_CLKST_VAL;
     mcg_irc_mode_t curIrcs = (mcg_irc_mode_t)MCG_S_IRCST_VAL;
     uint8_t curFcrdiv = MCG_SC_FCRDIV_VAL;
 
@@ -658,7 +658,7 @@ status_t CLOCK_SetInternalRefClkConfig(uint8_t enableMode, mcg_irc_mode_t ircs, 
     return kStatus_Success;
 }
 
-uint32_t CLOCK_CalcPllDiv(uint32_t refFreq, uint32_t desireFreq, uint8_t *prdiv, uint8_t *vdiv)
+T_ULONG CLOCK_CalcPllDiv(T_ULONG refFreq, T_ULONG desireFreq, uint8_t *prdiv, uint8_t *vdiv)
 {
     uint8_t ret_prdiv;           /* PRDIV to return. */
     uint8_t ret_vdiv;            /* VDIV to return.  */
@@ -666,9 +666,9 @@ uint32_t CLOCK_CalcPllDiv(uint32_t refFreq, uint32_t desireFreq, uint8_t *prdiv,
     uint8_t prdiv_max;           /* Max PRDIV value to make reference clock in allowed range. */
     uint8_t prdiv_cur;           /* PRDIV value for iteration.    */
     uint8_t vdiv_cur;            /* VDIV value for iteration.     */
-    uint32_t ret_freq = 0U;      /* PLL output fequency to return. */
-    uint32_t diff = 0xFFFFFFFFU; /* Difference between desireFreq and return frequency. */
-    uint32_t ref_div;            /* Reference frequency after PRDIV. */
+    T_ULONG ret_freq = 0U;      /* PLL output fequency to return. */
+    T_ULONG diff = 0xFFFFFFFFU; /* Difference between desireFreq and return frequency. */
+    T_ULONG ref_div;            /* Reference frequency after PRDIV. */
 
     /*
        Steps:
@@ -767,7 +767,7 @@ void CLOCK_EnablePll0(mcg_pll_config_t const *config)
     MCG->C6 = (MCG->C6 & ~MCG_C6_VDIV0_MASK) | MCG_C6_VDIV0(config->vdiv);
 
     /* Set enable mode. */
-    MCG->C5 |= ((uint32_t)kMCG_PllEnableIndependent | (uint32_t)config->enableMode);
+    MCG->C5 |= ((T_ULONG)kMCG_PllEnableIndependent | (T_ULONG)config->enableMode);
 
     /* Wait for PLL lock. */
     while (!(MCG->S & MCG_S_LOCK0_MASK))
@@ -826,9 +826,9 @@ void CLOCK_SetPll0MonitorMode(mcg_monitor_mode_t mode)
     }
 }
 
-uint32_t CLOCK_GetStatusFlags(void)
+T_ULONG CLOCK_GetStatusFlags(void)
 {
-    uint32_t ret = 0U;
+    T_ULONG ret = 0U;
     uint8_t mcg_s = MCG->S;
 
     if (MCG->SC & MCG_SC_LOCS0_MASK)
@@ -850,7 +850,7 @@ uint32_t CLOCK_GetStatusFlags(void)
     return ret;
 }
 
-void CLOCK_ClearStatusFlags(uint32_t mask)
+void CLOCK_ClearStatusFlags(T_ULONG mask)
 {
     if (mask & kMCG_Osc0LostFlag)
     {
@@ -886,13 +886,13 @@ void CLOCK_DeinitOsc0(void)
     MCG->C2 &= ~OSC_MODE_MASK;
 }
 
-status_t CLOCK_TrimInternalRefClk(uint32_t extFreq, uint32_t desireFreq, uint32_t *actualFreq, mcg_atm_select_t atms)
+status_t CLOCK_TrimInternalRefClk(T_ULONG extFreq, T_ULONG desireFreq, T_ULONG *actualFreq, mcg_atm_select_t atms)
 {
-    uint32_t multi; /* extFreq / desireFreq */
-    uint32_t actv;  /* Auto trim value. */
+    T_ULONG multi; /* extFreq / desireFreq */
+    T_ULONG actv;  /* Auto trim value. */
     uint8_t mcg_sc;
 
-    static const uint32_t trimRange[2][2] = {
+    static const T_ULONG trimRange[2][2] = {
         /*     Min           Max      */
         {TRIM_SIRC_MIN, TRIM_SIRC_MAX}, /* Slow IRC. */
         {TRIM_FIRC_MIN, TRIM_FIRC_MAX}  /* Fast IRC. */
@@ -965,10 +965,10 @@ status_t CLOCK_TrimInternalRefClk(uint32_t extFreq, uint32_t desireFreq, uint32_
 mcg_mode_t CLOCK_GetMode(void)
 {
     mcg_mode_t mode = kMCG_ModeError;
-    uint32_t clkst = MCG_S_CLKST_VAL;
-    uint32_t irefst = MCG_S_IREFST_VAL;
-    uint32_t lp = MCG_C2_LP_VAL;
-    uint32_t pllst = MCG_S_PLLST_VAL;
+    T_ULONG clkst = MCG_S_CLKST_VAL;
+    T_ULONG irefst = MCG_S_IREFST_VAL;
+    T_ULONG lp = MCG_C2_LP_VAL;
+    T_ULONG pllst = MCG_S_PLLST_VAL;
 
     /*------------------------------------------------------------------
                            Mode and Registers
@@ -1670,7 +1670,7 @@ status_t CLOCK_SetMcgConfig(const mcg_config_t *config)
     }
     else
     {
-        MCG->C5 &= ~(uint32_t)kMCG_PllEnableIndependent;
+        MCG->C5 &= ~(T_ULONG)kMCG_PllEnableIndependent;
     }
     return kStatus_Success;
 }

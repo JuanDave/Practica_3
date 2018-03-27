@@ -37,5 +37,5 @@
 extern void DISPLAY_manager_Output_Init(void);
 extern void DISPLAY_manager_Input_Init(void);
 extern T_UBYTE DISPLAY_manager_checkButtonReset();
-extern uint32_t DISPLAY_manager_checkButtonAsc_Desc(uint32_t);
+extern T_ULONG DISPLAY_manager_checkButtonAsc_Desc(T_ULONG);
 #endif /* DISPLAY_MANAGER_H_ */

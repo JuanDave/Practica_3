@@ -233,7 +233,7 @@ typedef struct _adc16_hardware_compare_config
  */
 typedef struct _adc16_channel_config
 {
-    uint32_t channelNumber;                    /*!< Setting the conversion channel number. The available range is 0-31.
+    T_ULONG channelNumber;                    /*!< Setting the conversion channel number. The available range is 0-31.
                                                     See channel connection information for each chip in Reference
                                                     Manual document. */
     bool enableInterruptOnConversionCompleted; /*!< Generate an interrupt request once the conversion is completed. */
@@ -342,7 +342,7 @@ status_t ADC16_DoAutoCalibration(ADC_Type *base);
  */
 static inline void ADC16_SetOffsetValue(ADC_Type *base, int16_t value)
 {
-    base->OFS = (uint32_t)(value);
+    base->OFS = (T_ULONG)(value);
 }
 #endif /* FSL_FEATURE_ADC16_HAS_OFFSET_CORRECTION */
 
@@ -446,7 +446,7 @@ void ADC16_SetPGAConfig(ADC_Type *base, const adc16_pga_config_t *config);
  *
  * @return      Flags' mask if indicated flags are asserted. See "_adc16_status_flags".
  */
-uint32_t ADC16_GetStatusFlags(ADC_Type *base);
+T_ULONG ADC16_GetStatusFlags(ADC_Type *base);
 
 /*!
  * @brief  Clears the status flags of the converter.
@@ -454,7 +454,7 @@ uint32_t ADC16_GetStatusFlags(ADC_Type *base);
  * @param  base ADC16 peripheral base address.
  * @param  mask Mask value for the cleared flags. See "_adc16_status_flags".
  */
-void ADC16_ClearStatusFlags(ADC_Type *base, uint32_t mask);
+void ADC16_ClearStatusFlags(ADC_Type *base, T_ULONG mask);
 
 /* @} */
 
@@ -487,7 +487,7 @@ void ADC16_ClearStatusFlags(ADC_Type *base, uint32_t mask);
  * @param channelGroup  Channel group index.
  * @param config        Pointer to the "adc16_channel_config_t" structure for the conversion channel.
  */
-void ADC16_SetChannelConfig(ADC_Type *base, uint32_t channelGroup, const adc16_channel_config_t *config);
+void ADC16_SetChannelConfig(ADC_Type *base, T_ULONG channelGroup, const adc16_channel_config_t *config);
 
 /*!
  * @brief  Gets the conversion value.
@@ -497,7 +497,7 @@ void ADC16_SetChannelConfig(ADC_Type *base, uint32_t channelGroup, const adc16_c
  *
  * @return              Conversion value.
  */
-static inline uint32_t ADC16_GetChannelConversionValue(ADC_Type *base, uint32_t channelGroup)
+static inline T_ULONG ADC16_GetChannelConversionValue(ADC_Type *base, T_ULONG channelGroup)
 {
     assert(channelGroup < ADC_R_COUNT);
 
@@ -512,7 +512,7 @@ static inline uint32_t ADC16_GetChannelConversionValue(ADC_Type *base, uint32_t 
  *
  * @return              Flags' mask if indicated flags are asserted. See "_adc16_channel_status_flags".
  */
-uint32_t ADC16_GetChannelStatusFlags(ADC_Type *base, uint32_t channelGroup);
+T_ULONG ADC16_GetChannelStatusFlags(ADC_Type *base, T_ULONG channelGroup);
 
 /* @} */
 

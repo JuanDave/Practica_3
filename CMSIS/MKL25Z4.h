@@ -338,32 +338,32 @@ typedef enum _dma_request_source
 
 /** ADC - Register Layout Typedef */
 typedef struct {
-  __IO uint32_t SC1[2];                            /**< ADC Status and Control Registers 1, array offset: 0x0, array step: 0x4 */
-  __IO uint32_t CFG1;                              /**< ADC Configuration Register 1, offset: 0x8 */
-  __IO uint32_t CFG2;                              /**< ADC Configuration Register 2, offset: 0xC */
-  __I  uint32_t R[2];                              /**< ADC Data Result Register, array offset: 0x10, array step: 0x4 */
-  __IO uint32_t CV1;                               /**< Compare Value Registers, offset: 0x18 */
-  __IO uint32_t CV2;                               /**< Compare Value Registers, offset: 0x1C */
-  __IO uint32_t SC2;                               /**< Status and Control Register 2, offset: 0x20 */
-  __IO uint32_t SC3;                               /**< Status and Control Register 3, offset: 0x24 */
-  __IO uint32_t OFS;                               /**< ADC Offset Correction Register, offset: 0x28 */
-  __IO uint32_t PG;                                /**< ADC Plus-Side Gain Register, offset: 0x2C */
-  __IO uint32_t MG;                                /**< ADC Minus-Side Gain Register, offset: 0x30 */
-  __IO uint32_t CLPD;                              /**< ADC Plus-Side General Calibration Value Register, offset: 0x34 */
-  __IO uint32_t CLPS;                              /**< ADC Plus-Side General Calibration Value Register, offset: 0x38 */
-  __IO uint32_t CLP4;                              /**< ADC Plus-Side General Calibration Value Register, offset: 0x3C */
-  __IO uint32_t CLP3;                              /**< ADC Plus-Side General Calibration Value Register, offset: 0x40 */
-  __IO uint32_t CLP2;                              /**< ADC Plus-Side General Calibration Value Register, offset: 0x44 */
-  __IO uint32_t CLP1;                              /**< ADC Plus-Side General Calibration Value Register, offset: 0x48 */
-  __IO uint32_t CLP0;                              /**< ADC Plus-Side General Calibration Value Register, offset: 0x4C */
+  __IO T_ULONG SC1[2];                            /**< ADC Status and Control Registers 1, array offset: 0x0, array step: 0x4 */
+  __IO T_ULONG CFG1;                              /**< ADC Configuration Register 1, offset: 0x8 */
+  __IO T_ULONG CFG2;                              /**< ADC Configuration Register 2, offset: 0xC */
+  __I  T_ULONG R[2];                              /**< ADC Data Result Register, array offset: 0x10, array step: 0x4 */
+  __IO T_ULONG CV1;                               /**< Compare Value Registers, offset: 0x18 */
+  __IO T_ULONG CV2;                               /**< Compare Value Registers, offset: 0x1C */
+  __IO T_ULONG SC2;                               /**< Status and Control Register 2, offset: 0x20 */
+  __IO T_ULONG SC3;                               /**< Status and Control Register 3, offset: 0x24 */
+  __IO T_ULONG OFS;                               /**< ADC Offset Correction Register, offset: 0x28 */
+  __IO T_ULONG PG;                                /**< ADC Plus-Side Gain Register, offset: 0x2C */
+  __IO T_ULONG MG;                                /**< ADC Minus-Side Gain Register, offset: 0x30 */
+  __IO T_ULONG CLPD;                              /**< ADC Plus-Side General Calibration Value Register, offset: 0x34 */
+  __IO T_ULONG CLPS;                              /**< ADC Plus-Side General Calibration Value Register, offset: 0x38 */
+  __IO T_ULONG CLP4;                              /**< ADC Plus-Side General Calibration Value Register, offset: 0x3C */
+  __IO T_ULONG CLP3;                              /**< ADC Plus-Side General Calibration Value Register, offset: 0x40 */
+  __IO T_ULONG CLP2;                              /**< ADC Plus-Side General Calibration Value Register, offset: 0x44 */
+  __IO T_ULONG CLP1;                              /**< ADC Plus-Side General Calibration Value Register, offset: 0x48 */
+  __IO T_ULONG CLP0;                              /**< ADC Plus-Side General Calibration Value Register, offset: 0x4C */
        uint8_t RESERVED_0[4];
-  __IO uint32_t CLMD;                              /**< ADC Minus-Side General Calibration Value Register, offset: 0x54 */
-  __IO uint32_t CLMS;                              /**< ADC Minus-Side General Calibration Value Register, offset: 0x58 */
-  __IO uint32_t CLM4;                              /**< ADC Minus-Side General Calibration Value Register, offset: 0x5C */
-  __IO uint32_t CLM3;                              /**< ADC Minus-Side General Calibration Value Register, offset: 0x60 */
-  __IO uint32_t CLM2;                              /**< ADC Minus-Side General Calibration Value Register, offset: 0x64 */
-  __IO uint32_t CLM1;                              /**< ADC Minus-Side General Calibration Value Register, offset: 0x68 */
-  __IO uint32_t CLM0;                              /**< ADC Minus-Side General Calibration Value Register, offset: 0x6C */
+  __IO T_ULONG CLMD;                              /**< ADC Minus-Side General Calibration Value Register, offset: 0x54 */
+  __IO T_ULONG CLMS;                              /**< ADC Minus-Side General Calibration Value Register, offset: 0x58 */
+  __IO T_ULONG CLM4;                              /**< ADC Minus-Side General Calibration Value Register, offset: 0x5C */
+  __IO T_ULONG CLM3;                              /**< ADC Minus-Side General Calibration Value Register, offset: 0x60 */
+  __IO T_ULONG CLM2;                              /**< ADC Minus-Side General Calibration Value Register, offset: 0x64 */
+  __IO T_ULONG CLM1;                              /**< ADC Minus-Side General Calibration Value Register, offset: 0x68 */
+  __IO T_ULONG CLM0;                              /**< ADC Minus-Side General Calibration Value Register, offset: 0x6C */
 } ADC_Type;
 
 /* ----------------------------------------------------------------------------
@@ -854,16 +854,16 @@ typedef struct {
 typedef struct {
        uint8_t RESERVED_0[256];
   struct {                                         /* offset: 0x100, array step: 0x10 */
-    __IO uint32_t SAR;                               /**< Source Address Register, array offset: 0x100, array step: 0x10 */
-    __IO uint32_t DAR;                               /**< Destination Address Register, array offset: 0x104, array step: 0x10 */
+    __IO T_ULONG SAR;                               /**< Source Address Register, array offset: 0x100, array step: 0x10 */
+    __IO T_ULONG DAR;                               /**< Destination Address Register, array offset: 0x104, array step: 0x10 */
     union {                                          /* offset: 0x108, array step: 0x10 */
-      __IO uint32_t DSR_BCR;                           /**< DMA Status Register / Byte Count Register, array offset: 0x108, array step: 0x10 */
+      __IO T_ULONG DSR_BCR;                           /**< DMA Status Register / Byte Count Register, array offset: 0x108, array step: 0x10 */
       struct {                                         /* offset: 0x108, array step: 0x10 */
              uint8_t RESERVED_0[3];
         __IO uint8_t DSR;                                /**< DMA_DSR0 register...DMA_DSR3 register., array offset: 0x10B, array step: 0x10 */
       } DMA_DSR_ACCESS8BIT;
     };
-    __IO uint32_t DCR;                               /**< DMA Control Register, array offset: 0x10C, array step: 0x10 */
+    __IO T_ULONG DCR;                               /**< DMA Control Register, array offset: 0x10C, array step: 0x10 */
   } DMA[4];
 } DMA_Type;
 
@@ -1066,12 +1066,12 @@ typedef struct {
 
 /** FGPIO - Register Layout Typedef */
 typedef struct {
-  __IO uint32_t PDOR;                              /**< Port Data Output Register, offset: 0x0 */
-  __O  uint32_t PSOR;                              /**< Port Set Output Register, offset: 0x4 */
-  __O  uint32_t PCOR;                              /**< Port Clear Output Register, offset: 0x8 */
-  __O  uint32_t PTOR;                              /**< Port Toggle Output Register, offset: 0xC */
-  __I  uint32_t PDIR;                              /**< Port Data Input Register, offset: 0x10 */
-  __IO uint32_t PDDR;                              /**< Port Data Direction Register, offset: 0x14 */
+  __IO T_ULONG PDOR;                              /**< Port Data Output Register, offset: 0x0 */
+  __O  T_ULONG PSOR;                              /**< Port Set Output Register, offset: 0x4 */
+  __O  T_ULONG PCOR;                              /**< Port Clear Output Register, offset: 0x8 */
+  __O  T_ULONG PTOR;                              /**< Port Toggle Output Register, offset: 0xC */
+  __I  T_ULONG PDIR;                              /**< Port Data Input Register, offset: 0x10 */
+  __IO T_ULONG PDDR;                              /**< Port Data Direction Register, offset: 0x14 */
 } FGPIO_Type;
 
 /* ----------------------------------------------------------------------------
@@ -1356,12 +1356,12 @@ typedef struct {
 
 /** GPIO - Register Layout Typedef */
 typedef struct {
-  __IO uint32_t PDOR;                              /**< Port Data Output Register, offset: 0x0 */
-  __O  uint32_t PSOR;                              /**< Port Set Output Register, offset: 0x4 */
-  __O  uint32_t PCOR;                              /**< Port Clear Output Register, offset: 0x8 */
-  __O  uint32_t PTOR;                              /**< Port Toggle Output Register, offset: 0xC */
-  __I  uint32_t PDIR;                              /**< Port Data Input Register, offset: 0x10 */
-  __IO uint32_t PDDR;                              /**< Port Data Direction Register, offset: 0x14 */
+  __IO T_ULONG PDOR;                              /**< Port Data Output Register, offset: 0x0 */
+  __O  T_ULONG PSOR;                              /**< Port Set Output Register, offset: 0x4 */
+  __O  T_ULONG PCOR;                              /**< Port Clear Output Register, offset: 0x8 */
+  __O  T_ULONG PTOR;                              /**< Port Toggle Output Register, offset: 0xC */
+  __I  T_ULONG PDIR;                              /**< Port Data Input Register, offset: 0x10 */
+  __IO T_ULONG PDDR;                              /**< Port Data Direction Register, offset: 0x14 */
 } GPIO_Type;
 
 /* ----------------------------------------------------------------------------
@@ -1899,10 +1899,10 @@ typedef struct {
 
 /** LPTMR - Register Layout Typedef */
 typedef struct {
-  __IO uint32_t CSR;                               /**< Low Power Timer Control Status Register, offset: 0x0 */
-  __IO uint32_t PSR;                               /**< Low Power Timer Prescale Register, offset: 0x4 */
-  __IO uint32_t CMR;                               /**< Low Power Timer Compare Register, offset: 0x8 */
-  __IO uint32_t CNR;                               /**< Low Power Timer Counter Register, offset: 0xC */
+  __IO T_ULONG CSR;                               /**< Low Power Timer Control Status Register, offset: 0x0 */
+  __IO T_ULONG PSR;                               /**< Low Power Timer Prescale Register, offset: 0x4 */
+  __IO T_ULONG CMR;                               /**< Low Power Timer Compare Register, offset: 0x8 */
+  __IO T_ULONG CNR;                               /**< Low Power Timer Counter Register, offset: 0xC */
 } LPTMR_Type;
 
 /* ----------------------------------------------------------------------------
@@ -2213,9 +2213,9 @@ typedef struct {
        uint8_t RESERVED_0[8];
   __I  uint16_t PLASC;                             /**< Crossbar Switch (AXBS) Slave Configuration, offset: 0x8 */
   __I  uint16_t PLAMC;                             /**< Crossbar Switch (AXBS) Master Configuration, offset: 0xA */
-  __IO uint32_t PLACR;                             /**< Platform Control Register, offset: 0xC */
+  __IO T_ULONG PLACR;                             /**< Platform Control Register, offset: 0xC */
        uint8_t RESERVED_1[48];
-  __IO uint32_t CPO;                               /**< Compute Operation Control Register, offset: 0x40 */
+  __IO T_ULONG CPO;                               /**< Compute Operation Control Register, offset: 0x40 */
 } MCM_Type;
 
 /* ----------------------------------------------------------------------------
@@ -2306,32 +2306,32 @@ typedef struct {
 
 /** MTB - Register Layout Typedef */
 typedef struct {
-  __IO uint32_t POSITION;                          /**< MTB Position Register, offset: 0x0 */
-  __IO uint32_t MASTER;                            /**< MTB Master Register, offset: 0x4 */
-  __IO uint32_t FLOW;                              /**< MTB Flow Register, offset: 0x8 */
-  __I  uint32_t BASE;                              /**< MTB Base Register, offset: 0xC */
+  __IO T_ULONG POSITION;                          /**< MTB Position Register, offset: 0x0 */
+  __IO T_ULONG MASTER;                            /**< MTB Master Register, offset: 0x4 */
+  __IO T_ULONG FLOW;                              /**< MTB Flow Register, offset: 0x8 */
+  __I  T_ULONG BASE;                              /**< MTB Base Register, offset: 0xC */
        uint8_t RESERVED_0[3824];
-  __I  uint32_t MODECTRL;                          /**< Integration Mode Control Register, offset: 0xF00 */
+  __I  T_ULONG MODECTRL;                          /**< Integration Mode Control Register, offset: 0xF00 */
        uint8_t RESERVED_1[156];
-  __I  uint32_t TAGSET;                            /**< Claim TAG Set Register, offset: 0xFA0 */
-  __I  uint32_t TAGCLEAR;                          /**< Claim TAG Clear Register, offset: 0xFA4 */
+  __I  T_ULONG TAGSET;                            /**< Claim TAG Set Register, offset: 0xFA0 */
+  __I  T_ULONG TAGCLEAR;                          /**< Claim TAG Clear Register, offset: 0xFA4 */
        uint8_t RESERVED_2[8];
-  __I  uint32_t LOCKACCESS;                        /**< Lock Access Register, offset: 0xFB0 */
-  __I  uint32_t LOCKSTAT;                          /**< Lock Status Register, offset: 0xFB4 */
-  __I  uint32_t AUTHSTAT;                          /**< Authentication Status Register, offset: 0xFB8 */
-  __I  uint32_t DEVICEARCH;                        /**< Device Architecture Register, offset: 0xFBC */
+  __I  T_ULONG LOCKACCESS;                        /**< Lock Access Register, offset: 0xFB0 */
+  __I  T_ULONG LOCKSTAT;                          /**< Lock Status Register, offset: 0xFB4 */
+  __I  T_ULONG AUTHSTAT;                          /**< Authentication Status Register, offset: 0xFB8 */
+  __I  T_ULONG DEVICEARCH;                        /**< Device Architecture Register, offset: 0xFBC */
        uint8_t RESERVED_3[8];
-  __I  uint32_t DEVICECFG;                         /**< Device Configuration Register, offset: 0xFC8 */
-  __I  uint32_t DEVICETYPID;                       /**< Device Type Identifier Register, offset: 0xFCC */
-  __I  uint32_t PERIPHID4;                         /**< Peripheral ID Register, offset: 0xFD0 */
-  __I  uint32_t PERIPHID5;                         /**< Peripheral ID Register, offset: 0xFD4 */
-  __I  uint32_t PERIPHID6;                         /**< Peripheral ID Register, offset: 0xFD8 */
-  __I  uint32_t PERIPHID7;                         /**< Peripheral ID Register, offset: 0xFDC */
-  __I  uint32_t PERIPHID0;                         /**< Peripheral ID Register, offset: 0xFE0 */
-  __I  uint32_t PERIPHID1;                         /**< Peripheral ID Register, offset: 0xFE4 */
-  __I  uint32_t PERIPHID2;                         /**< Peripheral ID Register, offset: 0xFE8 */
-  __I  uint32_t PERIPHID3;                         /**< Peripheral ID Register, offset: 0xFEC */
-  __I  uint32_t COMPID[4];                         /**< Component ID Register, array offset: 0xFF0, array step: 0x4 */
+  __I  T_ULONG DEVICECFG;                         /**< Device Configuration Register, offset: 0xFC8 */
+  __I  T_ULONG DEVICETYPID;                       /**< Device Type Identifier Register, offset: 0xFCC */
+  __I  T_ULONG PERIPHID4;                         /**< Peripheral ID Register, offset: 0xFD0 */
+  __I  T_ULONG PERIPHID5;                         /**< Peripheral ID Register, offset: 0xFD4 */
+  __I  T_ULONG PERIPHID6;                         /**< Peripheral ID Register, offset: 0xFD8 */
+  __I  T_ULONG PERIPHID7;                         /**< Peripheral ID Register, offset: 0xFDC */
+  __I  T_ULONG PERIPHID0;                         /**< Peripheral ID Register, offset: 0xFE0 */
+  __I  T_ULONG PERIPHID1;                         /**< Peripheral ID Register, offset: 0xFE4 */
+  __I  T_ULONG PERIPHID2;                         /**< Peripheral ID Register, offset: 0xFE8 */
+  __I  T_ULONG PERIPHID3;                         /**< Peripheral ID Register, offset: 0xFEC */
+  __I  T_ULONG COMPID[4];                         /**< Component ID Register, array offset: 0xFF0, array step: 0x4 */
 } MTB_Type;
 
 /* ----------------------------------------------------------------------------
@@ -2524,28 +2524,28 @@ typedef struct {
 
 /** MTBDWT - Register Layout Typedef */
 typedef struct {
-  __I  uint32_t CTRL;                              /**< MTB DWT Control Register, offset: 0x0 */
+  __I  T_ULONG CTRL;                              /**< MTB DWT Control Register, offset: 0x0 */
        uint8_t RESERVED_0[28];
   struct {                                         /* offset: 0x20, array step: 0x10 */
-    __IO uint32_t COMP;                              /**< MTB_DWT Comparator Register, array offset: 0x20, array step: 0x10 */
-    __IO uint32_t MASK;                              /**< MTB_DWT Comparator Mask Register, array offset: 0x24, array step: 0x10 */
-    __IO uint32_t FCT;                               /**< MTB_DWT Comparator Function Register 0..MTB_DWT Comparator Function Register 1, array offset: 0x28, array step: 0x10 */
+    __IO T_ULONG COMP;                              /**< MTB_DWT Comparator Register, array offset: 0x20, array step: 0x10 */
+    __IO T_ULONG MASK;                              /**< MTB_DWT Comparator Mask Register, array offset: 0x24, array step: 0x10 */
+    __IO T_ULONG FCT;                               /**< MTB_DWT Comparator Function Register 0..MTB_DWT Comparator Function Register 1, array offset: 0x28, array step: 0x10 */
          uint8_t RESERVED_0[4];
   } COMPARATOR[2];
        uint8_t RESERVED_1[448];
-  __IO uint32_t TBCTRL;                            /**< MTB_DWT Trace Buffer Control Register, offset: 0x200 */
+  __IO T_ULONG TBCTRL;                            /**< MTB_DWT Trace Buffer Control Register, offset: 0x200 */
        uint8_t RESERVED_2[3524];
-  __I  uint32_t DEVICECFG;                         /**< Device Configuration Register, offset: 0xFC8 */
-  __I  uint32_t DEVICETYPID;                       /**< Device Type Identifier Register, offset: 0xFCC */
-  __I  uint32_t PERIPHID4;                         /**< Peripheral ID Register, offset: 0xFD0 */
-  __I  uint32_t PERIPHID5;                         /**< Peripheral ID Register, offset: 0xFD4 */
-  __I  uint32_t PERIPHID6;                         /**< Peripheral ID Register, offset: 0xFD8 */
-  __I  uint32_t PERIPHID7;                         /**< Peripheral ID Register, offset: 0xFDC */
-  __I  uint32_t PERIPHID0;                         /**< Peripheral ID Register, offset: 0xFE0 */
-  __I  uint32_t PERIPHID1;                         /**< Peripheral ID Register, offset: 0xFE4 */
-  __I  uint32_t PERIPHID2;                         /**< Peripheral ID Register, offset: 0xFE8 */
-  __I  uint32_t PERIPHID3;                         /**< Peripheral ID Register, offset: 0xFEC */
-  __I  uint32_t COMPID[4];                         /**< Component ID Register, array offset: 0xFF0, array step: 0x4 */
+  __I  T_ULONG DEVICECFG;                         /**< Device Configuration Register, offset: 0xFC8 */
+  __I  T_ULONG DEVICETYPID;                       /**< Device Type Identifier Register, offset: 0xFCC */
+  __I  T_ULONG PERIPHID4;                         /**< Peripheral ID Register, offset: 0xFD0 */
+  __I  T_ULONG PERIPHID5;                         /**< Peripheral ID Register, offset: 0xFD4 */
+  __I  T_ULONG PERIPHID6;                         /**< Peripheral ID Register, offset: 0xFD8 */
+  __I  T_ULONG PERIPHID7;                         /**< Peripheral ID Register, offset: 0xFDC */
+  __I  T_ULONG PERIPHID0;                         /**< Peripheral ID Register, offset: 0xFE0 */
+  __I  T_ULONG PERIPHID1;                         /**< Peripheral ID Register, offset: 0xFE4 */
+  __I  T_ULONG PERIPHID2;                         /**< Peripheral ID Register, offset: 0xFE8 */
+  __I  T_ULONG PERIPHID3;                         /**< Peripheral ID Register, offset: 0xFEC */
+  __I  T_ULONG COMPID[4];                         /**< Component ID Register, array offset: 0xFF0, array step: 0x4 */
 } MTBDWT_Type;
 
 /* ----------------------------------------------------------------------------
@@ -2914,16 +2914,16 @@ typedef struct {
 
 /** PIT - Register Layout Typedef */
 typedef struct {
-  __IO uint32_t MCR;                               /**< PIT Module Control Register, offset: 0x0 */
+  __IO T_ULONG MCR;                               /**< PIT Module Control Register, offset: 0x0 */
        uint8_t RESERVED_0[220];
-  __I  uint32_t LTMR64H;                           /**< PIT Upper Lifetime Timer Register, offset: 0xE0 */
-  __I  uint32_t LTMR64L;                           /**< PIT Lower Lifetime Timer Register, offset: 0xE4 */
+  __I  T_ULONG LTMR64H;                           /**< PIT Upper Lifetime Timer Register, offset: 0xE0 */
+  __I  T_ULONG LTMR64L;                           /**< PIT Lower Lifetime Timer Register, offset: 0xE4 */
        uint8_t RESERVED_1[24];
   struct {                                         /* offset: 0x100, array step: 0x10 */
-    __IO uint32_t LDVAL;                             /**< Timer Load Value Register, array offset: 0x100, array step: 0x10 */
-    __I  uint32_t CVAL;                              /**< Current Timer Value Register, array offset: 0x104, array step: 0x10 */
-    __IO uint32_t TCTRL;                             /**< Timer Control Register, array offset: 0x108, array step: 0x10 */
-    __IO uint32_t TFLG;                              /**< Timer Flag Register, array offset: 0x10C, array step: 0x10 */
+    __IO T_ULONG LDVAL;                             /**< Timer Load Value Register, array offset: 0x100, array step: 0x10 */
+    __I  T_ULONG CVAL;                              /**< Current Timer Value Register, array offset: 0x104, array step: 0x10 */
+    __IO T_ULONG TCTRL;                             /**< Timer Control Register, array offset: 0x108, array step: 0x10 */
+    __IO T_ULONG TFLG;                              /**< Timer Flag Register, array offset: 0x10C, array step: 0x10 */
   } CHANNEL[2];
 } PIT_Type;
 
@@ -3119,11 +3119,11 @@ typedef struct {
 
 /** PORT - Register Layout Typedef */
 typedef struct {
-  __IO uint32_t PCR[32];                           /**< Pin Control Register n, array offset: 0x0, array step: 0x4 */
-  __O  uint32_t GPCLR;                             /**< Global Pin Control Low Register, offset: 0x80 */
-  __O  uint32_t GPCHR;                             /**< Global Pin Control High Register, offset: 0x84 */
+  __IO T_ULONG PCR[32];                           /**< Pin Control Register n, array offset: 0x0, array step: 0x4 */
+  __O  T_ULONG GPCLR;                             /**< Global Pin Control Low Register, offset: 0x80 */
+  __O  T_ULONG GPCHR;                             /**< Global Pin Control High Register, offset: 0x84 */
        uint8_t RESERVED_0[24];
-  __IO uint32_t ISFR;                              /**< Interrupt Status Flag Register, offset: 0xA0 */
+  __IO T_ULONG ISFR;                              /**< Interrupt Status Flag Register, offset: 0xA0 */
 } PORT_Type;
 
 /* ----------------------------------------------------------------------------
@@ -3333,19 +3333,19 @@ typedef struct {
 
 /** ROM - Register Layout Typedef */
 typedef struct {
-  __I  uint32_t ENTRY[3];                          /**< Entry, array offset: 0x0, array step: 0x4 */
-  __I  uint32_t TABLEMARK;                         /**< End of Table Marker Register, offset: 0xC */
+  __I  T_ULONG ENTRY[3];                          /**< Entry, array offset: 0x0, array step: 0x4 */
+  __I  T_ULONG TABLEMARK;                         /**< End of Table Marker Register, offset: 0xC */
        uint8_t RESERVED_0[4028];
-  __I  uint32_t SYSACCESS;                         /**< System Access Register, offset: 0xFCC */
-  __I  uint32_t PERIPHID4;                         /**< Peripheral ID Register, offset: 0xFD0 */
-  __I  uint32_t PERIPHID5;                         /**< Peripheral ID Register, offset: 0xFD4 */
-  __I  uint32_t PERIPHID6;                         /**< Peripheral ID Register, offset: 0xFD8 */
-  __I  uint32_t PERIPHID7;                         /**< Peripheral ID Register, offset: 0xFDC */
-  __I  uint32_t PERIPHID0;                         /**< Peripheral ID Register, offset: 0xFE0 */
-  __I  uint32_t PERIPHID1;                         /**< Peripheral ID Register, offset: 0xFE4 */
-  __I  uint32_t PERIPHID2;                         /**< Peripheral ID Register, offset: 0xFE8 */
-  __I  uint32_t PERIPHID3;                         /**< Peripheral ID Register, offset: 0xFEC */
-  __I  uint32_t COMPID[4];                         /**< Component ID Register, array offset: 0xFF0, array step: 0x4 */
+  __I  T_ULONG SYSACCESS;                         /**< System Access Register, offset: 0xFCC */
+  __I  T_ULONG PERIPHID4;                         /**< Peripheral ID Register, offset: 0xFD0 */
+  __I  T_ULONG PERIPHID5;                         /**< Peripheral ID Register, offset: 0xFD4 */
+  __I  T_ULONG PERIPHID6;                         /**< Peripheral ID Register, offset: 0xFD8 */
+  __I  T_ULONG PERIPHID7;                         /**< Peripheral ID Register, offset: 0xFDC */
+  __I  T_ULONG PERIPHID0;                         /**< Peripheral ID Register, offset: 0xFE0 */
+  __I  T_ULONG PERIPHID1;                         /**< Peripheral ID Register, offset: 0xFE4 */
+  __I  T_ULONG PERIPHID2;                         /**< Peripheral ID Register, offset: 0xFE8 */
+  __I  T_ULONG PERIPHID3;                         /**< Peripheral ID Register, offset: 0xFEC */
+  __I  T_ULONG COMPID[4];                         /**< Component ID Register, array offset: 0xFF0, array step: 0x4 */
 } ROM_Type;
 
 /* ----------------------------------------------------------------------------
@@ -3455,14 +3455,14 @@ typedef struct {
 
 /** RTC - Register Layout Typedef */
 typedef struct {
-  __IO uint32_t TSR;                               /**< RTC Time Seconds Register, offset: 0x0 */
-  __IO uint32_t TPR;                               /**< RTC Time Prescaler Register, offset: 0x4 */
-  __IO uint32_t TAR;                               /**< RTC Time Alarm Register, offset: 0x8 */
-  __IO uint32_t TCR;                               /**< RTC Time Compensation Register, offset: 0xC */
-  __IO uint32_t CR;                                /**< RTC Control Register, offset: 0x10 */
-  __IO uint32_t SR;                                /**< RTC Status Register, offset: 0x14 */
-  __IO uint32_t LR;                                /**< RTC Lock Register, offset: 0x18 */
-  __IO uint32_t IER;                               /**< RTC Interrupt Enable Register, offset: 0x1C */
+  __IO T_ULONG TSR;                               /**< RTC Time Seconds Register, offset: 0x0 */
+  __IO T_ULONG TPR;                               /**< RTC Time Prescaler Register, offset: 0x4 */
+  __IO T_ULONG TAR;                               /**< RTC Time Alarm Register, offset: 0x8 */
+  __IO T_ULONG TCR;                               /**< RTC Time Compensation Register, offset: 0xC */
+  __IO T_ULONG CR;                                /**< RTC Control Register, offset: 0x10 */
+  __IO T_ULONG SR;                                /**< RTC Status Register, offset: 0x14 */
+  __IO T_ULONG LR;                                /**< RTC Lock Register, offset: 0x18 */
+  __IO T_ULONG IER;                               /**< RTC Interrupt Enable Register, offset: 0x1C */
 } RTC_Type;
 
 /* ----------------------------------------------------------------------------
@@ -3615,33 +3615,33 @@ typedef struct {
 
 /** SIM - Register Layout Typedef */
 typedef struct {
-  __IO uint32_t SOPT1;                             /**< System Options Register 1, offset: 0x0 */
-  __IO uint32_t SOPT1CFG;                          /**< SOPT1 Configuration Register, offset: 0x4 */
+  __IO T_ULONG SOPT1;                             /**< System Options Register 1, offset: 0x0 */
+  __IO T_ULONG SOPT1CFG;                          /**< SOPT1 Configuration Register, offset: 0x4 */
        uint8_t RESERVED_0[4092];
-  __IO uint32_t SOPT2;                             /**< System Options Register 2, offset: 0x1004 */
+  __IO T_ULONG SOPT2;                             /**< System Options Register 2, offset: 0x1004 */
        uint8_t RESERVED_1[4];
-  __IO uint32_t SOPT4;                             /**< System Options Register 4, offset: 0x100C */
-  __IO uint32_t SOPT5;                             /**< System Options Register 5, offset: 0x1010 */
+  __IO T_ULONG SOPT4;                             /**< System Options Register 4, offset: 0x100C */
+  __IO T_ULONG SOPT5;                             /**< System Options Register 5, offset: 0x1010 */
        uint8_t RESERVED_2[4];
-  __IO uint32_t SOPT7;                             /**< System Options Register 7, offset: 0x1018 */
+  __IO T_ULONG SOPT7;                             /**< System Options Register 7, offset: 0x1018 */
        uint8_t RESERVED_3[8];
-  __I  uint32_t SDID;                              /**< System Device Identification Register, offset: 0x1024 */
+  __I  T_ULONG SDID;                              /**< System Device Identification Register, offset: 0x1024 */
        uint8_t RESERVED_4[12];
-  __IO uint32_t SCGC4;                             /**< System Clock Gating Control Register 4, offset: 0x1034 */
-  __IO uint32_t SCGC5;                             /**< System Clock Gating Control Register 5, offset: 0x1038 */
-  __IO uint32_t SCGC6;                             /**< System Clock Gating Control Register 6, offset: 0x103C */
-  __IO uint32_t SCGC7;                             /**< System Clock Gating Control Register 7, offset: 0x1040 */
-  __IO uint32_t CLKDIV1;                           /**< System Clock Divider Register 1, offset: 0x1044 */
+  __IO T_ULONG SCGC4;                             /**< System Clock Gating Control Register 4, offset: 0x1034 */
+  __IO T_ULONG SCGC5;                             /**< System Clock Gating Control Register 5, offset: 0x1038 */
+  __IO T_ULONG SCGC6;                             /**< System Clock Gating Control Register 6, offset: 0x103C */
+  __IO T_ULONG SCGC7;                             /**< System Clock Gating Control Register 7, offset: 0x1040 */
+  __IO T_ULONG CLKDIV1;                           /**< System Clock Divider Register 1, offset: 0x1044 */
        uint8_t RESERVED_5[4];
-  __IO uint32_t FCFG1;                             /**< Flash Configuration Register 1, offset: 0x104C */
-  __I  uint32_t FCFG2;                             /**< Flash Configuration Register 2, offset: 0x1050 */
+  __IO T_ULONG FCFG1;                             /**< Flash Configuration Register 1, offset: 0x104C */
+  __I  T_ULONG FCFG2;                             /**< Flash Configuration Register 2, offset: 0x1050 */
        uint8_t RESERVED_6[4];
-  __I  uint32_t UIDMH;                             /**< Unique Identification Register Mid-High, offset: 0x1058 */
-  __I  uint32_t UIDML;                             /**< Unique Identification Register Mid Low, offset: 0x105C */
-  __I  uint32_t UIDL;                              /**< Unique Identification Register Low, offset: 0x1060 */
+  __I  T_ULONG UIDMH;                             /**< Unique Identification Register Mid-High, offset: 0x1058 */
+  __I  T_ULONG UIDML;                             /**< Unique Identification Register Mid Low, offset: 0x105C */
+  __I  T_ULONG UIDL;                              /**< Unique Identification Register Low, offset: 0x1060 */
        uint8_t RESERVED_7[156];
-  __IO uint32_t COPC;                              /**< COP Control Register, offset: 0x1100 */
-  __O  uint32_t SRVCOP;                            /**< Service COP Register, offset: 0x1104 */
+  __IO T_ULONG COPC;                              /**< COP Control Register, offset: 0x1100 */
+  __O  T_ULONG SRVCOP;                            /**< Service COP Register, offset: 0x1104 */
 } SIM_Type;
 
 /* ----------------------------------------------------------------------------
@@ -4168,17 +4168,17 @@ typedef struct {
 
 /** TPM - Register Layout Typedef */
 typedef struct {
-  __IO uint32_t SC;                                /**< Status and Control, offset: 0x0 */
-  __IO uint32_t CNT;                               /**< Counter, offset: 0x4 */
-  __IO uint32_t MOD;                               /**< Modulo, offset: 0x8 */
+  __IO T_ULONG SC;                                /**< Status and Control, offset: 0x0 */
+  __IO T_ULONG CNT;                               /**< Counter, offset: 0x4 */
+  __IO T_ULONG MOD;                               /**< Modulo, offset: 0x8 */
   struct {                                         /* offset: 0xC, array step: 0x8 */
-    __IO uint32_t CnSC;                              /**< Channel (n) Status and Control, array offset: 0xC, array step: 0x8 */
-    __IO uint32_t CnV;                               /**< Channel (n) Value, array offset: 0x10, array step: 0x8 */
+    __IO T_ULONG CnSC;                              /**< Channel (n) Status and Control, array offset: 0xC, array step: 0x8 */
+    __IO T_ULONG CnV;                               /**< Channel (n) Value, array offset: 0x10, array step: 0x8 */
   } CONTROLS[6];
        uint8_t RESERVED_0[20];
-  __IO uint32_t STATUS;                            /**< Capture and Compare Status, offset: 0x50 */
+  __IO T_ULONG STATUS;                            /**< Capture and Compare Status, offset: 0x50 */
        uint8_t RESERVED_1[48];
-  __IO uint32_t CONF;                              /**< Configuration, offset: 0x84 */
+  __IO T_ULONG CONF;                              /**< Configuration, offset: 0x84 */
 } TPM_Type;
 
 /* ----------------------------------------------------------------------------
@@ -4342,9 +4342,9 @@ typedef struct {
 
 /** TSI - Register Layout Typedef */
 typedef struct {
-  __IO uint32_t GENCS;                             /**< TSI General Control and Status Register, offset: 0x0 */
-  __IO uint32_t DATA;                              /**< TSI DATA Register, offset: 0x4 */
-  __IO uint32_t TSHD;                              /**< TSI Threshold Register, offset: 0x8 */
+  __IO T_ULONG GENCS;                             /**< TSI General Control and Status Register, offset: 0x0 */
+  __IO T_ULONG DATA;                              /**< TSI DATA Register, offset: 0x4 */
+  __IO T_ULONG TSHD;                              /**< TSI Threshold Register, offset: 0x8 */
 } TSI_Type;
 
 /* ----------------------------------------------------------------------------

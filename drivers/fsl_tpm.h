@@ -195,7 +195,7 @@ typedef enum _tpm_phase_polarity
 /*! @brief TPM quadrature decode phase parameters */
 typedef struct _tpm_phase_param
 {
-    uint32_t phaseFilterVal;            /*!< Filter value, filter is disabled when the value is zero */
+    T_ULONG phaseFilterVal;            /*!< Filter value, filter is disabled when the value is zero */
     tpm_phase_polarity_t phasePolarity; /*!< Phase polarity */
 } tpm_phase_params_t;
 #endif
@@ -363,8 +363,8 @@ status_t TPM_SetupPwm(TPM_Type *base,
                       const tpm_chnl_pwm_signal_param_t *chnlParams,
                       uint8_t numOfChnls,
                       tpm_pwm_mode_t mode,
-                      uint32_t pwmFreq_Hz,
-                      uint32_t srcClock_Hz);
+                      T_ULONG pwmFreq_Hz,
+                      T_ULONG srcClock_Hz);
 
 /*!
  * @brief Update the duty cycle of an active PWM signal
@@ -418,7 +418,7 @@ void TPM_SetupInputCapture(TPM_Type *base, tpm_chnl_t chnlNumber, tpm_input_capt
 void TPM_SetupOutputCompare(TPM_Type *base,
                             tpm_chnl_t chnlNumber,
                             tpm_output_compare_mode_t compareMode,
-                            uint32_t compareValue);
+                            T_ULONG compareValue);
 
 #if defined(FSL_FEATURE_TPM_HAS_COMBINE) && FSL_FEATURE_TPM_HAS_COMBINE
 /*!
@@ -435,7 +435,7 @@ void TPM_SetupOutputCompare(TPM_Type *base,
 void TPM_SetupDualEdgeCapture(TPM_Type *base,
                               tpm_chnl_t chnlPairNumber,
                               const tpm_dual_edge_capture_param_t *edgeParam,
-                              uint32_t filterValue);
+                              T_ULONG filterValue);
 #endif
 
 #if defined(FSL_FEATURE_TPM_HAS_QDCTRL) && FSL_FEATURE_TPM_HAS_QDCTRL
@@ -467,7 +467,7 @@ void TPM_SetupQuadDecode(TPM_Type *base,
  * @param mask The interrupts to enable. This is a logical OR of members of the
  *             enumeration ::tpm_interrupt_enable_t
  */
-void TPM_EnableInterrupts(TPM_Type *base, uint32_t mask);
+void TPM_EnableInterrupts(TPM_Type *base, T_ULONG mask);
 
 /*!
  * @brief Disables the selected TPM interrupts.
@@ -476,7 +476,7 @@ void TPM_EnableInterrupts(TPM_Type *base, uint32_t mask);
  * @param mask The interrupts to disable. This is a logical OR of members of the
  *             enumeration ::tpm_interrupt_enable_t
  */
-void TPM_DisableInterrupts(TPM_Type *base, uint32_t mask);
+void TPM_DisableInterrupts(TPM_Type *base, T_ULONG mask);
 
 /*!
  * @brief Gets the enabled TPM interrupts.
@@ -486,7 +486,7 @@ void TPM_DisableInterrupts(TPM_Type *base, uint32_t mask);
  * @return The enabled interrupts. This is the logical OR of members of the
  *         enumeration ::tpm_interrupt_enable_t
  */
-uint32_t TPM_GetEnabledInterrupts(TPM_Type *base);
+T_ULONG TPM_GetEnabledInterrupts(TPM_Type *base);
 
 /*! @}*/
 
@@ -503,7 +503,7 @@ uint32_t TPM_GetEnabledInterrupts(TPM_Type *base);
  * @return The status flags. This is the logical OR of members of the
  *         enumeration ::tpm_status_flags_t
  */
-static inline uint32_t TPM_GetStatusFlags(TPM_Type *base)
+static inline T_ULONG TPM_GetStatusFlags(TPM_Type *base)
 {
     return base->STATUS;
 }
@@ -515,7 +515,7 @@ static inline uint32_t TPM_GetStatusFlags(TPM_Type *base)
  * @param mask The status flags to clear. This is a logical OR of members of the
  *             enumeration ::tpm_status_flags_t
  */
-static inline void TPM_ClearStatusFlags(TPM_Type *base, uint32_t mask)
+static inline void TPM_ClearStatusFlags(TPM_Type *base, T_ULONG mask)
 {
     /* Clear the status flags */
     base->STATUS = mask;
@@ -542,7 +542,7 @@ static inline void TPM_ClearStatusFlags(TPM_Type *base, uint32_t mask)
  * @param base TPM peripheral base address
  * @param ticks A timer period in units of ticks, which should be equal or greater than 1.
  */
-static inline void TPM_SetTimerPeriod(TPM_Type *base, uint32_t ticks)
+static inline void TPM_SetTimerPeriod(TPM_Type *base, T_ULONG ticks)
 {
     base->MOD = ticks;
 }
@@ -559,9 +559,9 @@ static inline void TPM_SetTimerPeriod(TPM_Type *base, uint32_t ticks)
  *
  * @return The current counter value in ticks
  */
-static inline uint32_t TPM_GetCurrentTimerCount(TPM_Type *base)
+static inline T_ULONG TPM_GetCurrentTimerCount(TPM_Type *base)
 {
-    return (uint32_t)((base->CNT & TPM_CNT_COUNT_MASK) >> TPM_CNT_COUNT_SHIFT);
+    return (T_ULONG)((base->CNT & TPM_CNT_COUNT_MASK) >> TPM_CNT_COUNT_SHIFT);
 }
 
 /*!
@@ -578,7 +578,7 @@ static inline uint32_t TPM_GetCurrentTimerCount(TPM_Type *base)
  */
 static inline void TPM_StartTimer(TPM_Type *base, tpm_clock_source_t clockSource)
 {
-    uint32_t reg = base->SC;
+    T_ULONG reg = base->SC;
 
     reg &= ~(TPM_SC_CMOD_MASK);
     reg |= TPM_SC_CMOD(clockSource);

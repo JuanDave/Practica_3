@@ -537,14 +537,14 @@ extern "C"
  */
 /* note: function can be removed when all toolchain support __CLZ for Cortex-M0 */
 #if defined (ARM_MATH_CM0_FAMILY) && ((defined (__ICCARM__))  )
-  static __INLINE uint32_t __CLZ(
+  static __INLINE T_ULONG __CLZ(
   q31_t data);
 
-  static __INLINE uint32_t __CLZ(
+  static __INLINE T_ULONG __CLZ(
   q31_t data)
   {
-    uint32_t count = 0;
-    uint32_t mask = 0x80000000;
+    T_ULONG count = 0;
+    T_ULONG mask = 0x80000000;
 
     while((data & mask) == 0)
     {
@@ -560,30 +560,30 @@ extern "C"
    * @brief Function to Calculates 1/in (reciprocal) value of Q31 Data type.
    */
 
-  static __INLINE uint32_t arm_recip_q31(
+  static __INLINE T_ULONG arm_recip_q31(
   q31_t in,
   q31_t * dst,
   q31_t * pRecipTable)
   {
     q31_t out;
-    uint32_t tempVal;
-    uint32_t index, i;
-    uint32_t signBits;
+    T_ULONG tempVal;
+    T_ULONG index, i;
+    T_ULONG signBits;
 
     if(in > 0)
     {
-      signBits = ((uint32_t) (__CLZ( in) - 1));
+      signBits = ((T_ULONG) (__CLZ( in) - 1));
     }
     else
     {
-      signBits = ((uint32_t) (__CLZ(-in) - 1));
+      signBits = ((T_ULONG) (__CLZ(-in) - 1));
     }
 
     /* Convert input sample to 1.31 format */
     in = (in << signBits);
 
     /* calculation of index for initial approximated Val */
-    index = (uint32_t)(in >> 24);
+    index = (T_ULONG)(in >> 24);
     index = (index & INDEX_MASK);
 
     /* 1.31 with exp 1 */
@@ -593,7 +593,7 @@ extern "C"
     /* running approximation for two iterations */
     for (i = 0u; i < 2u; i++)
     {
-      tempVal = (uint32_t) (((q63_t) in * out) >> 31);
+      tempVal = (T_ULONG) (((q63_t) in * out) >> 31);
       tempVal = 0x7FFFFFFFu - tempVal;
       /*      1.31 with exp 1 */
       /* out = (q31_t) (((q63_t) out * tempVal) >> 30); */
@@ -611,30 +611,30 @@ extern "C"
   /**
    * @brief Function to Calculates 1/in (reciprocal) value of Q15 Data type.
    */
-  static __INLINE uint32_t arm_recip_q15(
+  static __INLINE T_ULONG arm_recip_q15(
   q15_t in,
   q15_t * dst,
   q15_t * pRecipTable)
   {
     q15_t out = 0;
-    uint32_t tempVal = 0;
-    uint32_t index = 0, i = 0;
-    uint32_t signBits = 0;
+    T_ULONG tempVal = 0;
+    T_ULONG index = 0, i = 0;
+    T_ULONG signBits = 0;
 
     if(in > 0)
     {
-      signBits = ((uint32_t)(__CLZ( in) - 17));
+      signBits = ((T_ULONG)(__CLZ( in) - 17));
     }
     else
     {
-      signBits = ((uint32_t)(__CLZ(-in) - 17));
+      signBits = ((T_ULONG)(__CLZ(-in) - 17));
     }
 
     /* Convert input sample to 1.15 format */
     in = (in << signBits);
 
     /* calculation of index for initial approximated Val */
-    index = (uint32_t)(in >>  8);
+    index = (T_ULONG)(in >>  8);
     index = (index & INDEX_MASK);
 
     /*      1.15 with exp 1  */
@@ -644,7 +644,7 @@ extern "C"
     /* running approximation for two iterations */
     for (i = 0u; i < 2u; i++)
     {
-      tempVal = (uint32_t) (((q31_t) in * out) >> 15);
+      tempVal = (T_ULONG) (((q31_t) in * out) >> 15);
       tempVal = 0x7FFFu - tempVal;
       /*      1.15 with exp 1 */
       out = (q15_t) (((q31_t) out * tempVal) >> 14);
@@ -665,10 +665,10 @@ extern "C"
 #if defined(ARM_MATH_CM0_FAMILY)
   static __INLINE q31_t __SSAT(
   q31_t x,
-  uint32_t y)
+  T_ULONG y)
   {
     int32_t posMax, negMin;
-    uint32_t i;
+    T_ULONG i;
 
     posMax = 1;
     for (i = 0; i < (y - 1); i++)
@@ -707,9 +707,9 @@ extern "C"
   /*
    * @brief C custom defined QADD8 for M3 and M0 processors
    */
-  static __INLINE uint32_t __QADD8(
-  uint32_t x,
-  uint32_t y)
+  static __INLINE T_ULONG __QADD8(
+  T_ULONG x,
+  T_ULONG y)
   {
     q31_t r, s, t, u;
 
@@ -718,16 +718,16 @@ extern "C"
     t = __SSAT(((((q31_t)x <<  8) >> 24) + (((q31_t)y <<  8) >> 24)), 8) & (int32_t)0x000000FF;
     u = __SSAT(((((q31_t)x      ) >> 24) + (((q31_t)y      ) >> 24)), 8) & (int32_t)0x000000FF;
 
-    return ((uint32_t)((u << 24) | (t << 16) | (s <<  8) | (r      )));
+    return ((T_ULONG)((u << 24) | (t << 16) | (s <<  8) | (r      )));
   }
 
 
   /*
    * @brief C custom defined QSUB8 for M3 and M0 processors
    */
-  static __INLINE uint32_t __QSUB8(
-  uint32_t x,
-  uint32_t y)
+  static __INLINE T_ULONG __QSUB8(
+  T_ULONG x,
+  T_ULONG y)
   {
     q31_t r, s, t, u;
 
@@ -736,16 +736,16 @@ extern "C"
     t = __SSAT(((((q31_t)x <<  8) >> 24) - (((q31_t)y <<  8) >> 24)), 8) & (int32_t)0x000000FF;
     u = __SSAT(((((q31_t)x      ) >> 24) - (((q31_t)y      ) >> 24)), 8) & (int32_t)0x000000FF;
 
-    return ((uint32_t)((u << 24) | (t << 16) | (s <<  8) | (r      )));
+    return ((T_ULONG)((u << 24) | (t << 16) | (s <<  8) | (r      )));
   }
 
 
   /*
    * @brief C custom defined QADD16 for M3 and M0 processors
    */
-  static __INLINE uint32_t __QADD16(
-  uint32_t x,
-  uint32_t y)
+  static __INLINE T_ULONG __QADD16(
+  T_ULONG x,
+  T_ULONG y)
   {
 /*  q31_t r,     s;  without initialisation 'arm_offset_q15 test' fails  but 'intrinsic' tests pass! for armCC */
     q31_t r = 0, s = 0;
@@ -753,141 +753,141 @@ extern "C"
     r = __SSAT(((((q31_t)x << 16) >> 16) + (((q31_t)y << 16) >> 16)), 16) & (int32_t)0x0000FFFF;
     s = __SSAT(((((q31_t)x      ) >> 16) + (((q31_t)y      ) >> 16)), 16) & (int32_t)0x0000FFFF;
 
-    return ((uint32_t)((s << 16) | (r      )));
+    return ((T_ULONG)((s << 16) | (r      )));
   }
 
 
   /*
    * @brief C custom defined SHADD16 for M3 and M0 processors
    */
-  static __INLINE uint32_t __SHADD16(
-  uint32_t x,
-  uint32_t y)
+  static __INLINE T_ULONG __SHADD16(
+  T_ULONG x,
+  T_ULONG y)
   {
     q31_t r, s;
 
     r = (((((q31_t)x << 16) >> 16) + (((q31_t)y << 16) >> 16)) >> 1) & (int32_t)0x0000FFFF;
     s = (((((q31_t)x      ) >> 16) + (((q31_t)y      ) >> 16)) >> 1) & (int32_t)0x0000FFFF;
 
-    return ((uint32_t)((s << 16) | (r      )));
+    return ((T_ULONG)((s << 16) | (r      )));
   }
 
 
   /*
    * @brief C custom defined QSUB16 for M3 and M0 processors
    */
-  static __INLINE uint32_t __QSUB16(
-  uint32_t x,
-  uint32_t y)
+  static __INLINE T_ULONG __QSUB16(
+  T_ULONG x,
+  T_ULONG y)
   {
     q31_t r, s;
 
     r = __SSAT(((((q31_t)x << 16) >> 16) - (((q31_t)y << 16) >> 16)), 16) & (int32_t)0x0000FFFF;
     s = __SSAT(((((q31_t)x      ) >> 16) - (((q31_t)y      ) >> 16)), 16) & (int32_t)0x0000FFFF;
 
-    return ((uint32_t)((s << 16) | (r      )));
+    return ((T_ULONG)((s << 16) | (r      )));
   }
 
 
   /*
    * @brief C custom defined SHSUB16 for M3 and M0 processors
    */
-  static __INLINE uint32_t __SHSUB16(
-  uint32_t x,
-  uint32_t y)
+  static __INLINE T_ULONG __SHSUB16(
+  T_ULONG x,
+  T_ULONG y)
   {
     q31_t r, s;
 
     r = (((((q31_t)x << 16) >> 16) - (((q31_t)y << 16) >> 16)) >> 1) & (int32_t)0x0000FFFF;
     s = (((((q31_t)x      ) >> 16) - (((q31_t)y      ) >> 16)) >> 1) & (int32_t)0x0000FFFF;
 
-    return ((uint32_t)((s << 16) | (r      )));
+    return ((T_ULONG)((s << 16) | (r      )));
   }
 
 
   /*
    * @brief C custom defined QASX for M3 and M0 processors
    */
-  static __INLINE uint32_t __QASX(
-  uint32_t x,
-  uint32_t y)
+  static __INLINE T_ULONG __QASX(
+  T_ULONG x,
+  T_ULONG y)
   {
     q31_t r, s;
 
     r = __SSAT(((((q31_t)x << 16) >> 16) - (((q31_t)y      ) >> 16)), 16) & (int32_t)0x0000FFFF;
     s = __SSAT(((((q31_t)x      ) >> 16) + (((q31_t)y << 16) >> 16)), 16) & (int32_t)0x0000FFFF;
 
-    return ((uint32_t)((s << 16) | (r      )));
+    return ((T_ULONG)((s << 16) | (r      )));
   }
 
 
   /*
    * @brief C custom defined SHASX for M3 and M0 processors
    */
-  static __INLINE uint32_t __SHASX(
-  uint32_t x,
-  uint32_t y)
+  static __INLINE T_ULONG __SHASX(
+  T_ULONG x,
+  T_ULONG y)
   {
     q31_t r, s;
 
     r = (((((q31_t)x << 16) >> 16) - (((q31_t)y      ) >> 16)) >> 1) & (int32_t)0x0000FFFF;
     s = (((((q31_t)x      ) >> 16) + (((q31_t)y << 16) >> 16)) >> 1) & (int32_t)0x0000FFFF;
 
-    return ((uint32_t)((s << 16) | (r      )));
+    return ((T_ULONG)((s << 16) | (r      )));
   }
 
 
   /*
    * @brief C custom defined QSAX for M3 and M0 processors
    */
-  static __INLINE uint32_t __QSAX(
-  uint32_t x,
-  uint32_t y)
+  static __INLINE T_ULONG __QSAX(
+  T_ULONG x,
+  T_ULONG y)
   {
     q31_t r, s;
 
     r = __SSAT(((((q31_t)x << 16) >> 16) + (((q31_t)y      ) >> 16)), 16) & (int32_t)0x0000FFFF;
     s = __SSAT(((((q31_t)x      ) >> 16) - (((q31_t)y << 16) >> 16)), 16) & (int32_t)0x0000FFFF;
 
-    return ((uint32_t)((s << 16) | (r      )));
+    return ((T_ULONG)((s << 16) | (r      )));
   }
 
 
   /*
    * @brief C custom defined SHSAX for M3 and M0 processors
    */
-  static __INLINE uint32_t __SHSAX(
-  uint32_t x,
-  uint32_t y)
+  static __INLINE T_ULONG __SHSAX(
+  T_ULONG x,
+  T_ULONG y)
   {
     q31_t r, s;
 
     r = (((((q31_t)x << 16) >> 16) + (((q31_t)y      ) >> 16)) >> 1) & (int32_t)0x0000FFFF;
     s = (((((q31_t)x      ) >> 16) - (((q31_t)y << 16) >> 16)) >> 1) & (int32_t)0x0000FFFF;
 
-    return ((uint32_t)((s << 16) | (r      )));
+    return ((T_ULONG)((s << 16) | (r      )));
   }
 
 
   /*
    * @brief C custom defined SMUSDX for M3 and M0 processors
    */
-  static __INLINE uint32_t __SMUSDX(
-  uint32_t x,
-  uint32_t y)
+  static __INLINE T_ULONG __SMUSDX(
+  T_ULONG x,
+  T_ULONG y)
   {
-    return ((uint32_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y      ) >> 16)) -
+    return ((T_ULONG)(((((q31_t)x << 16) >> 16) * (((q31_t)y      ) >> 16)) -
                        ((((q31_t)x      ) >> 16) * (((q31_t)y << 16) >> 16))   ));
   }
 
   /*
    * @brief C custom defined SMUADX for M3 and M0 processors
    */
-  static __INLINE uint32_t __SMUADX(
-  uint32_t x,
-  uint32_t y)
+  static __INLINE T_ULONG __SMUADX(
+  T_ULONG x,
+  T_ULONG y)
   {
-    return ((uint32_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y      ) >> 16)) +
+    return ((T_ULONG)(((((q31_t)x << 16) >> 16) * (((q31_t)y      ) >> 16)) +
                        ((((q31_t)x      ) >> 16) * (((q31_t)y << 16) >> 16))   ));
   }
 
@@ -917,12 +917,12 @@ extern "C"
   /*
    * @brief C custom defined SMLAD for M3 and M0 processors
    */
-  static __INLINE uint32_t __SMLAD(
-  uint32_t x,
-  uint32_t y,
-  uint32_t sum)
+  static __INLINE T_ULONG __SMLAD(
+  T_ULONG x,
+  T_ULONG y,
+  T_ULONG sum)
   {
-    return ((uint32_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y << 16) >> 16)) +
+    return ((T_ULONG)(((((q31_t)x << 16) >> 16) * (((q31_t)y << 16) >> 16)) +
                        ((((q31_t)x      ) >> 16) * (((q31_t)y      ) >> 16)) +
                        ( ((q31_t)sum    )                                  )   ));
   }
@@ -931,12 +931,12 @@ extern "C"
   /*
    * @brief C custom defined SMLADX for M3 and M0 processors
    */
-  static __INLINE uint32_t __SMLADX(
-  uint32_t x,
-  uint32_t y,
-  uint32_t sum)
+  static __INLINE T_ULONG __SMLADX(
+  T_ULONG x,
+  T_ULONG y,
+  T_ULONG sum)
   {
-    return ((uint32_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y      ) >> 16)) +
+    return ((T_ULONG)(((((q31_t)x << 16) >> 16) * (((q31_t)y      ) >> 16)) +
                        ((((q31_t)x      ) >> 16) * (((q31_t)y << 16) >> 16)) +
                        ( ((q31_t)sum    )                                  )   ));
   }
@@ -945,12 +945,12 @@ extern "C"
   /*
    * @brief C custom defined SMLSDX for M3 and M0 processors
    */
-  static __INLINE uint32_t __SMLSDX(
-  uint32_t x,
-  uint32_t y,
-  uint32_t sum)
+  static __INLINE T_ULONG __SMLSDX(
+  T_ULONG x,
+  T_ULONG y,
+  T_ULONG sum)
   {
-    return ((uint32_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y      ) >> 16)) -
+    return ((T_ULONG)(((((q31_t)x << 16) >> 16) * (((q31_t)y      ) >> 16)) -
                        ((((q31_t)x      ) >> 16) * (((q31_t)y << 16) >> 16)) +
                        ( ((q31_t)sum    )                                  )   ));
   }
@@ -960,8 +960,8 @@ extern "C"
    * @brief C custom defined SMLALD for M3 and M0 processors
    */
   static __INLINE uint64_t __SMLALD(
-  uint32_t x,
-  uint32_t y,
+  T_ULONG x,
+  T_ULONG y,
   uint64_t sum)
   {
 /*  return (sum + ((q15_t) (x >> 16) * (q15_t) (y >> 16)) + ((q15_t) x * (q15_t) y)); */
@@ -975,8 +975,8 @@ extern "C"
    * @brief C custom defined SMLALDX for M3 and M0 processors
    */
   static __INLINE uint64_t __SMLALDX(
-  uint32_t x,
-  uint32_t y,
+  T_ULONG x,
+  T_ULONG y,
   uint64_t sum)
   {
 /*  return (sum + ((q15_t) (x >> 16) * (q15_t) y)) + ((q15_t) x * (q15_t) (y >> 16)); */
@@ -989,11 +989,11 @@ extern "C"
   /*
    * @brief C custom defined SMUAD for M3 and M0 processors
    */
-  static __INLINE uint32_t __SMUAD(
-  uint32_t x,
-  uint32_t y)
+  static __INLINE T_ULONG __SMUAD(
+  T_ULONG x,
+  T_ULONG y)
   {
-    return ((uint32_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y << 16) >> 16)) +
+    return ((T_ULONG)(((((q31_t)x << 16) >> 16) * (((q31_t)y << 16) >> 16)) +
                        ((((q31_t)x      ) >> 16) * (((q31_t)y      ) >> 16))   ));
   }
 
@@ -1001,11 +1001,11 @@ extern "C"
   /*
    * @brief C custom defined SMUSD for M3 and M0 processors
    */
-  static __INLINE uint32_t __SMUSD(
-  uint32_t x,
-  uint32_t y)
+  static __INLINE T_ULONG __SMUSD(
+  T_ULONG x,
+  T_ULONG y)
   {
-    return ((uint32_t)(((((q31_t)x << 16) >> 16) * (((q31_t)y << 16) >> 16)) -
+    return ((T_ULONG)(((((q31_t)x << 16) >> 16) * (((q31_t)y << 16) >> 16)) -
                        ((((q31_t)x      ) >> 16) * (((q31_t)y      ) >> 16))   ));
   }
 
@@ -1013,10 +1013,10 @@ extern "C"
   /*
    * @brief C custom defined SXTB16 for M3 and M0 processors
    */
-  static __INLINE uint32_t __SXTB16(
-  uint32_t x)
+  static __INLINE T_ULONG __SXTB16(
+  T_ULONG x)
   {
-    return ((uint32_t)(((((q31_t)x << 24) >> 24) & (q31_t)0x0000FFFF) |
+    return ((T_ULONG)(((((q31_t)x << 24) >> 24) & (q31_t)0x0000FFFF) |
                        ((((q31_t)x <<  8) >>  8) & (q31_t)0xFFFF0000)  ));
   }
 
@@ -1075,7 +1075,7 @@ extern "C"
   const arm_fir_instance_q7 * S,
   q7_t * pSrc,
   q7_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1091,7 +1091,7 @@ extern "C"
   uint16_t numTaps,
   q7_t * pCoeffs,
   q7_t * pState,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1105,7 +1105,7 @@ extern "C"
   const arm_fir_instance_q15 * S,
   q15_t * pSrc,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1119,7 +1119,7 @@ extern "C"
   const arm_fir_instance_q15 * S,
   q15_t * pSrc,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1137,7 +1137,7 @@ extern "C"
   uint16_t numTaps,
   q15_t * pCoeffs,
   q15_t * pState,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1151,7 +1151,7 @@ extern "C"
   const arm_fir_instance_q31 * S,
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1165,7 +1165,7 @@ extern "C"
   const arm_fir_instance_q31 * S,
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1181,7 +1181,7 @@ extern "C"
   uint16_t numTaps,
   q31_t * pCoeffs,
   q31_t * pState,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1195,7 +1195,7 @@ extern "C"
   const arm_fir_instance_f32 * S,
   float32_t * pSrc,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1211,7 +1211,7 @@ extern "C"
   uint16_t numTaps,
   float32_t * pCoeffs,
   float32_t * pState,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1230,7 +1230,7 @@ extern "C"
    */
   typedef struct
   {
-    uint32_t numStages;      /**< number of 2nd order stages in the filter.  Overall order is 2*numStages. */
+    T_ULONG numStages;      /**< number of 2nd order stages in the filter.  Overall order is 2*numStages. */
     q31_t *pState;           /**< Points to the array of state coefficients.  The array is of length 4*numStages. */
     q31_t *pCoeffs;          /**< Points to the array of coefficients.  The array is of length 5*numStages. */
     uint8_t postShift;       /**< Additional shift, in bits, applied to each output sample. */
@@ -1241,7 +1241,7 @@ extern "C"
    */
   typedef struct
   {
-    uint32_t numStages;      /**< number of 2nd order stages in the filter.  Overall order is 2*numStages. */
+    T_ULONG numStages;      /**< number of 2nd order stages in the filter.  Overall order is 2*numStages. */
     float32_t *pState;       /**< Points to the array of state coefficients.  The array is of length 4*numStages. */
     float32_t *pCoeffs;      /**< Points to the array of coefficients.  The array is of length 5*numStages. */
   } arm_biquad_casd_df1_inst_f32;
@@ -1258,7 +1258,7 @@ extern "C"
   const arm_biquad_casd_df1_inst_q15 * S,
   q15_t * pSrc,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1288,7 +1288,7 @@ extern "C"
   const arm_biquad_casd_df1_inst_q15 * S,
   q15_t * pSrc,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1302,7 +1302,7 @@ extern "C"
   const arm_biquad_casd_df1_inst_q31 * S,
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1316,7 +1316,7 @@ extern "C"
   const arm_biquad_casd_df1_inst_q31 * S,
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1346,7 +1346,7 @@ extern "C"
   const arm_biquad_casd_df1_inst_f32 * S,
   float32_t * pSrc,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1839,7 +1839,7 @@ extern "C"
    */
   typedef struct
   {
-    uint32_t nValues;           /**< nValues */
+    T_ULONG nValues;           /**< nValues */
     float32_t x1;               /**< x1 */
     float32_t xSpacing;         /**< xSpacing */
     float32_t *pYData;          /**< pointer to the table of Y values */
@@ -1897,7 +1897,7 @@ extern "C"
   q7_t * pSrcA,
   q7_t * pSrcB,
   q7_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1911,7 +1911,7 @@ extern "C"
   q15_t * pSrcA,
   q15_t * pSrcB,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1925,7 +1925,7 @@ extern "C"
   q31_t * pSrcA,
   q31_t * pSrcB,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -1939,7 +1939,7 @@ extern "C"
   float32_t * pSrcA,
   float32_t * pSrcB,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2157,10 +2157,10 @@ void arm_cfft_q31(
    */
   typedef struct
   {
-    uint32_t fftLenReal;                      /**< length of the real FFT. */
+    T_ULONG fftLenReal;                      /**< length of the real FFT. */
     uint8_t ifftFlagR;                        /**< flag that selects forward (ifftFlagR=0) or inverse (ifftFlagR=1) transform. */
     uint8_t bitReverseFlagR;                  /**< flag that enables (bitReverseFlagR=1) or disables (bitReverseFlagR=0) bit reversal of output. */
-    uint32_t twidCoefRModifier;               /**< twiddle coefficient modifier that supports different size FFTs with the same twiddle factor table. */
+    T_ULONG twidCoefRModifier;               /**< twiddle coefficient modifier that supports different size FFTs with the same twiddle factor table. */
     q15_t *pTwiddleAReal;                     /**< points to the real twiddle factor table. */
     q15_t *pTwiddleBReal;                     /**< points to the imag twiddle factor table. */
     const arm_cfft_instance_q15 *pCfft;       /**< points to the complex FFT instance. */
@@ -2168,9 +2168,9 @@ void arm_cfft_q31(
 
   arm_status arm_rfft_init_q15(
   arm_rfft_instance_q15 * S,
-  uint32_t fftLenReal,
-  uint32_t ifftFlagR,
-  uint32_t bitReverseFlag);
+  T_ULONG fftLenReal,
+  T_ULONG ifftFlagR,
+  T_ULONG bitReverseFlag);
 
   void arm_rfft_q15(
   const arm_rfft_instance_q15 * S,
@@ -2182,10 +2182,10 @@ void arm_cfft_q31(
    */
   typedef struct
   {
-    uint32_t fftLenReal;                        /**< length of the real FFT. */
+    T_ULONG fftLenReal;                        /**< length of the real FFT. */
     uint8_t ifftFlagR;                          /**< flag that selects forward (ifftFlagR=0) or inverse (ifftFlagR=1) transform. */
     uint8_t bitReverseFlagR;                    /**< flag that enables (bitReverseFlagR=1) or disables (bitReverseFlagR=0) bit reversal of output. */
-    uint32_t twidCoefRModifier;                 /**< twiddle coefficient modifier that supports different size FFTs with the same twiddle factor table. */
+    T_ULONG twidCoefRModifier;                 /**< twiddle coefficient modifier that supports different size FFTs with the same twiddle factor table. */
     q31_t *pTwiddleAReal;                       /**< points to the real twiddle factor table. */
     q31_t *pTwiddleBReal;                       /**< points to the imag twiddle factor table. */
     const arm_cfft_instance_q31 *pCfft;         /**< points to the complex FFT instance. */
@@ -2193,9 +2193,9 @@ void arm_cfft_q31(
 
   arm_status arm_rfft_init_q31(
   arm_rfft_instance_q31 * S,
-  uint32_t fftLenReal,
-  uint32_t ifftFlagR,
-  uint32_t bitReverseFlag);
+  T_ULONG fftLenReal,
+  T_ULONG ifftFlagR,
+  T_ULONG bitReverseFlag);
 
   void arm_rfft_q31(
   const arm_rfft_instance_q31 * S,
@@ -2207,11 +2207,11 @@ void arm_cfft_q31(
    */
   typedef struct
   {
-    uint32_t fftLenReal;                        /**< length of the real FFT. */
+    T_ULONG fftLenReal;                        /**< length of the real FFT. */
     uint16_t fftLenBy2;                         /**< length of the complex FFT. */
     uint8_t ifftFlagR;                          /**< flag that selects forward (ifftFlagR=0) or inverse (ifftFlagR=1) transform. */
     uint8_t bitReverseFlagR;                    /**< flag that enables (bitReverseFlagR=1) or disables (bitReverseFlagR=0) bit reversal of output. */
-    uint32_t twidCoefRModifier;                     /**< twiddle coefficient modifier that supports different size FFTs with the same twiddle factor table. */
+    T_ULONG twidCoefRModifier;                     /**< twiddle coefficient modifier that supports different size FFTs with the same twiddle factor table. */
     float32_t *pTwiddleAReal;                   /**< points to the real twiddle factor table. */
     float32_t *pTwiddleBReal;                   /**< points to the imag twiddle factor table. */
     arm_cfft_radix4_instance_f32 *pCfft;        /**< points to the complex FFT instance. */
@@ -2220,9 +2220,9 @@ void arm_cfft_q31(
   arm_status arm_rfft_init_f32(
   arm_rfft_instance_f32 * S,
   arm_cfft_radix4_instance_f32 * S_CFFT,
-  uint32_t fftLenReal,
-  uint32_t ifftFlagR,
-  uint32_t bitReverseFlag);
+  T_ULONG fftLenReal,
+  T_ULONG ifftFlagR,
+  T_ULONG bitReverseFlag);
 
   void arm_rfft_f32(
   const arm_rfft_instance_f32 * S,
@@ -2397,7 +2397,7 @@ void arm_rfft_fast_f32(
   float32_t * pSrcA,
   float32_t * pSrcB,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2411,7 +2411,7 @@ void arm_rfft_fast_f32(
   q7_t * pSrcA,
   q7_t * pSrcB,
   q7_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2425,7 +2425,7 @@ void arm_rfft_fast_f32(
   q15_t * pSrcA,
   q15_t * pSrcB,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2439,7 +2439,7 @@ void arm_rfft_fast_f32(
   q31_t * pSrcA,
   q31_t * pSrcB,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2453,7 +2453,7 @@ void arm_rfft_fast_f32(
   float32_t * pSrcA,
   float32_t * pSrcB,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2467,7 +2467,7 @@ void arm_rfft_fast_f32(
   q7_t * pSrcA,
   q7_t * pSrcB,
   q7_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2481,7 +2481,7 @@ void arm_rfft_fast_f32(
   q15_t * pSrcA,
   q15_t * pSrcB,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2495,7 +2495,7 @@ void arm_rfft_fast_f32(
   q31_t * pSrcA,
   q31_t * pSrcB,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2509,7 +2509,7 @@ void arm_rfft_fast_f32(
   float32_t * pSrc,
   float32_t scale,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2525,7 +2525,7 @@ void arm_rfft_fast_f32(
   q7_t scaleFract,
   int8_t shift,
   q7_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2541,7 +2541,7 @@ void arm_rfft_fast_f32(
   q15_t scaleFract,
   int8_t shift,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2557,7 +2557,7 @@ void arm_rfft_fast_f32(
   q31_t scaleFract,
   int8_t shift,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2569,7 +2569,7 @@ void arm_rfft_fast_f32(
   void arm_abs_q7(
   q7_t * pSrc,
   q7_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2581,7 +2581,7 @@ void arm_rfft_fast_f32(
   void arm_abs_f32(
   float32_t * pSrc,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2593,7 +2593,7 @@ void arm_rfft_fast_f32(
   void arm_abs_q15(
   q15_t * pSrc,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2605,7 +2605,7 @@ void arm_rfft_fast_f32(
   void arm_abs_q31(
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2618,7 +2618,7 @@ void arm_rfft_fast_f32(
   void arm_dot_prod_f32(
   float32_t * pSrcA,
   float32_t * pSrcB,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   float32_t * result);
 
 
@@ -2632,7 +2632,7 @@ void arm_rfft_fast_f32(
   void arm_dot_prod_q7(
   q7_t * pSrcA,
   q7_t * pSrcB,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q31_t * result);
 
 
@@ -2646,7 +2646,7 @@ void arm_rfft_fast_f32(
   void arm_dot_prod_q15(
   q15_t * pSrcA,
   q15_t * pSrcB,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q63_t * result);
 
 
@@ -2660,7 +2660,7 @@ void arm_rfft_fast_f32(
   void arm_dot_prod_q31(
   q31_t * pSrcA,
   q31_t * pSrcB,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q63_t * result);
 
 
@@ -2675,7 +2675,7 @@ void arm_rfft_fast_f32(
   q7_t * pSrc,
   int8_t shiftBits,
   q7_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2689,7 +2689,7 @@ void arm_rfft_fast_f32(
   q15_t * pSrc,
   int8_t shiftBits,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2703,7 +2703,7 @@ void arm_rfft_fast_f32(
   q31_t * pSrc,
   int8_t shiftBits,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2717,7 +2717,7 @@ void arm_rfft_fast_f32(
   float32_t * pSrc,
   float32_t offset,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2731,7 +2731,7 @@ void arm_rfft_fast_f32(
   q7_t * pSrc,
   q7_t offset,
   q7_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2745,7 +2745,7 @@ void arm_rfft_fast_f32(
   q15_t * pSrc,
   q15_t offset,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2759,7 +2759,7 @@ void arm_rfft_fast_f32(
   q31_t * pSrc,
   q31_t offset,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2771,7 +2771,7 @@ void arm_rfft_fast_f32(
   void arm_negate_f32(
   float32_t * pSrc,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2783,7 +2783,7 @@ void arm_rfft_fast_f32(
   void arm_negate_q7(
   q7_t * pSrc,
   q7_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2795,7 +2795,7 @@ void arm_rfft_fast_f32(
   void arm_negate_q15(
   q15_t * pSrc,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2807,7 +2807,7 @@ void arm_rfft_fast_f32(
   void arm_negate_q31(
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2819,7 +2819,7 @@ void arm_rfft_fast_f32(
   void arm_copy_f32(
   float32_t * pSrc,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2831,7 +2831,7 @@ void arm_rfft_fast_f32(
   void arm_copy_q7(
   q7_t * pSrc,
   q7_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2843,7 +2843,7 @@ void arm_rfft_fast_f32(
   void arm_copy_q15(
   q15_t * pSrc,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2855,7 +2855,7 @@ void arm_rfft_fast_f32(
   void arm_copy_q31(
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2867,7 +2867,7 @@ void arm_rfft_fast_f32(
   void arm_fill_f32(
   float32_t value,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2879,7 +2879,7 @@ void arm_rfft_fast_f32(
   void arm_fill_q7(
   q7_t value,
   q7_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2891,7 +2891,7 @@ void arm_rfft_fast_f32(
   void arm_fill_q15(
   q15_t value,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -2903,7 +2903,7 @@ void arm_rfft_fast_f32(
   void arm_fill_q31(
   q31_t value,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
 /**
@@ -2916,9 +2916,9 @@ void arm_rfft_fast_f32(
  */
   void arm_conv_f32(
   float32_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   float32_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   float32_t * pDst);
 
 
@@ -2934,9 +2934,9 @@ void arm_rfft_fast_f32(
    */
   void arm_conv_opt_q15(
   q15_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q15_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q15_t * pDst,
   q15_t * pScratch1,
   q15_t * pScratch2);
@@ -2952,9 +2952,9 @@ void arm_rfft_fast_f32(
  */
   void arm_conv_q15(
   q15_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q15_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q15_t * pDst);
 
 
@@ -2968,9 +2968,9 @@ void arm_rfft_fast_f32(
    */
   void arm_conv_fast_q15(
           q15_t * pSrcA,
-          uint32_t srcALen,
+          T_ULONG srcALen,
           q15_t * pSrcB,
-          uint32_t srcBLen,
+          T_ULONG srcBLen,
           q15_t * pDst);
 
 
@@ -2986,9 +2986,9 @@ void arm_rfft_fast_f32(
    */
   void arm_conv_fast_opt_q15(
   q15_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q15_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q15_t * pDst,
   q15_t * pScratch1,
   q15_t * pScratch2);
@@ -3004,9 +3004,9 @@ void arm_rfft_fast_f32(
    */
   void arm_conv_q31(
   q31_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q31_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q31_t * pDst);
 
 
@@ -3020,9 +3020,9 @@ void arm_rfft_fast_f32(
    */
   void arm_conv_fast_q31(
   q31_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q31_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q31_t * pDst);
 
 
@@ -3038,9 +3038,9 @@ void arm_rfft_fast_f32(
    */
   void arm_conv_opt_q7(
   q7_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q7_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q7_t * pDst,
   q15_t * pScratch1,
   q15_t * pScratch2);
@@ -3056,9 +3056,9 @@ void arm_rfft_fast_f32(
    */
   void arm_conv_q7(
   q7_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q7_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q7_t * pDst);
 
 
@@ -3075,12 +3075,12 @@ void arm_rfft_fast_f32(
    */
   arm_status arm_conv_partial_f32(
   float32_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   float32_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   float32_t * pDst,
-  uint32_t firstIndex,
-  uint32_t numPoints);
+  T_ULONG firstIndex,
+  T_ULONG numPoints);
 
 
   /**
@@ -3098,12 +3098,12 @@ void arm_rfft_fast_f32(
    */
   arm_status arm_conv_partial_opt_q15(
   q15_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q15_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q15_t * pDst,
-  uint32_t firstIndex,
-  uint32_t numPoints,
+  T_ULONG firstIndex,
+  T_ULONG numPoints,
   q15_t * pScratch1,
   q15_t * pScratch2);
 
@@ -3121,12 +3121,12 @@ void arm_rfft_fast_f32(
    */
   arm_status arm_conv_partial_q15(
   q15_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q15_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q15_t * pDst,
-  uint32_t firstIndex,
-  uint32_t numPoints);
+  T_ULONG firstIndex,
+  T_ULONG numPoints);
 
 
   /**
@@ -3142,12 +3142,12 @@ void arm_rfft_fast_f32(
    */
   arm_status arm_conv_partial_fast_q15(
   q15_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q15_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q15_t * pDst,
-  uint32_t firstIndex,
-  uint32_t numPoints);
+  T_ULONG firstIndex,
+  T_ULONG numPoints);
 
 
   /**
@@ -3165,12 +3165,12 @@ void arm_rfft_fast_f32(
    */
   arm_status arm_conv_partial_fast_opt_q15(
   q15_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q15_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q15_t * pDst,
-  uint32_t firstIndex,
-  uint32_t numPoints,
+  T_ULONG firstIndex,
+  T_ULONG numPoints,
   q15_t * pScratch1,
   q15_t * pScratch2);
 
@@ -3188,12 +3188,12 @@ void arm_rfft_fast_f32(
    */
   arm_status arm_conv_partial_q31(
   q31_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q31_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q31_t * pDst,
-  uint32_t firstIndex,
-  uint32_t numPoints);
+  T_ULONG firstIndex,
+  T_ULONG numPoints);
 
 
   /**
@@ -3209,12 +3209,12 @@ void arm_rfft_fast_f32(
    */
   arm_status arm_conv_partial_fast_q31(
   q31_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q31_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q31_t * pDst,
-  uint32_t firstIndex,
-  uint32_t numPoints);
+  T_ULONG firstIndex,
+  T_ULONG numPoints);
 
 
   /**
@@ -3232,12 +3232,12 @@ void arm_rfft_fast_f32(
    */
   arm_status arm_conv_partial_opt_q7(
   q7_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q7_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q7_t * pDst,
-  uint32_t firstIndex,
-  uint32_t numPoints,
+  T_ULONG firstIndex,
+  T_ULONG numPoints,
   q15_t * pScratch1,
   q15_t * pScratch2);
 
@@ -3255,12 +3255,12 @@ void arm_rfft_fast_f32(
    */
   arm_status arm_conv_partial_q7(
   q7_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q7_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q7_t * pDst,
-  uint32_t firstIndex,
-  uint32_t numPoints);
+  T_ULONG firstIndex,
+  T_ULONG numPoints);
 
 
   /**
@@ -3308,7 +3308,7 @@ void arm_rfft_fast_f32(
   const arm_fir_decimate_instance_f32 * S,
   float32_t * pSrc,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3328,7 +3328,7 @@ void arm_rfft_fast_f32(
   uint8_t M,
   float32_t * pCoeffs,
   float32_t * pState,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3342,7 +3342,7 @@ void arm_rfft_fast_f32(
   const arm_fir_decimate_instance_q15 * S,
   q15_t * pSrc,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3356,7 +3356,7 @@ void arm_rfft_fast_f32(
   const arm_fir_decimate_instance_q15 * S,
   q15_t * pSrc,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3376,7 +3376,7 @@ void arm_rfft_fast_f32(
   uint8_t M,
   q15_t * pCoeffs,
   q15_t * pState,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3390,7 +3390,7 @@ void arm_rfft_fast_f32(
   const arm_fir_decimate_instance_q31 * S,
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
   /**
    * @brief Processing function for the Q31 FIR decimator (fast variant) for Cortex-M3 and Cortex-M4.
@@ -3403,7 +3403,7 @@ void arm_rfft_fast_f32(
   arm_fir_decimate_instance_q31 * S,
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3423,7 +3423,7 @@ void arm_rfft_fast_f32(
   uint8_t M,
   q31_t * pCoeffs,
   q31_t * pState,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3471,7 +3471,7 @@ void arm_rfft_fast_f32(
   const arm_fir_interpolate_instance_q15 * S,
   q15_t * pSrc,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3491,7 +3491,7 @@ void arm_rfft_fast_f32(
   uint16_t numTaps,
   q15_t * pCoeffs,
   q15_t * pState,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3505,7 +3505,7 @@ void arm_rfft_fast_f32(
   const arm_fir_interpolate_instance_q31 * S,
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3525,7 +3525,7 @@ void arm_rfft_fast_f32(
   uint16_t numTaps,
   q31_t * pCoeffs,
   q31_t * pState,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3539,7 +3539,7 @@ void arm_rfft_fast_f32(
   const arm_fir_interpolate_instance_f32 * S,
   float32_t * pSrc,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3559,7 +3559,7 @@ void arm_rfft_fast_f32(
   uint16_t numTaps,
   float32_t * pCoeffs,
   float32_t * pState,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3584,7 +3584,7 @@ void arm_rfft_fast_f32(
   const arm_biquad_cas_df1_32x64_ins_q31 * S,
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3644,7 +3644,7 @@ void arm_rfft_fast_f32(
   const arm_biquad_cascade_df2T_instance_f32 * S,
   float32_t * pSrc,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3658,7 +3658,7 @@ void arm_rfft_fast_f32(
   const arm_biquad_cascade_stereo_df2T_instance_f32 * S,
   float32_t * pSrc,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3672,7 +3672,7 @@ void arm_rfft_fast_f32(
   const arm_biquad_cascade_df2T_instance_f64 * S,
   float64_t * pSrc,
   float64_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3773,7 +3773,7 @@ void arm_rfft_fast_f32(
   const arm_fir_lattice_instance_q15 * S,
   q15_t * pSrc,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3801,7 +3801,7 @@ void arm_rfft_fast_f32(
   const arm_fir_lattice_instance_q31 * S,
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
 /**
@@ -3829,7 +3829,7 @@ void arm_rfft_fast_f32(
   const arm_fir_lattice_instance_f32 * S,
   float32_t * pSrc,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3877,7 +3877,7 @@ void arm_rfft_fast_f32(
   const arm_iir_lattice_instance_f32 * S,
   float32_t * pSrc,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3895,7 +3895,7 @@ void arm_rfft_fast_f32(
   float32_t * pkCoeffs,
   float32_t * pvCoeffs,
   float32_t * pState,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3909,7 +3909,7 @@ void arm_rfft_fast_f32(
   const arm_iir_lattice_instance_q31 * S,
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3927,7 +3927,7 @@ void arm_rfft_fast_f32(
   q31_t * pkCoeffs,
   q31_t * pvCoeffs,
   q31_t * pState,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3941,7 +3941,7 @@ void arm_rfft_fast_f32(
   const arm_iir_lattice_instance_q15 * S,
   q15_t * pSrc,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
 /**
@@ -3959,7 +3959,7 @@ void arm_rfft_fast_f32(
   q15_t * pkCoeffs,
   q15_t * pvCoeffs,
   q15_t * pState,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -3989,7 +3989,7 @@ void arm_rfft_fast_f32(
   float32_t * pRef,
   float32_t * pOut,
   float32_t * pErr,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4007,7 +4007,7 @@ void arm_rfft_fast_f32(
   float32_t * pCoeffs,
   float32_t * pState,
   float32_t mu,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4019,7 +4019,7 @@ void arm_rfft_fast_f32(
     q15_t *pState;       /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
     q15_t *pCoeffs;      /**< points to the coefficient array. The array is of length numTaps. */
     q15_t mu;            /**< step size that controls filter coefficient updates. */
-    uint32_t postShift;  /**< bit shift applied to coefficients. */
+    T_ULONG postShift;  /**< bit shift applied to coefficients. */
   } arm_lms_instance_q15;
 
 
@@ -4039,8 +4039,8 @@ void arm_rfft_fast_f32(
   q15_t * pCoeffs,
   q15_t * pState,
   q15_t mu,
-  uint32_t blockSize,
-  uint32_t postShift);
+  T_ULONG blockSize,
+  T_ULONG postShift);
 
 
   /**
@@ -4058,7 +4058,7 @@ void arm_rfft_fast_f32(
   q15_t * pRef,
   q15_t * pOut,
   q15_t * pErr,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4070,7 +4070,7 @@ void arm_rfft_fast_f32(
     q31_t *pState;       /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
     q31_t *pCoeffs;      /**< points to the coefficient array. The array is of length numTaps. */
     q31_t mu;            /**< step size that controls filter coefficient updates. */
-    uint32_t postShift;  /**< bit shift applied to coefficients. */
+    T_ULONG postShift;  /**< bit shift applied to coefficients. */
   } arm_lms_instance_q31;
 
 
@@ -4089,7 +4089,7 @@ void arm_rfft_fast_f32(
   q31_t * pRef,
   q31_t * pOut,
   q31_t * pErr,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4108,8 +4108,8 @@ void arm_rfft_fast_f32(
   q31_t * pCoeffs,
   q31_t * pState,
   q31_t mu,
-  uint32_t blockSize,
-  uint32_t postShift);
+  T_ULONG blockSize,
+  T_ULONG postShift);
 
 
   /**
@@ -4141,7 +4141,7 @@ void arm_rfft_fast_f32(
   float32_t * pRef,
   float32_t * pOut,
   float32_t * pErr,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4159,7 +4159,7 @@ void arm_rfft_fast_f32(
   float32_t * pCoeffs,
   float32_t * pState,
   float32_t mu,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4193,7 +4193,7 @@ void arm_rfft_fast_f32(
   q31_t * pRef,
   q31_t * pOut,
   q31_t * pErr,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4212,7 +4212,7 @@ void arm_rfft_fast_f32(
   q31_t * pCoeffs,
   q31_t * pState,
   q31_t mu,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   uint8_t postShift);
 
 
@@ -4247,7 +4247,7 @@ void arm_rfft_fast_f32(
   q15_t * pRef,
   q15_t * pOut,
   q15_t * pErr,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4266,7 +4266,7 @@ void arm_rfft_fast_f32(
   q15_t * pCoeffs,
   q15_t * pState,
   q15_t mu,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   uint8_t postShift);
 
 
@@ -4280,9 +4280,9 @@ void arm_rfft_fast_f32(
    */
   void arm_correlate_f32(
   float32_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   float32_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   float32_t * pDst);
 
 
@@ -4297,9 +4297,9 @@ void arm_rfft_fast_f32(
    */
   void arm_correlate_opt_q15(
   q15_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q15_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q15_t * pDst,
   q15_t * pScratch);
 
@@ -4315,9 +4315,9 @@ void arm_rfft_fast_f32(
 
   void arm_correlate_q15(
   q15_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q15_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q15_t * pDst);
 
 
@@ -4332,9 +4332,9 @@ void arm_rfft_fast_f32(
 
   void arm_correlate_fast_q15(
   q15_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q15_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q15_t * pDst);
 
 
@@ -4349,9 +4349,9 @@ void arm_rfft_fast_f32(
    */
   void arm_correlate_fast_opt_q15(
   q15_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q15_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q15_t * pDst,
   q15_t * pScratch);
 
@@ -4366,9 +4366,9 @@ void arm_rfft_fast_f32(
    */
   void arm_correlate_q31(
   q31_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q31_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q31_t * pDst);
 
 
@@ -4382,9 +4382,9 @@ void arm_rfft_fast_f32(
    */
   void arm_correlate_fast_q31(
   q31_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q31_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q31_t * pDst);
 
 
@@ -4400,9 +4400,9 @@ void arm_rfft_fast_f32(
    */
   void arm_correlate_opt_q7(
   q7_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q7_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q7_t * pDst,
   q15_t * pScratch1,
   q15_t * pScratch2);
@@ -4418,9 +4418,9 @@ void arm_rfft_fast_f32(
    */
   void arm_correlate_q7(
   q7_t * pSrcA,
-  uint32_t srcALen,
+  T_ULONG srcALen,
   q7_t * pSrcB,
-  uint32_t srcBLen,
+  T_ULONG srcBLen,
   q7_t * pDst);
 
 
@@ -4490,7 +4490,7 @@ void arm_rfft_fast_f32(
   float32_t * pSrc,
   float32_t * pDst,
   float32_t * pScratchIn,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4510,7 +4510,7 @@ void arm_rfft_fast_f32(
   float32_t * pState,
   int32_t * pTapDelay,
   uint16_t maxDelay,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4526,7 +4526,7 @@ void arm_rfft_fast_f32(
   q31_t * pSrc,
   q31_t * pDst,
   q31_t * pScratchIn,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4546,7 +4546,7 @@ void arm_rfft_fast_f32(
   q31_t * pState,
   int32_t * pTapDelay,
   uint16_t maxDelay,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4564,7 +4564,7 @@ void arm_rfft_fast_f32(
   q15_t * pDst,
   q15_t * pScratchIn,
   q31_t * pScratchOut,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4584,7 +4584,7 @@ void arm_rfft_fast_f32(
   q15_t * pState,
   int32_t * pTapDelay,
   uint16_t maxDelay,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4602,7 +4602,7 @@ void arm_rfft_fast_f32(
   q7_t * pDst,
   q7_t * pScratchIn,
   q31_t * pScratchOut,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4622,7 +4622,7 @@ void arm_rfft_fast_f32(
   q7_t * pState,
   int32_t * pTapDelay,
   uint16_t maxDelay,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -4658,7 +4658,7 @@ void arm_rfft_fast_f32(
   void arm_cmplx_conj_f32(
   float32_t * pSrc,
   float32_t * pDst,
-  uint32_t numSamples);
+  T_ULONG numSamples);
 
   /**
    * @brief  Q31 complex conjugate.
@@ -4669,7 +4669,7 @@ void arm_rfft_fast_f32(
   void arm_cmplx_conj_q31(
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t numSamples);
+  T_ULONG numSamples);
 
 
   /**
@@ -4681,7 +4681,7 @@ void arm_rfft_fast_f32(
   void arm_cmplx_conj_q15(
   q15_t * pSrc,
   q15_t * pDst,
-  uint32_t numSamples);
+  T_ULONG numSamples);
 
 
   /**
@@ -4693,7 +4693,7 @@ void arm_rfft_fast_f32(
   void arm_cmplx_mag_squared_f32(
   float32_t * pSrc,
   float32_t * pDst,
-  uint32_t numSamples);
+  T_ULONG numSamples);
 
 
   /**
@@ -4705,7 +4705,7 @@ void arm_rfft_fast_f32(
   void arm_cmplx_mag_squared_q31(
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t numSamples);
+  T_ULONG numSamples);
 
 
   /**
@@ -4717,7 +4717,7 @@ void arm_rfft_fast_f32(
   void arm_cmplx_mag_squared_q15(
   q15_t * pSrc,
   q15_t * pDst,
-  uint32_t numSamples);
+  T_ULONG numSamples);
 
 
  /**
@@ -4886,11 +4886,11 @@ void arm_rfft_fast_f32(
     /* Implementation of PID controller */
 
     /* acc = A0 * x[n]  */
-    acc = (q31_t) __SMUAD((uint32_t)S->A0, (uint32_t)in);
+    acc = (q31_t) __SMUAD((T_ULONG)S->A0, (T_ULONG)in);
 
     /* acc += A1 * x[n-1] + A2 * x[n-2]  */
     vstate = __SIMD32_CONST(S->state);
-    acc = (q63_t)__SMLALD((uint32_t)S->A1, (uint32_t)*vstate, (uint64_t)acc);
+    acc = (q63_t)__SMLALD((T_ULONG)S->A1, (T_ULONG)*vstate, (uint64_t)acc);
 #else
     /* acc = A0 * x[n]  */
     acc = ((q31_t) S->A0) * in;
@@ -5045,7 +5045,7 @@ void arm_rfft_fast_f32(
   void arm_q7_to_q31(
   q7_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
 
@@ -5142,7 +5142,7 @@ void arm_rfft_fast_f32(
   void arm_q7_to_q15(
   q7_t * pSrc,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
 
@@ -5266,7 +5266,7 @@ void arm_rfft_fast_f32(
   void arm_q7_to_float(
   q7_t * pSrc,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -5380,7 +5380,7 @@ void arm_rfft_fast_f32(
   void arm_q31_to_float(
   q31_t * pSrc,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
   /**
    * @ingroup groupInterpolation
@@ -5449,7 +5449,7 @@ void arm_rfft_fast_f32(
       /* Iniatilize output for below specified range as least output value of table */
       y = pYData[0];
     }
-    else if((uint32_t)i >= S->nValues)
+    else if((T_ULONG)i >= S->nValues)
     {
       /* Iniatilize output for above specified range as last output value of table */
       y = pYData[S->nValues - 1];
@@ -5490,7 +5490,7 @@ void arm_rfft_fast_f32(
   static __INLINE q31_t arm_linear_interp_q31(
   q31_t * pYData,
   q31_t x,
-  uint32_t nValues)
+  T_ULONG nValues)
   {
     q31_t y;                                     /* output */
     q31_t y0, y1;                                /* Nearest output values */
@@ -5548,7 +5548,7 @@ void arm_rfft_fast_f32(
   static __INLINE q15_t arm_linear_interp_q15(
   q15_t * pYData,
   q31_t x,
-  uint32_t nValues)
+  T_ULONG nValues)
   {
     q63_t y;                                     /* output */
     q15_t y0, y1;                                /* Nearest output values */
@@ -5605,12 +5605,12 @@ void arm_rfft_fast_f32(
   static __INLINE q7_t arm_linear_interp_q7(
   q7_t * pYData,
   q31_t x,
-  uint32_t nValues)
+  T_ULONG nValues)
   {
     q31_t y;                                     /* output */
     q7_t y0, y1;                                 /* Nearest output values */
     q31_t fract;                                 /* fractional part */
-    uint32_t index;                              /* Index to read nearest output values */
+    T_ULONG index;                              /* Index to read nearest output values */
 
     /* Input is in 12.20 format */
     /* 12 bits for the table index */
@@ -5809,9 +5809,9 @@ void arm_rfft_fast_f32(
   int32_t bufferInc,
   const int32_t * src,
   int32_t srcInc,
-  uint32_t blockSize)
+  T_ULONG blockSize)
   {
-    uint32_t i = 0u;
+    T_ULONG i = 0u;
     int32_t wOffset;
 
     /* Copy the value of Index pointer that points
@@ -5856,9 +5856,9 @@ void arm_rfft_fast_f32(
   int32_t * dst_base,
   int32_t dst_length,
   int32_t dstInc,
-  uint32_t blockSize)
+  T_ULONG blockSize)
   {
-    uint32_t i = 0u;
+    T_ULONG i = 0u;
     int32_t rOffset, dst_end;
 
     /* Copy the value of Index pointer that points
@@ -5909,9 +5909,9 @@ void arm_rfft_fast_f32(
   int32_t bufferInc,
   const q15_t * src,
   int32_t srcInc,
-  uint32_t blockSize)
+  T_ULONG blockSize)
   {
-    uint32_t i = 0u;
+    T_ULONG i = 0u;
     int32_t wOffset;
 
     /* Copy the value of Index pointer that points
@@ -5955,9 +5955,9 @@ void arm_rfft_fast_f32(
   q15_t * dst_base,
   int32_t dst_length,
   int32_t dstInc,
-  uint32_t blockSize)
+  T_ULONG blockSize)
   {
-    uint32_t i = 0;
+    T_ULONG i = 0;
     int32_t rOffset, dst_end;
 
     /* Copy the value of Index pointer that points
@@ -6009,9 +6009,9 @@ void arm_rfft_fast_f32(
   int32_t bufferInc,
   const q7_t * src,
   int32_t srcInc,
-  uint32_t blockSize)
+  T_ULONG blockSize)
   {
-    uint32_t i = 0u;
+    T_ULONG i = 0u;
     int32_t wOffset;
 
     /* Copy the value of Index pointer that points
@@ -6055,9 +6055,9 @@ void arm_rfft_fast_f32(
   q7_t * dst_base,
   int32_t dst_length,
   int32_t dstInc,
-  uint32_t blockSize)
+  T_ULONG blockSize)
   {
-    uint32_t i = 0;
+    T_ULONG i = 0;
     int32_t rOffset, dst_end;
 
     /* Copy the value of Index pointer that points
@@ -6107,7 +6107,7 @@ void arm_rfft_fast_f32(
    */
   void arm_power_q31(
   q31_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q63_t * pResult);
 
 
@@ -6119,7 +6119,7 @@ void arm_rfft_fast_f32(
    */
   void arm_power_f32(
   float32_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   float32_t * pResult);
 
 
@@ -6131,7 +6131,7 @@ void arm_rfft_fast_f32(
    */
   void arm_power_q15(
   q15_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q63_t * pResult);
 
 
@@ -6143,7 +6143,7 @@ void arm_rfft_fast_f32(
    */
   void arm_power_q7(
   q7_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q31_t * pResult);
 
 
@@ -6155,7 +6155,7 @@ void arm_rfft_fast_f32(
    */
   void arm_mean_q7(
   q7_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q7_t * pResult);
 
 
@@ -6167,7 +6167,7 @@ void arm_rfft_fast_f32(
    */
   void arm_mean_q15(
   q15_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q15_t * pResult);
 
 
@@ -6179,7 +6179,7 @@ void arm_rfft_fast_f32(
    */
   void arm_mean_q31(
   q31_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q31_t * pResult);
 
 
@@ -6191,7 +6191,7 @@ void arm_rfft_fast_f32(
    */
   void arm_mean_f32(
   float32_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   float32_t * pResult);
 
 
@@ -6203,7 +6203,7 @@ void arm_rfft_fast_f32(
    */
   void arm_var_f32(
   float32_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   float32_t * pResult);
 
 
@@ -6215,7 +6215,7 @@ void arm_rfft_fast_f32(
    */
   void arm_var_q31(
   q31_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q31_t * pResult);
 
 
@@ -6227,7 +6227,7 @@ void arm_rfft_fast_f32(
    */
   void arm_var_q15(
   q15_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q15_t * pResult);
 
 
@@ -6239,7 +6239,7 @@ void arm_rfft_fast_f32(
    */
   void arm_rms_f32(
   float32_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   float32_t * pResult);
 
 
@@ -6251,7 +6251,7 @@ void arm_rfft_fast_f32(
    */
   void arm_rms_q31(
   q31_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q31_t * pResult);
 
 
@@ -6263,7 +6263,7 @@ void arm_rfft_fast_f32(
    */
   void arm_rms_q15(
   q15_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q15_t * pResult);
 
 
@@ -6275,7 +6275,7 @@ void arm_rfft_fast_f32(
    */
   void arm_std_f32(
   float32_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   float32_t * pResult);
 
 
@@ -6287,7 +6287,7 @@ void arm_rfft_fast_f32(
    */
   void arm_std_q31(
   q31_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q31_t * pResult);
 
 
@@ -6299,7 +6299,7 @@ void arm_rfft_fast_f32(
    */
   void arm_std_q15(
   q15_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q15_t * pResult);
 
 
@@ -6312,7 +6312,7 @@ void arm_rfft_fast_f32(
   void arm_cmplx_mag_f32(
   float32_t * pSrc,
   float32_t * pDst,
-  uint32_t numSamples);
+  T_ULONG numSamples);
 
 
   /**
@@ -6324,7 +6324,7 @@ void arm_rfft_fast_f32(
   void arm_cmplx_mag_q31(
   q31_t * pSrc,
   q31_t * pDst,
-  uint32_t numSamples);
+  T_ULONG numSamples);
 
 
   /**
@@ -6336,7 +6336,7 @@ void arm_rfft_fast_f32(
   void arm_cmplx_mag_q15(
   q15_t * pSrc,
   q15_t * pDst,
-  uint32_t numSamples);
+  T_ULONG numSamples);
 
 
   /**
@@ -6350,7 +6350,7 @@ void arm_rfft_fast_f32(
   void arm_cmplx_dot_prod_q15(
   q15_t * pSrcA,
   q15_t * pSrcB,
-  uint32_t numSamples,
+  T_ULONG numSamples,
   q31_t * realResult,
   q31_t * imagResult);
 
@@ -6366,7 +6366,7 @@ void arm_rfft_fast_f32(
   void arm_cmplx_dot_prod_q31(
   q31_t * pSrcA,
   q31_t * pSrcB,
-  uint32_t numSamples,
+  T_ULONG numSamples,
   q63_t * realResult,
   q63_t * imagResult);
 
@@ -6382,7 +6382,7 @@ void arm_rfft_fast_f32(
   void arm_cmplx_dot_prod_f32(
   float32_t * pSrcA,
   float32_t * pSrcB,
-  uint32_t numSamples,
+  T_ULONG numSamples,
   float32_t * realResult,
   float32_t * imagResult);
 
@@ -6398,7 +6398,7 @@ void arm_rfft_fast_f32(
   q15_t * pSrcCmplx,
   q15_t * pSrcReal,
   q15_t * pCmplxDst,
-  uint32_t numSamples);
+  T_ULONG numSamples);
 
 
   /**
@@ -6412,7 +6412,7 @@ void arm_rfft_fast_f32(
   q31_t * pSrcCmplx,
   q31_t * pSrcReal,
   q31_t * pCmplxDst,
-  uint32_t numSamples);
+  T_ULONG numSamples);
 
 
   /**
@@ -6426,7 +6426,7 @@ void arm_rfft_fast_f32(
   float32_t * pSrcCmplx,
   float32_t * pSrcReal,
   float32_t * pCmplxDst,
-  uint32_t numSamples);
+  T_ULONG numSamples);
 
 
   /**
@@ -6438,9 +6438,9 @@ void arm_rfft_fast_f32(
    */
   void arm_min_q7(
   q7_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q7_t * result,
-  uint32_t * index);
+  T_ULONG * index);
 
 
   /**
@@ -6452,9 +6452,9 @@ void arm_rfft_fast_f32(
    */
   void arm_min_q15(
   q15_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q15_t * pResult,
-  uint32_t * pIndex);
+  T_ULONG * pIndex);
 
 
   /**
@@ -6466,9 +6466,9 @@ void arm_rfft_fast_f32(
    */
   void arm_min_q31(
   q31_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q31_t * pResult,
-  uint32_t * pIndex);
+  T_ULONG * pIndex);
 
 
   /**
@@ -6480,9 +6480,9 @@ void arm_rfft_fast_f32(
    */
   void arm_min_f32(
   float32_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   float32_t * pResult,
-  uint32_t * pIndex);
+  T_ULONG * pIndex);
 
 
 /**
@@ -6494,9 +6494,9 @@ void arm_rfft_fast_f32(
  */
   void arm_max_q7(
   q7_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q7_t * pResult,
-  uint32_t * pIndex);
+  T_ULONG * pIndex);
 
 
 /**
@@ -6508,9 +6508,9 @@ void arm_rfft_fast_f32(
  */
   void arm_max_q15(
   q15_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q15_t * pResult,
-  uint32_t * pIndex);
+  T_ULONG * pIndex);
 
 
 /**
@@ -6522,9 +6522,9 @@ void arm_rfft_fast_f32(
  */
   void arm_max_q31(
   q31_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   q31_t * pResult,
-  uint32_t * pIndex);
+  T_ULONG * pIndex);
 
 
 /**
@@ -6536,9 +6536,9 @@ void arm_rfft_fast_f32(
  */
   void arm_max_f32(
   float32_t * pSrc,
-  uint32_t blockSize,
+  T_ULONG blockSize,
   float32_t * pResult,
-  uint32_t * pIndex);
+  T_ULONG * pIndex);
 
 
   /**
@@ -6552,7 +6552,7 @@ void arm_rfft_fast_f32(
   q15_t * pSrcA,
   q15_t * pSrcB,
   q15_t * pDst,
-  uint32_t numSamples);
+  T_ULONG numSamples);
 
 
   /**
@@ -6566,7 +6566,7 @@ void arm_rfft_fast_f32(
   q31_t * pSrcA,
   q31_t * pSrcB,
   q31_t * pDst,
-  uint32_t numSamples);
+  T_ULONG numSamples);
 
 
   /**
@@ -6580,7 +6580,7 @@ void arm_rfft_fast_f32(
   float32_t * pSrcA,
   float32_t * pSrcB,
   float32_t * pDst,
-  uint32_t numSamples);
+  T_ULONG numSamples);
 
 
   /**
@@ -6592,7 +6592,7 @@ void arm_rfft_fast_f32(
   void arm_float_to_q31(
   float32_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -6604,7 +6604,7 @@ void arm_rfft_fast_f32(
   void arm_float_to_q15(
   float32_t * pSrc,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -6616,7 +6616,7 @@ void arm_rfft_fast_f32(
   void arm_float_to_q7(
   float32_t * pSrc,
   q7_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -6628,7 +6628,7 @@ void arm_rfft_fast_f32(
   void arm_q31_to_q15(
   q31_t * pSrc,
   q15_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -6640,7 +6640,7 @@ void arm_rfft_fast_f32(
   void arm_q31_to_q7(
   q31_t * pSrc,
   q7_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -6652,7 +6652,7 @@ void arm_rfft_fast_f32(
   void arm_q15_to_float(
   q15_t * pSrc,
   float32_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -6664,7 +6664,7 @@ void arm_rfft_fast_f32(
   void arm_q15_to_q31(
   q15_t * pSrc,
   q31_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -6676,7 +6676,7 @@ void arm_rfft_fast_f32(
   void arm_q15_to_q7(
   q15_t * pSrc,
   q7_t * pDst,
-  uint32_t blockSize);
+  T_ULONG blockSize);
 
 
   /**
@@ -6826,7 +6826,7 @@ void arm_rfft_fast_f32(
     q31_t x1, x2, y1, y2;                        /* Nearest output values */
     int32_t rI, cI;                              /* Row and column indices */
     q31_t *pYData = S->pData;                    /* pointer to output table values */
-    uint32_t nCols = S->numCols;                 /* num of rows */
+    T_ULONG nCols = S->numCols;                 /* num of rows */
 
     /* Input is in 12.20 format */
     /* 12 bits for the table index */
@@ -6900,7 +6900,7 @@ void arm_rfft_fast_f32(
     q31_t xfract, yfract;                        /* X, Y fractional parts */
     int32_t rI, cI;                              /* Row and column indices */
     q15_t *pYData = S->pData;                    /* pointer to output table values */
-    uint32_t nCols = S->numCols;                 /* num of rows */
+    T_ULONG nCols = S->numCols;                 /* num of rows */
 
     /* Input is in 12.20 format */
     /* 12 bits for the table index */
@@ -6924,16 +6924,16 @@ void arm_rfft_fast_f32(
     xfract = (X & 0x000FFFFF);
 
     /* Read two nearest output values from the index */
-    x1 = pYData[((uint32_t)rI) + nCols * ((uint32_t)cI)    ];
-    x2 = pYData[((uint32_t)rI) + nCols * ((uint32_t)cI) + 1];
+    x1 = pYData[((T_ULONG)rI) + nCols * ((T_ULONG)cI)    ];
+    x2 = pYData[((T_ULONG)rI) + nCols * ((T_ULONG)cI) + 1];
 
     /* 20 bits for the fractional part */
     /* yfract should be in 12.20 format */
     yfract = (Y & 0x000FFFFF);
 
     /* Read two nearest output values from the index */
-    y1 = pYData[((uint32_t)rI) + nCols * ((uint32_t)cI + 1)    ];
-    y2 = pYData[((uint32_t)rI) + nCols * ((uint32_t)cI + 1) + 1];
+    y1 = pYData[((T_ULONG)rI) + nCols * ((T_ULONG)cI + 1)    ];
+    y2 = pYData[((T_ULONG)rI) + nCols * ((T_ULONG)cI + 1) + 1];
 
     /* Calculation of x1 * (1-xfract ) * (1-yfract) and acc is in 13.51 format */
 
@@ -6978,7 +6978,7 @@ void arm_rfft_fast_f32(
     q7_t x1, x2, y1, y2;                         /* Nearest output values */
     int32_t rI, cI;                              /* Row and column indices */
     q7_t *pYData = S->pData;                     /* pointer to output table values */
-    uint32_t nCols = S->numCols;                 /* num of rows */
+    T_ULONG nCols = S->numCols;                 /* num of rows */
 
     /* Input is in 12.20 format */
     /* 12 bits for the table index */
@@ -7002,16 +7002,16 @@ void arm_rfft_fast_f32(
     xfract = (X & (q31_t)0x000FFFFF);
 
     /* Read two nearest output values from the index */
-    x1 = pYData[((uint32_t)rI) + nCols * ((uint32_t)cI)    ];
-    x2 = pYData[((uint32_t)rI) + nCols * ((uint32_t)cI) + 1];
+    x1 = pYData[((T_ULONG)rI) + nCols * ((T_ULONG)cI)    ];
+    x2 = pYData[((T_ULONG)rI) + nCols * ((T_ULONG)cI) + 1];
 
     /* 20 bits for the fractional part */
     /* yfract should be in 12.20 format */
     yfract = (Y & (q31_t)0x000FFFFF);
 
     /* Read two nearest output values from the index */
-    y1 = pYData[((uint32_t)rI) + nCols * ((uint32_t)cI + 1)    ];
-    y2 = pYData[((uint32_t)rI) + nCols * ((uint32_t)cI + 1) + 1];
+    y1 = pYData[((T_ULONG)rI) + nCols * ((T_ULONG)cI + 1)    ];
+    y2 = pYData[((T_ULONG)rI) + nCols * ((T_ULONG)cI + 1) + 1];
 
     /* Calculation of x1 * (1-xfract ) * (1-yfract) and acc is in 16.47 format */
     out = ((x1 * (0xFFFFF - xfract)));

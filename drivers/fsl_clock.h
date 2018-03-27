@@ -99,7 +99,7 @@
  * OSC0 using the CLOCK_InitOsc0. All other cores need to call the CLOCK_SetXtal0Freq
  * to get a valid clock frequency.
  */
-extern uint32_t g_xtal0Freq;
+extern T_ULONG g_xtal0Freq;
 
 /*! @brief External XTAL32/EXTAL32/RTC_CLKIN clock frequency.
  *
@@ -110,7 +110,7 @@ extern uint32_t g_xtal0Freq;
  * the clock. All other cores need to call the CLOCK_SetXtal32Freq
  * to get a valid clock frequency.
  */
-extern uint32_t g_xtal32Freq;
+extern T_ULONG g_xtal32Freq;
 
 #if (defined(OSC) && !(defined(OSC0)))
 #define OSC0 OSC
@@ -331,7 +331,7 @@ typedef struct _sim_clock_config
 {
     uint8_t pllFllSel;
     uint8_t er32kSrc; /*!< ERCLK32K source selection.   */
-    uint32_t clkdiv1; /*!< SIM_CLKDIV1.                 */
+    T_ULONG clkdiv1; /*!< SIM_CLKDIV1.                 */
 } sim_clock_config_t;
 
 /*! @brief OSC work mode. */
@@ -394,7 +394,7 @@ typedef struct _oscer_config
  */
 typedef struct _osc_config
 {
-    uint32_t freq;              /*!< External clock frequency.    */
+    T_ULONG freq;              /*!< External clock frequency.    */
     uint8_t capLoad;            /*!< Capacitor load setting.      */
     osc_mode_t workMode;        /*!< OSC work mode setting.       */
     oscer_config_t oscerConfig; /*!< Configuration for OSCERCLK.  */
@@ -583,8 +583,8 @@ extern "C" {
  */
 static inline void CLOCK_EnableClock(clock_ip_name_t name)
 {
-    uint32_t regAddr = SIM_BASE + CLK_GATE_ABSTRACT_REG_OFFSET((uint32_t)name);
-    (*(volatile uint32_t *)regAddr) |= (1U << CLK_GATE_ABSTRACT_BITS_SHIFT((uint32_t)name));
+    T_ULONG regAddr = SIM_BASE + CLK_GATE_ABSTRACT_REG_OFFSET((T_ULONG)name);
+    (*(volatile T_ULONG *)regAddr) |= (1U << CLK_GATE_ABSTRACT_BITS_SHIFT((T_ULONG)name));
 }
 
 /*!
@@ -594,30 +594,30 @@ static inline void CLOCK_EnableClock(clock_ip_name_t name)
  */
 static inline void CLOCK_DisableClock(clock_ip_name_t name)
 {
-    uint32_t regAddr = SIM_BASE + CLK_GATE_ABSTRACT_REG_OFFSET((uint32_t)name);
-    (*(volatile uint32_t *)regAddr) &= ~(1U << CLK_GATE_ABSTRACT_BITS_SHIFT((uint32_t)name));
+    T_ULONG regAddr = SIM_BASE + CLK_GATE_ABSTRACT_REG_OFFSET((T_ULONG)name);
+    (*(volatile T_ULONG *)regAddr) &= ~(1U << CLK_GATE_ABSTRACT_BITS_SHIFT((T_ULONG)name));
 }
 
 /*! @brief Set ERCLK32K source. */
-static inline void CLOCK_SetEr32kClock(uint32_t src)
+static inline void CLOCK_SetEr32kClock(T_ULONG src)
 {
     SIM->SOPT1 = ((SIM->SOPT1 & ~SIM_SOPT1_OSC32KSEL_MASK) | SIM_SOPT1_OSC32KSEL(src));
 }
 
 /*! @brief Set PLLFLLSEL clock source. */
-static inline void CLOCK_SetPllFllSelClock(uint32_t src)
+static inline void CLOCK_SetPllFllSelClock(T_ULONG src)
 {
     SIM->SOPT2 = ((SIM->SOPT2 & ~SIM_SOPT2_PLLFLLSEL_MASK) | SIM_SOPT2_PLLFLLSEL(src));
 }
 
 /*! @brief Set TPM clock source. */
-static inline void CLOCK_SetTpmClock(uint32_t src)
+static inline void CLOCK_SetTpmClock(T_ULONG src)
 {
     SIM->SOPT2 = ((SIM->SOPT2 & ~SIM_SOPT2_TPMSRC_MASK) | SIM_SOPT2_TPMSRC(src));
 }
 
 /*! @brief Set LPSCI0 (UART0) clock source. */
-static inline void CLOCK_SetLpsci0Clock(uint32_t src)
+static inline void CLOCK_SetLpsci0Clock(T_ULONG src)
 {
     SIM->SOPT2 = ((SIM->SOPT2 & ~SIM_SOPT2_UART0SRC_MASK) | SIM_SOPT2_UART0SRC(src));
 }
@@ -629,7 +629,7 @@ static inline void CLOCK_SetLpsci0Clock(uint32_t src)
  * @retval true The clock is set successfully.
  * @retval false The clock source is invalid to get proper USB FS clock.
  */
-bool CLOCK_EnableUsbfs0Clock(clock_usb_src_t src, uint32_t freq);
+bool CLOCK_EnableUsbfs0Clock(clock_usb_src_t src, T_ULONG freq);
 
 /*! @brief Disable USB FS clock.
  *
@@ -641,13 +641,13 @@ static inline void CLOCK_DisableUsbfs0Clock(void)
 }
 
 /*! @brief Set CLKOUT source. */
-static inline void CLOCK_SetClkOutClock(uint32_t src)
+static inline void CLOCK_SetClkOutClock(T_ULONG src)
 {
     SIM->SOPT2 = ((SIM->SOPT2 & ~SIM_SOPT2_CLKOUTSEL_MASK) | SIM_SOPT2_CLKOUTSEL(src));
 }
 
 /*! @brief Set RTC_CLKOUT source. */
-static inline void CLOCK_SetRtcClkOutClock(uint32_t src)
+static inline void CLOCK_SetRtcClkOutClock(T_ULONG src)
 {
     SIM->SOPT2 = ((SIM->SOPT2 & ~SIM_SOPT2_RTCCLKOUTSEL_MASK) | SIM_SOPT2_RTCCLKOUTSEL(src));
 }
@@ -656,7 +656,7 @@ static inline void CLOCK_SetRtcClkOutClock(uint32_t src)
  * @brief
  * Set the SIM_CLKDIV1[OUTDIV1], SIM_CLKDIV1[OUTDIV4].
  */
-static inline void CLOCK_SetOutDiv(uint32_t outdiv1, uint32_t outdiv4)
+static inline void CLOCK_SetOutDiv(T_ULONG outdiv1, T_ULONG outdiv4)
 {
     SIM->CLKDIV1 = SIM_CLKDIV1_OUTDIV1(outdiv1) | SIM_CLKDIV1_OUTDIV4(outdiv4);
 }
@@ -671,56 +671,56 @@ static inline void CLOCK_SetOutDiv(uint32_t outdiv1, uint32_t outdiv4)
  * @param clockName Clock names defined in clock_name_t
  * @return Clock frequency value in Hertz
  */
-uint32_t CLOCK_GetFreq(clock_name_t clockName);
+T_ULONG CLOCK_GetFreq(clock_name_t clockName);
 
 /*!
  * @brief Get the core clock or system clock frequency.
  *
  * @return Clock frequency in Hz.
  */
-uint32_t CLOCK_GetCoreSysClkFreq(void);
+T_ULONG CLOCK_GetCoreSysClkFreq(void);
 
 /*!
  * @brief Get the platform clock frequency.
  *
  * @return Clock frequency in Hz.
  */
-uint32_t CLOCK_GetPlatClkFreq(void);
+T_ULONG CLOCK_GetPlatClkFreq(void);
 
 /*!
  * @brief Get the bus clock frequency.
  *
  * @return Clock frequency in Hz.
  */
-uint32_t CLOCK_GetBusClkFreq(void);
+T_ULONG CLOCK_GetBusClkFreq(void);
 
 /*!
  * @brief Get the flash clock frequency.
  *
  * @return Clock frequency in Hz.
  */
-uint32_t CLOCK_GetFlashClkFreq(void);
+T_ULONG CLOCK_GetFlashClkFreq(void);
 
 /*!
  * @brief Get the output clock frequency selected by SIM[PLLFLLSEL].
  *
  * @return Clock frequency in Hz.
  */
-uint32_t CLOCK_GetPllFllSelClkFreq(void);
+T_ULONG CLOCK_GetPllFllSelClkFreq(void);
 
 /*!
  * @brief Get the external reference 32K clock frequency (ERCLK32K).
  *
  * @return Clock frequency in Hz.
  */
-uint32_t CLOCK_GetEr32kClkFreq(void);
+T_ULONG CLOCK_GetEr32kClkFreq(void);
 
 /*!
  * @brief Get the OSC0 external reference clock frequency (OSC0ERCLK).
  *
  * @return Clock frequency in Hz.
  */
-uint32_t CLOCK_GetOsc0ErClkFreq(void);
+T_ULONG CLOCK_GetOsc0ErClkFreq(void);
 
 /*!
  * @brief Set the clock configure in SIM module.
@@ -758,7 +758,7 @@ static inline void CLOCK_SetSimSafeDivs(void)
  *
  * @return The frequency of MCGOUTCLK.
  */
-uint32_t CLOCK_GetOutClkFreq(void);
+T_ULONG CLOCK_GetOutClkFreq(void);
 
 /*!
  * @brief Gets the MCG FLL clock (MCGFLLCLK) frequency.
@@ -769,7 +769,7 @@ uint32_t CLOCK_GetOutClkFreq(void);
  *
  * @return The frequency of MCGFLLCLK.
  */
-uint32_t CLOCK_GetFllFreq(void);
+T_ULONG CLOCK_GetFllFreq(void);
 
 /*!
  * @brief Gets the MCG internal reference clock (MCGIRCLK) frequency.
@@ -779,7 +779,7 @@ uint32_t CLOCK_GetFllFreq(void);
  *
  * @return The frequency of MCGIRCLK.
  */
-uint32_t CLOCK_GetInternalRefClkFreq(void);
+T_ULONG CLOCK_GetInternalRefClkFreq(void);
 
 /*!
  * @brief Gets the MCG fixed frequency clock (MCGFFCLK) frequency.
@@ -789,7 +789,7 @@ uint32_t CLOCK_GetInternalRefClkFreq(void);
  *
  * @return The frequency of MCGFFCLK.
  */
-uint32_t CLOCK_GetFixedFreqClkFreq(void);
+T_ULONG CLOCK_GetFixedFreqClkFreq(void);
 
 /*!
  * @brief Gets the MCG PLL0 clock (MCGPLL0CLK) frequency.
@@ -799,7 +799,7 @@ uint32_t CLOCK_GetFixedFreqClkFreq(void);
  *
  * @return The frequency of MCGPLL0CLK.
  */
-uint32_t CLOCK_GetPll0Freq(void);
+T_ULONG CLOCK_GetPll0Freq(void);
 
 /*@}*/
 
@@ -911,7 +911,7 @@ static inline void CLOCK_DisablePll0(void)
  * @param vdiv       VDIV value to generate desired PLL frequency.
  * @return Closest frequency match that the PLL was able generate.
  */
-uint32_t CLOCK_CalcPllDiv(uint32_t refFreq, uint32_t desireFreq, uint8_t *prdiv, uint8_t *vdiv);
+T_ULONG CLOCK_CalcPllDiv(T_ULONG refFreq, T_ULONG desireFreq, uint8_t *prdiv, uint8_t *vdiv);
 
 /*@}*/
 
@@ -962,7 +962,7 @@ void CLOCK_SetPll0MonitorMode(mcg_monitor_mode_t mode);
  *
  * @return  Logical OR value of the @ref _mcg_status_flags_t.
  */
-uint32_t CLOCK_GetStatusFlags(void);
+T_ULONG CLOCK_GetStatusFlags(void);
 
 /*!
  * @brief Clears the MCG status flags.
@@ -980,7 +980,7 @@ uint32_t CLOCK_GetStatusFlags(void);
  * @param mask The status flags to clear. This is a logical OR of members of the
  *             enumeration @ref _mcg_status_flags_t.
  */
-void CLOCK_ClearStatusFlags(uint32_t mask);
+void CLOCK_ClearStatusFlags(T_ULONG mask);
 
 /*@}*/
 
@@ -1073,7 +1073,7 @@ void CLOCK_DeinitOsc0(void);
  *
  * @param freq The XTAL0/EXTAL0 input clock frequency in Hz.
  */
-static inline void CLOCK_SetXtal0Freq(uint32_t freq)
+static inline void CLOCK_SetXtal0Freq(T_ULONG freq)
 {
     g_xtal0Freq = freq;
 }
@@ -1083,7 +1083,7 @@ static inline void CLOCK_SetXtal0Freq(uint32_t freq)
  *
  * @param freq The XTAL32/EXTAL32/RTC_CLKIN input clock frequency in Hz.
  */
-static inline void CLOCK_SetXtal32Freq(uint32_t freq)
+static inline void CLOCK_SetXtal32Freq(T_ULONG freq)
 {
     g_xtal32Freq = freq;
 }
@@ -1112,7 +1112,7 @@ static inline void CLOCK_SetXtal32Freq(uint32_t freq)
  * @retval kStatus_MCG_AtmIrcUsed Could not trim because MCGIRCLK is used as a bus clock source.
  * @retval kStatus_MCG_AtmHardwareFail Hardware fails while trimming.
  */
-status_t CLOCK_TrimInternalRefClk(uint32_t extFreq, uint32_t desireFreq, uint32_t *actualFreq, mcg_atm_select_t atms);
+status_t CLOCK_TrimInternalRefClk(T_ULONG extFreq, T_ULONG desireFreq, T_ULONG *actualFreq, mcg_atm_select_t atms);
 /* @} */
 
 /*! @name MCG mode functions. */

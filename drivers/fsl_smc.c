@@ -34,7 +34,7 @@
 #if (defined(FSL_FEATURE_SMC_HAS_PARAM) && FSL_FEATURE_SMC_HAS_PARAM)
 void SMC_GetParam(SMC_Type *base, smc_param_t *param)
 {
-    uint32_t reg = base->PARAM;
+    T_ULONG reg = base->PARAM;
     param->hsrunEnable = (bool)(reg & SMC_PARAM_EHSRUN_MASK);
     param->llsEnable = (bool)(reg & SMC_PARAM_ELLS_MASK);
     param->lls2Enable = (bool)(reg & SMC_PARAM_ELLS2_MASK);
@@ -122,7 +122,7 @@ status_t SMC_SetPowerModeStop(SMC_Type *base, smc_partial_stop_option_t option)
     /* configure the Partial Stop mode in Noraml Stop mode */
     reg = base->STOPCTRL;
     reg &= ~SMC_STOPCTRL_PSTOPO_MASK;
-    reg |= ((uint32_t)option << SMC_STOPCTRL_PSTOPO_SHIFT);
+    reg |= ((T_ULONG)option << SMC_STOPCTRL_PSTOPO_SHIFT);
     base->STOPCTRL = reg;
 #endif
 
@@ -247,7 +247,7 @@ status_t SMC_SetPowerModeLls(SMC_Type *base
 #if (defined(FSL_FEATURE_SMC_HAS_LLS_SUBMODE) && FSL_FEATURE_SMC_HAS_LLS_SUBMODE)
     reg = base->STOPCTRL;
     reg &= ~SMC_STOPCTRL_LLSM_MASK;
-    reg |= ((uint32_t)config->subMode << SMC_STOPCTRL_LLSM_SHIFT);
+    reg |= ((T_ULONG)config->subMode << SMC_STOPCTRL_LLSM_SHIFT);
     base->STOPCTRL = reg;
 #endif /* FSL_FEATURE_SMC_HAS_LLS_SUBMODE */
 
@@ -351,18 +351,18 @@ status_t SMC_SetPowerModeVlls(SMC_Type *base, const smc_power_mode_vlls_config_t
 #if (defined(FSL_FEATURE_SMC_USE_VLLSCTRL_REG) && FSL_FEATURE_SMC_USE_VLLSCTRL_REG)
     reg = base->VLLSCTRL;
     reg &= ~SMC_VLLSCTRL_VLLSM_MASK;
-    reg |= ((uint32_t)config->subMode << SMC_VLLSCTRL_VLLSM_SHIFT);
+    reg |= ((T_ULONG)config->subMode << SMC_VLLSCTRL_VLLSM_SHIFT);
     base->VLLSCTRL = reg;
 #else
 #if (defined(FSL_FEATURE_SMC_HAS_LLS_SUBMODE) && FSL_FEATURE_SMC_HAS_LLS_SUBMODE)
     reg = base->STOPCTRL;
     reg &= ~SMC_STOPCTRL_LLSM_MASK;
-    reg |= ((uint32_t)config->subMode << SMC_STOPCTRL_LLSM_SHIFT);
+    reg |= ((T_ULONG)config->subMode << SMC_STOPCTRL_LLSM_SHIFT);
     base->STOPCTRL = reg;
 #else
     reg = base->STOPCTRL;
     reg &= ~SMC_STOPCTRL_VLLSM_MASK;
-    reg |= ((uint32_t)config->subMode << SMC_STOPCTRL_VLLSM_SHIFT);
+    reg |= ((T_ULONG)config->subMode << SMC_STOPCTRL_VLLSM_SHIFT);
     base->STOPCTRL = reg;
 #endif /* FSL_FEATURE_SMC_HAS_LLS_SUBMODE */
 #endif

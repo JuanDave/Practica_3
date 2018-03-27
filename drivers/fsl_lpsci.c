@@ -58,7 +58,7 @@ typedef void (*lpsci_isr_t)(UART0_Type *base, lpsci_handle_t *handle);
  * @param base LPSCI peripheral base address.
  * @return LPSCI instance.
  */
-uint32_t LPSCI_GetInstance(UART0_Type *base);
+T_ULONG LPSCI_GetInstance(UART0_Type *base);
 
 /*!
  * @brief Get the length of received data in RX ring buffer.
@@ -128,9 +128,9 @@ static lpsci_isr_t s_lpsciIsr;
  * Code
  ******************************************************************************/
 
-uint32_t LPSCI_GetInstance(UART0_Type *base)
+T_ULONG LPSCI_GetInstance(UART0_Type *base)
 {
-    uint32_t instance;
+    T_ULONG instance;
 
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_lpsciBases); instance++)
@@ -210,7 +210,7 @@ static void LPSCI_WriteNonBlocking(UART0_Type *base, const uint8_t *data, size_t
     }
 }
 
-status_t LPSCI_Init(UART0_Type *base, const lpsci_config_t *config, uint32_t srcClock_Hz)
+status_t LPSCI_Init(UART0_Type *base, const lpsci_config_t *config, T_ULONG srcClock_Hz)
 {
     assert(config);
     assert(config->baudRate_Bps);
@@ -218,9 +218,9 @@ status_t LPSCI_Init(UART0_Type *base, const lpsci_config_t *config, uint32_t src
     uint8_t temp;
     uint16_t sbr = 0;
     uint16_t sbrTemp;
-    uint32_t osr = 0;
-    uint32_t osrTemp;
-    uint32_t tempDiff, calculatedBaud, baudDiff;
+    T_ULONG osr = 0;
+    T_ULONG osrTemp;
+    T_ULONG tempDiff, calculatedBaud, baudDiff;
 
     /* This LPSCI instantiation uses a slightly different baud rate calculation
      * The idea is to use the best OSR (over-sampling rate) possible
@@ -347,14 +347,14 @@ void LPSCI_GetDefaultConfig(lpsci_config_t *config)
     config->enableRx = false;
 }
 
-status_t LPSCI_SetBaudRate(UART0_Type *base, uint32_t baudRate_Bps, uint32_t srcClock_Hz)
+status_t LPSCI_SetBaudRate(UART0_Type *base, T_ULONG baudRate_Bps, T_ULONG srcClock_Hz)
 {
     assert(baudRate_Bps);
 
     uint16_t sbrTemp;
-    uint32_t osr = 0, sbr = 0;
+    T_ULONG osr = 0, sbr = 0;
     uint8_t osrTemp;
-    uint32_t tempDiff, calculatedBaud, baudDiff;
+    T_ULONG tempDiff, calculatedBaud, baudDiff;
     uint8_t oldCtrl;
 
     /* This LPSCI instantiation uses a slightly different baud rate calculation
@@ -428,7 +428,7 @@ status_t LPSCI_SetBaudRate(UART0_Type *base, uint32_t baudRate_Bps, uint32_t src
     }
 }
 
-void LPSCI_EnableInterrupts(UART0_Type *base, uint32_t mask)
+void LPSCI_EnableInterrupts(UART0_Type *base, T_ULONG mask)
 {
     mask &= kLPSCI_AllInterruptsEnable;
 
@@ -439,7 +439,7 @@ void LPSCI_EnableInterrupts(UART0_Type *base, uint32_t mask)
     base->C3 |= (mask >> 16);
 }
 
-void LPSCI_DisableInterrupts(UART0_Type *base, uint32_t mask)
+void LPSCI_DisableInterrupts(UART0_Type *base, T_ULONG mask)
 {
     mask &= kLPSCI_AllInterruptsEnable;
 
@@ -450,27 +450,27 @@ void LPSCI_DisableInterrupts(UART0_Type *base, uint32_t mask)
     base->C3 &= ~(mask >> 16);
 }
 
-uint32_t LPSCI_GetEnabledInterrupts(UART0_Type *base)
+T_ULONG LPSCI_GetEnabledInterrupts(UART0_Type *base)
 {
-    uint32_t temp;
-    temp = base->BDH | ((uint32_t)(base->C2) << 8) | ((uint32_t)(base->C3) << 16);
+    T_ULONG temp;
+    temp = base->BDH | ((T_ULONG)(base->C2) << 8) | ((T_ULONG)(base->C3) << 16);
 
     return temp & kLPSCI_AllInterruptsEnable;
 }
 
-uint32_t LPSCI_GetStatusFlags(UART0_Type *base)
+T_ULONG LPSCI_GetStatusFlags(UART0_Type *base)
 {
-    uint32_t status_flag;
-    status_flag = base->S1 | ((uint32_t)(base->S2) << 8);
+    T_ULONG status_flag;
+    status_flag = base->S1 | ((T_ULONG)(base->S2) << 8);
 
 #if defined(FSL_FEATURE_LPSCI_HAS_EXTENDED_DATA_REGISTER_FLAGS) && FSL_FEATURE_LPSCI_HAS_EXTENDED_DATA_REGISTER_FLAGS
-    status_flag |= ((uint32_t)(base->ED) << 16);
+    status_flag |= ((T_ULONG)(base->ED) << 16);
 #endif
 
     return status_flag;
 }
 
-status_t LPSCI_ClearStatusFlags(UART0_Type *base, uint32_t mask)
+status_t LPSCI_ClearStatusFlags(UART0_Type *base, T_ULONG mask)
 {
     volatile uint8_t dummy = 0;
     status_t status;
@@ -480,14 +480,14 @@ status_t LPSCI_ClearStatusFlags(UART0_Type *base, uint32_t mask)
     if (mask & kLPSCI_LinBreakFlag)
     {
         base->S2 = UART0_S2_LBKDIF_MASK;
-        mask &= ~(uint32_t)kLPSCI_LinBreakFlag;
+        mask &= ~(T_ULONG)kLPSCI_LinBreakFlag;
     }
 #endif
 
     if (mask & kLPSCI_RxActiveEdgeFlag)
     {
         base->S2 = UART0_S2_RXEDGIF_MASK;
-        mask &= ~(uint32_t)kLPSCI_RxActiveEdgeFlag;
+        mask &= ~(T_ULONG)kLPSCI_RxActiveEdgeFlag;
     }
 
     if ((mask & (kLPSCI_IdleLineFlag | kLPSCI_RxOverrunFlag | kLPSCI_NoiseErrorFlag | kLPSCI_FramingErrorFlag |
@@ -495,7 +495,7 @@ status_t LPSCI_ClearStatusFlags(UART0_Type *base, uint32_t mask)
     {
         base->S1 = (mask & (kLPSCI_IdleLineFlag | kLPSCI_RxOverrunFlag | kLPSCI_NoiseErrorFlag |
                             kLPSCI_FramingErrorFlag | kLPSCI_ParityErrorFlag));
-        mask &= ~(uint32_t)(kLPSCI_IdleLineFlag | kLPSCI_RxOverrunFlag | kLPSCI_NoiseErrorFlag |
+        mask &= ~(T_ULONG)(kLPSCI_IdleLineFlag | kLPSCI_RxOverrunFlag | kLPSCI_NoiseErrorFlag |
                             kLPSCI_FramingErrorFlag | kLPSCI_ParityErrorFlag);
     }
 
@@ -535,7 +535,7 @@ status_t LPSCI_ReadBlocking(UART0_Type *base, uint8_t *data, size_t length)
 {
     assert(data);
 
-    uint32_t statusFlag;
+    T_ULONG statusFlag;
 
     while (length--)
     {
@@ -580,7 +580,7 @@ void LPSCI_TransferCreateHandle(UART0_Type *base,
 {
     assert(handle);
 
-    uint32_t instance;
+    T_ULONG instance;
 
     /* Zero the handle. */
     memset(handle, 0, sizeof(lpsci_handle_t));
@@ -688,7 +688,7 @@ void LPSCI_TransferAbortSend(UART0_Type *base, lpsci_handle_t *handle)
     handle->txState = kLPSCI_TxIdle;
 }
 
-status_t LPSCI_TransferGetSendCount(UART0_Type *base, lpsci_handle_t *handle, uint32_t *count)
+status_t LPSCI_TransferGetSendCount(UART0_Type *base, lpsci_handle_t *handle, T_ULONG *count)
 {
     assert(handle);
     assert(count);
@@ -713,7 +713,7 @@ status_t LPSCI_TransferReceiveNonBlocking(UART0_Type *base,
     assert(xfer->dataSize);
     assert(xfer->data);
 
-    uint32_t i;
+    T_ULONG i;
     status_t status;
     /* How many bytes to copy from ring buffer to user memory. */
     size_t bytesToCopy = 0U;
@@ -846,7 +846,7 @@ void LPSCI_TransferAbortReceive(UART0_Type *base, lpsci_handle_t *handle)
     handle->rxState = kLPSCI_RxIdle;
 }
 
-status_t LPSCI_TransferGetReceiveCount(UART0_Type *base, lpsci_handle_t *handle, uint32_t *count)
+status_t LPSCI_TransferGetReceiveCount(UART0_Type *base, lpsci_handle_t *handle, T_ULONG *count)
 {
     assert(handle);
     assert(count);

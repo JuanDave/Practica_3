@@ -282,9 +282,9 @@ enum _flash_execute_in_ram_function_constants
  */
 typedef struct _flash_execute_in_ram_function_config
 {
-    uint32_t activeFunctionCount;      /*!< Number of available execute-in-RAM functions.*/
-    uint32_t *flashRunCommand;         /*!< Execute-in-RAM function: flash_run_command.*/
-    uint32_t *flashCommonBitOperation; /*!< Execute-in-RAM function: flash_common_bit_operation.*/
+    T_ULONG activeFunctionCount;      /*!< Number of available execute-in-RAM functions.*/
+    T_ULONG *flashRunCommand;         /*!< Execute-in-RAM function: flash_run_command.*/
+    T_ULONG *flashCommonBitOperation; /*!< Execute-in-RAM function: flash_common_bit_operation.*/
 } flash_execute_in_ram_function_config_t;
 
 /*!
@@ -433,7 +433,7 @@ typedef struct _flash_swap_ifr_field_config
  */
 typedef union _flash_swap_ifr_field_data
 {
-    uint32_t flashSwapIfrData[2];                    /*!< A flash Swap IFR field data .*/
+    T_ULONG flashSwapIfrData[2];                    /*!< A flash Swap IFR field data .*/
     flash_swap_ifr_field_config_t flashSwapIfrField; /*!< A flash Swap IFR field structure.*/
 } flash_swap_ifr_field_data_t;
 
@@ -442,7 +442,7 @@ typedef union _flash_swap_ifr_field_data
  */
 typedef union _pflash_protection_status_low
 {
-    uint32_t protl32b; /*!< PROT[31:0] .*/
+    T_ULONG protl32b; /*!< PROT[31:0] .*/
     struct
     {
         uint8_t protsl; /*!< PROTS[7:0] .*/
@@ -463,7 +463,7 @@ typedef struct _pflash_protection_status
     // uint32_t protHigh; /*!< PROT[63:32].*/
     struct
     {
-        uint32_t proth32b;
+        T_ULONG proth32b;
     } valueHigh32b;
 #endif
 } pflash_protection_status_t;
@@ -531,9 +531,9 @@ typedef enum _flash_cache_clear_process
  */
 typedef struct _flash_protection_config
 {
-    uint32_t regionBase;  /*!< Base address of flash protection region.*/
-    uint32_t regionSize;  /*!< size of flash protection region.*/
-    uint32_t regionCount; /*!< flash protection region count.*/
+    T_ULONG regionBase;  /*!< Base address of flash protection region.*/
+    T_ULONG regionSize;  /*!< size of flash protection region.*/
+    T_ULONG regionCount; /*!< flash protection region count.*/
 } flash_protection_config_t;
 
 /*!
@@ -541,9 +541,9 @@ typedef struct _flash_protection_config
  */
 typedef struct _flash_access_config
 {
-    uint32_t SegmentBase;  /*!< Base address of flash Execute-Only segment.*/
-    uint32_t SegmentSize;  /*!< size of flash Execute-Only segment.*/
-    uint32_t SegmentCount; /*!< flash Execute-Only segment count.*/
+    T_ULONG SegmentBase;  /*!< Base address of flash Execute-Only segment.*/
+    T_ULONG SegmentSize;  /*!< size of flash Execute-Only segment.*/
+    T_ULONG SegmentCount; /*!< flash Execute-Only segment count.*/
 } flash_access_config_t;
 
 /*!
@@ -551,14 +551,14 @@ typedef struct _flash_access_config
  */
 typedef struct _flash_operation_config
 {
-    uint32_t convertedAddress;           /*!< A converted address for the current flash type.*/
-    uint32_t activeSectorSize;           /*!< A sector size of the current flash type.*/
-    uint32_t activeBlockSize;            /*!< A block size of the current flash type.*/
-    uint32_t blockWriteUnitSize;         /*!< The write unit size.*/
-    uint32_t sectorCmdAddressAligment;   /*!< An erase sector command address alignment.*/
-    uint32_t sectionCmdAddressAligment;  /*!< A program/verify section command address alignment.*/
-    uint32_t resourceCmdAddressAligment; /*!< A read resource command address alignment.*/
-    uint32_t checkCmdAddressAligment;    /*!< A program check command address alignment.*/
+    T_ULONG convertedAddress;           /*!< A converted address for the current flash type.*/
+    T_ULONG activeSectorSize;           /*!< A sector size of the current flash type.*/
+    T_ULONG activeBlockSize;            /*!< A block size of the current flash type.*/
+    T_ULONG blockWriteUnitSize;         /*!< The write unit size.*/
+    T_ULONG sectorCmdAddressAligment;   /*!< An erase sector command address alignment.*/
+    T_ULONG sectionCmdAddressAligment;  /*!< A program/verify section command address alignment.*/
+    T_ULONG resourceCmdAddressAligment; /*!< A read resource command address alignment.*/
+    T_ULONG checkCmdAddressAligment;    /*!< A program check command address alignment.*/
 } flash_operation_config_t;
 
 /*! @brief Flash driver state information.
@@ -568,27 +568,27 @@ typedef struct _flash_operation_config
  */
 typedef struct _flash_config
 {
-    uint32_t PFlashBlockBase;                /*!< A base address of the first PFlash block */
-    uint32_t PFlashTotalSize;                /*!< The size of the combined PFlash block. */
+    T_ULONG PFlashBlockBase;                /*!< A base address of the first PFlash block */
+    T_ULONG PFlashTotalSize;                /*!< The size of the combined PFlash block. */
     uint8_t PFlashBlockCount;                /*!< A number of PFlash blocks. */
     uint8_t FlashMemoryIndex;                /*!< 0 - primary flash; 1 - secondary flash*/
     uint8_t FlashCacheControllerIndex;       /*!< 0 - Controller for core 0; 1 - Controller for core 1 */
     uint8_t Reserved0;                       /*!< Reserved field 0 */
-    uint32_t PFlashSectorSize;               /*!< The size in bytes of a sector of PFlash. */
+    T_ULONG PFlashSectorSize;               /*!< The size in bytes of a sector of PFlash. */
     flash_callback_t PFlashCallback;         /*!< The callback function for the flash API. */
-    uint32_t PFlashAccessSegmentSize;        /*!< A size in bytes of an access segment of PFlash. */
-    uint32_t PFlashAccessSegmentCount;       /*!< A number of PFlash access segments. */
-    uint32_t *flashExecuteInRamFunctionInfo; /*!< An information structure of the flash execute-in-RAM function. */
-    uint32_t FlexRAMBlockBase;               /*!< For the FlexNVM device, this is the base address of the FlexRAM */
+    T_ULONG PFlashAccessSegmentSize;        /*!< A size in bytes of an access segment of PFlash. */
+    T_ULONG PFlashAccessSegmentCount;       /*!< A number of PFlash access segments. */
+    T_ULONG *flashExecuteInRamFunctionInfo; /*!< An information structure of the flash execute-in-RAM function. */
+    T_ULONG FlexRAMBlockBase;               /*!< For the FlexNVM device, this is the base address of the FlexRAM */
     /*!< For the non-FlexNVM device, this is the base address of the acceleration RAM memory */
-    uint32_t FlexRAMTotalSize; /*!< For the FlexNVM device, this is the size of the FlexRAM */
+    T_ULONG FlexRAMTotalSize; /*!< For the FlexNVM device, this is the size of the FlexRAM */
                                /*!< For the non-FlexNVM device, this is the size of the acceleration RAM memory */
-    uint32_t
+    T_ULONG
         DFlashBlockBase; /*!< For the FlexNVM device, this is the base address of the D-Flash memory (FlexNVM memory) */
                          /*!< For the non-FlexNVM device, this field is unused */
-    uint32_t DFlashTotalSize; /*!< For the FlexNVM device, this is the total size of the FlexNVM memory; */
+    T_ULONG DFlashTotalSize; /*!< For the FlexNVM device, this is the total size of the FlexNVM memory; */
                               /*!< For the non-FlexNVM device, this field is unused */
-    uint32_t EEpromTotalSize; /*!< For the FlexNVM device, this is the size in bytes of the EEPROM area which was
+    T_ULONG EEpromTotalSize; /*!< For the FlexNVM device, this is the size in bytes of the EEPROM area which was
                                  partitioned from FlexRAM */
     /*!< For the non-FlexNVM device, this field is unused */
 } flash_config_t;
@@ -665,7 +665,7 @@ status_t FLASH_PrepareExecuteInRamFunctions(flash_config_t *config);
  * @retval #kStatus_FLASH_CommandFailure Run-time error during command execution.
  * @retval #kStatus_FLASH_PartitionStatusUpdateFailure Failed to update the partition status.
  */
-status_t FLASH_EraseAll(flash_config_t *config, uint32_t key);
+status_t FLASH_EraseAll(flash_config_t *config, T_ULONG key);
 
 /*!
  * @brief Erases the flash sectors encompassed by parameters passed into function.
@@ -690,7 +690,7 @@ status_t FLASH_EraseAll(flash_config_t *config, uint32_t key);
  * @retval #kStatus_FLASH_ProtectionViolation The program/erase operation is requested to execute on protected areas.
  * @retval #kStatus_FLASH_CommandFailure Run-time error during the command execution.
  */
-status_t FLASH_Erase(flash_config_t *config, uint32_t start, uint32_t lengthInBytes, uint32_t key);
+status_t FLASH_Erase(flash_config_t *config, T_ULONG start, T_ULONG lengthInBytes, T_ULONG key);
 
 /*!
  * @brief Erases the entire flash, including protected sectors.
@@ -708,7 +708,7 @@ status_t FLASH_Erase(flash_config_t *config, uint32_t start, uint32_t lengthInBy
  * @retval #kStatus_FLASH_PartitionStatusUpdateFailure Failed to update the partition status.
  */
 #if defined(FSL_FEATURE_FLASH_HAS_ERASE_ALL_BLOCKS_UNSECURE_CMD) && FSL_FEATURE_FLASH_HAS_ERASE_ALL_BLOCKS_UNSECURE_CMD
-status_t FLASH_EraseAllUnsecure(flash_config_t *config, uint32_t key);
+status_t FLASH_EraseAllUnsecure(flash_config_t *config, T_ULONG key);
 #endif
 
 /*!
@@ -725,7 +725,7 @@ status_t FLASH_EraseAllUnsecure(flash_config_t *config, uint32_t key);
  * @retval #kStatus_FLASH_ProtectionViolation The program/erase operation is requested to execute on protected areas.
  * @retval #kStatus_FLASH_CommandFailure Run-time error during the command execution.
  */
-status_t FLASH_EraseAllExecuteOnlySegments(flash_config_t *config, uint32_t key);
+status_t FLASH_EraseAllExecuteOnlySegments(flash_config_t *config, T_ULONG key);
 
 /*@}*/
 
@@ -757,7 +757,7 @@ status_t FLASH_EraseAllExecuteOnlySegments(flash_config_t *config, uint32_t key)
  * @retval #kStatus_FLASH_ProtectionViolation The program/erase operation is requested to execute on protected areas.
  * @retval #kStatus_FLASH_CommandFailure Run-time error during the command execution.
  */
-status_t FLASH_Program(flash_config_t *config, uint32_t start, uint32_t *src, uint32_t lengthInBytes);
+status_t FLASH_Program(flash_config_t *config, T_ULONG start, T_ULONG *src, T_ULONG lengthInBytes);
 
 /*!
  * @brief Programs Program Once Field through parameters.
@@ -779,7 +779,7 @@ status_t FLASH_Program(flash_config_t *config, uint32_t start, uint32_t *src, ui
  * @retval #kStatus_FLASH_ProtectionViolation The program/erase operation is requested to execute on protected areas.
  * @retval #kStatus_FLASH_CommandFailure Run-time error during the command execution.
  */
-status_t FLASH_ProgramOnce(flash_config_t *config, uint32_t index, uint32_t *src, uint32_t lengthInBytes);
+status_t FLASH_ProgramOnce(flash_config_t *config, T_ULONG index, T_ULONG *src, T_ULONG lengthInBytes);
 
 /*!
  * @brief Programs flash with data at locations passed in through parameters via the Program Section command.
@@ -807,7 +807,7 @@ status_t FLASH_ProgramOnce(flash_config_t *config, uint32_t index, uint32_t *src
  * @retval #kStatus_FLASH_RecoverFlexramAsEepromError Failed to recover FlexRAM as EEPROM.
  */
 #if defined(FSL_FEATURE_FLASH_HAS_PROGRAM_SECTION_CMD) && FSL_FEATURE_FLASH_HAS_PROGRAM_SECTION_CMD
-status_t FLASH_ProgramSection(flash_config_t *config, uint32_t start, uint32_t *src, uint32_t lengthInBytes);
+status_t FLASH_ProgramSection(flash_config_t *config, T_ULONG start, T_ULONG *src, T_ULONG lengthInBytes);
 #endif
 
 /*!
@@ -832,7 +832,7 @@ status_t FLASH_ProgramSection(flash_config_t *config, uint32_t start, uint32_t *
  * @retval #kStatus_FLASH_RecoverFlexramAsRamError Failed to recover the FlexRAM as RAM.
  */
 #if FLASH_SSD_IS_FLEXNVM_ENABLED
-status_t FLASH_EepromWrite(flash_config_t *config, uint32_t start, uint8_t *src, uint32_t lengthInBytes);
+status_t FLASH_EepromWrite(flash_config_t *config, T_ULONG start, uint8_t *src, T_ULONG lengthInBytes);
 #endif
 
 /*@}*/
@@ -867,7 +867,7 @@ status_t FLASH_EepromWrite(flash_config_t *config, uint32_t start, uint8_t *src,
  */
 #if defined(FSL_FEATURE_FLASH_HAS_READ_RESOURCE_CMD) && FSL_FEATURE_FLASH_HAS_READ_RESOURCE_CMD
 status_t FLASH_ReadResource(
-    flash_config_t *config, uint32_t start, uint32_t *dst, uint32_t lengthInBytes, flash_read_resource_option_t option);
+    flash_config_t *config, T_ULONG start, T_ULONG *dst, T_ULONG lengthInBytes, flash_read_resource_option_t option);
 #endif
 
 /*!
@@ -889,7 +889,7 @@ status_t FLASH_ReadResource(
  * @retval #kStatus_FLASH_ProtectionViolation The program/erase operation is requested to execute on protected areas.
  * @retval #kStatus_FLASH_CommandFailure Run-time error during the command execution.
  */
-status_t FLASH_ReadOnce(flash_config_t *config, uint32_t index, uint32_t *dst, uint32_t lengthInBytes);
+status_t FLASH_ReadOnce(flash_config_t *config, T_ULONG index, T_ULONG *dst, T_ULONG lengthInBytes);
 
 /*@}*/
 
@@ -979,7 +979,7 @@ status_t FLASH_VerifyEraseAll(flash_config_t *config, flash_margin_value_t margi
  * @retval #kStatus_FLASH_ProtectionViolation The program/erase operation is requested to execute on protected areas.
  * @retval #kStatus_FLASH_CommandFailure Run-time error during the command execution.
  */
-status_t FLASH_VerifyErase(flash_config_t *config, uint32_t start, uint32_t lengthInBytes, flash_margin_value_t margin);
+status_t FLASH_VerifyErase(flash_config_t *config, T_ULONG start, T_ULONG lengthInBytes, flash_margin_value_t margin);
 
 /*!
  * @brief Verifies programming of the desired flash area at a specified margin level.
@@ -1010,12 +1010,12 @@ status_t FLASH_VerifyErase(flash_config_t *config, uint32_t start, uint32_t leng
  * @retval #kStatus_FLASH_CommandFailure Run-time error during the command execution.
  */
 status_t FLASH_VerifyProgram(flash_config_t *config,
-                             uint32_t start,
-                             uint32_t lengthInBytes,
-                             const uint32_t *expectedData,
+                             T_ULONG start,
+                             T_ULONG lengthInBytes,
+                             const T_ULONG *expectedData,
                              flash_margin_value_t margin,
-                             uint32_t *failedAddress,
-                             uint32_t *failedData);
+                             T_ULONG *failedAddress,
+                             T_ULONG *failedData);
 
 /*!
  * @brief Verifies whether the program flash execute-only segments have been erased to
@@ -1059,8 +1059,8 @@ status_t FLASH_VerifyEraseAllExecuteOnlySegments(flash_config_t *config, flash_m
  * @retval #kStatus_FLASH_AddressError The address is out of range.
  */
 status_t FLASH_IsProtected(flash_config_t *config,
-                           uint32_t start,
-                           uint32_t lengthInBytes,
+                           T_ULONG start,
+                           T_ULONG lengthInBytes,
                            flash_protection_state_t *protection_state);
 
 /*!
@@ -1082,8 +1082,8 @@ status_t FLASH_IsProtected(flash_config_t *config,
  * @retval #kStatus_FLASH_AddressError The address is out of range.
  */
 status_t FLASH_IsExecuteOnly(flash_config_t *config,
-                             uint32_t start,
-                             uint32_t lengthInBytes,
+                             T_ULONG start,
+                             T_ULONG lengthInBytes,
                              flash_execute_only_access_state_t *access_state);
 
 /*@}*/
@@ -1105,7 +1105,7 @@ status_t FLASH_IsExecuteOnly(flash_config_t *config,
  * @retval #kStatus_FLASH_InvalidArgument An invalid argument is provided.
  * @retval #kStatus_FLASH_UnknownProperty An unknown property tag.
  */
-status_t FLASH_GetProperty(flash_config_t *config, flash_property_tag_t whichProperty, uint32_t *value);
+status_t FLASH_GetProperty(flash_config_t *config, flash_property_tag_t whichProperty, T_ULONG *value);
 
 /*!
  * @brief Sets the desired flash property.
@@ -1121,7 +1121,7 @@ status_t FLASH_GetProperty(flash_config_t *config, flash_property_tag_t whichPro
  * @retval #kStatus_FLASH_InvalidPropertyValue An invalid property value.
  * @retval #kStatus_FLASH_ReadOnlyProperty An read-only property tag.
  */
-status_t FLASH_SetProperty(flash_config_t *config, flash_property_tag_t whichProperty, uint32_t value);
+status_t FLASH_SetProperty(flash_config_t *config, flash_property_tag_t whichProperty, T_ULONG value);
 
 /*@}*/
 
@@ -1173,7 +1173,7 @@ status_t FLASH_SetFlexramFunction(flash_config_t *config, flash_flexram_function
  */
 #if defined(FSL_FEATURE_FLASH_HAS_SWAP_CONTROL_CMD) && FSL_FEATURE_FLASH_HAS_SWAP_CONTROL_CMD
 status_t FLASH_SwapControl(flash_config_t *config,
-                           uint32_t address,
+                           T_ULONG address,
                            flash_swap_control_option_t option,
                            flash_swap_state_config_t *returnInfo);
 #endif
@@ -1196,7 +1196,7 @@ status_t FLASH_SwapControl(flash_config_t *config,
  * @retval #kStatus_FLASH_SwapSystemNotInUninitialized Swap system is not in an uninitialzed state.
  */
 #if defined(FSL_FEATURE_FLASH_HAS_PFLASH_BLOCK_SWAP) && FSL_FEATURE_FLASH_HAS_PFLASH_BLOCK_SWAP
-status_t FLASH_Swap(flash_config_t *config, uint32_t address, flash_swap_function_option_t option);
+status_t FLASH_Swap(flash_config_t *config, T_ULONG address, flash_swap_function_option_t option);
 #endif
 
 /*!
@@ -1224,8 +1224,8 @@ status_t FLASH_Swap(flash_config_t *config, uint32_t address, flash_swap_functio
 #if defined(FSL_FEATURE_FLASH_HAS_PROGRAM_PARTITION_CMD) && FSL_FEATURE_FLASH_HAS_PROGRAM_PARTITION_CMD
 status_t FLASH_ProgramPartition(flash_config_t *config,
                                 flash_partition_flexram_load_option_t option,
-                                uint32_t eepromDataSizeCode,
-                                uint32_t flexnvmPartitionCode);
+                                T_ULONG eepromDataSizeCode,
+                                T_ULONG flexnvmPartitionCode);
 #endif
 
 /*@}*/

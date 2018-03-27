@@ -43,7 +43,7 @@
 /* Initialize debug console. */
 void BOARD_InitDebugConsole(void)
 {
-    uint32_t uartClkSrcFreq;
+    T_ULONG uartClkSrcFreq;
     /* SIM_SOPT2[27:26]:
      *  00: Clock Disabled
      *  01: IRC48M

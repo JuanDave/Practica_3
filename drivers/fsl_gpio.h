@@ -138,7 +138,7 @@ extern "C" {
  * @param pin    GPIO port pin number
  * @param config GPIO pin configuration pointer
  */
-void GPIO_PinInit(GPIO_Type *base, uint32_t pin, const gpio_pin_config_t *config);
+void GPIO_PinInit(GPIO_Type *base, T_ULONG pin, const gpio_pin_config_t *config);
 
 /*@}*/
 
@@ -154,7 +154,7 @@ void GPIO_PinInit(GPIO_Type *base, uint32_t pin, const gpio_pin_config_t *config
  *        - 0: corresponding pin output low-logic level.
  *        - 1: corresponding pin output high-logic level.
  */
-static inline void GPIO_WritePinOutput(GPIO_Type *base, uint32_t pin, uint8_t output)
+static inline void GPIO_WritePinOutput(GPIO_Type *base, T_ULONG pin, uint8_t output)
 {
     if (output == 0U)
     {
@@ -172,7 +172,7 @@ static inline void GPIO_WritePinOutput(GPIO_Type *base, uint32_t pin, uint8_t ou
  * @param base GPIO peripheral base pointer (GPIOA, GPIOB, GPIOC, and so on.)
  * @param mask GPIO pin number macro
  */
-static inline void GPIO_SetPinsOutput(GPIO_Type *base, uint32_t mask)
+static inline void GPIO_SetPinsOutput(GPIO_Type *base, T_ULONG mask)
 {
     base->PSOR = mask;
 }
@@ -183,7 +183,7 @@ static inline void GPIO_SetPinsOutput(GPIO_Type *base, uint32_t mask)
  * @param base GPIO peripheral base pointer (GPIOA, GPIOB, GPIOC, and so on.)
  * @param mask GPIO pin number macro
  */
-static inline void GPIO_ClearPinsOutput(GPIO_Type *base, uint32_t mask)
+static inline void GPIO_ClearPinsOutput(GPIO_Type *base, T_ULONG mask)
 {
     base->PCOR = mask;
 }
@@ -194,7 +194,7 @@ static inline void GPIO_ClearPinsOutput(GPIO_Type *base, uint32_t mask)
  * @param base GPIO peripheral base pointer (GPIOA, GPIOB, GPIOC, and so on.)
  * @param mask GPIO pin number macro
  */
-static inline void GPIO_TogglePinsOutput(GPIO_Type *base, uint32_t mask)
+static inline void GPIO_TogglePinsOutput(GPIO_Type *base, T_ULONG mask)
 {
     base->PTOR = mask;
 }
@@ -212,7 +212,7 @@ static inline void GPIO_TogglePinsOutput(GPIO_Type *base, uint32_t mask)
  *        - 0: corresponding pin input low-logic level.
  *        - 1: corresponding pin input high-logic level.
  */
-static inline uint32_t GPIO_ReadPinInput(GPIO_Type *base, uint32_t pin)
+static inline T_ULONG GPIO_ReadPinInput(GPIO_Type *base, T_ULONG pin)
 {
     return (((base->PDIR) >> pin) & 0x01U);
 }
@@ -234,7 +234,7 @@ static inline uint32_t GPIO_ReadPinInput(GPIO_Type *base, uint32_t pin)
  * @retval The current GPIO port interrupt status flag, for example, 0x00010001 means the
  *         pin 0 and 17 have the interrupt.
  */
-uint32_t GPIO_GetPinsInterruptFlags(GPIO_Type *base);
+T_ULONG GPIO_GetPinsInterruptFlags(GPIO_Type *base);
 
 /*!
  * @brief Clears multiple GPIO pin interrupt status flags.
@@ -242,7 +242,7 @@ uint32_t GPIO_GetPinsInterruptFlags(GPIO_Type *base);
  * @param base GPIO peripheral base pointer (GPIOA, GPIOB, GPIOC, and so on.)
  * @param mask GPIO pin number macro
  */
-void GPIO_ClearPinsInterruptFlags(GPIO_Type *base, uint32_t mask);
+void GPIO_ClearPinsInterruptFlags(GPIO_Type *base, T_ULONG mask);
 
 #if defined(FSL_FEATURE_GPIO_HAS_ATTRIBUTE_CHECKER) && FSL_FEATURE_GPIO_HAS_ATTRIBUTE_CHECKER
 /*!
@@ -305,7 +305,7 @@ void GPIO_CheckAttributeBytes(GPIO_Type *base, gpio_checker_attribute_t attribut
  * @param pin    FGPIO port pin number
  * @param config FGPIO pin configuration pointer
  */
-void FGPIO_PinInit(FGPIO_Type *base, uint32_t pin, const gpio_pin_config_t *config);
+void FGPIO_PinInit(FGPIO_Type *base, T_ULONG pin, const gpio_pin_config_t *config);
 
 /*@}*/
 
@@ -321,7 +321,7 @@ void FGPIO_PinInit(FGPIO_Type *base, uint32_t pin, const gpio_pin_config_t *conf
  *        - 0: corresponding pin output low-logic level.
  *        - 1: corresponding pin output high-logic level.
  */
-static inline void FGPIO_WritePinOutput(FGPIO_Type *base, uint32_t pin, uint8_t output)
+static inline void FGPIO_WritePinOutput(FGPIO_Type *base, T_ULONG pin, uint8_t output)
 {
     if (output == 0U)
     {
@@ -339,7 +339,7 @@ static inline void FGPIO_WritePinOutput(FGPIO_Type *base, uint32_t pin, uint8_t 
  * @param base FGPIO peripheral base pointer (FGPIOA, FGPIOB, FGPIOC, and so on.)
  * @param mask FGPIO pin number macro
  */
-static inline void FGPIO_SetPinsOutput(FGPIO_Type *base, uint32_t mask)
+static inline void FGPIO_SetPinsOutput(FGPIO_Type *base, T_ULONG mask)
 {
     base->PSOR = mask;
 }
@@ -350,7 +350,7 @@ static inline void FGPIO_SetPinsOutput(FGPIO_Type *base, uint32_t mask)
  * @param base FGPIO peripheral base pointer (FGPIOA, FGPIOB, FGPIOC, and so on.)
  * @param mask FGPIO pin number macro
  */
-static inline void FGPIO_ClearPinsOutput(FGPIO_Type *base, uint32_t mask)
+static inline void FGPIO_ClearPinsOutput(FGPIO_Type *base, T_ULONG mask)
 {
     base->PCOR = mask;
 }
@@ -361,7 +361,7 @@ static inline void FGPIO_ClearPinsOutput(FGPIO_Type *base, uint32_t mask)
  * @param base FGPIO peripheral base pointer (FGPIOA, FGPIOB, FGPIOC, and so on.)
  * @param mask FGPIO pin number macro
  */
-static inline void FGPIO_TogglePinsOutput(FGPIO_Type *base, uint32_t mask)
+static inline void FGPIO_TogglePinsOutput(FGPIO_Type *base, T_ULONG mask)
 {
     base->PTOR = mask;
 }
@@ -379,7 +379,7 @@ static inline void FGPIO_TogglePinsOutput(FGPIO_Type *base, uint32_t mask)
  *        - 0: corresponding pin input low-logic level.
  *        - 1: corresponding pin input high-logic level.
  */
-static inline uint32_t FGPIO_ReadPinInput(FGPIO_Type *base, uint32_t pin)
+static inline T_ULONG FGPIO_ReadPinInput(FGPIO_Type *base, T_ULONG pin)
 {
     return (((base->PDIR) >> pin) & 0x01U);
 }
@@ -401,7 +401,7 @@ static inline uint32_t FGPIO_ReadPinInput(FGPIO_Type *base, uint32_t pin)
  * @retval The current FGPIO port interrupt status flags, for example, 0x00010001 means the
  *         pin 0 and 17 have the interrupt.
  */
-uint32_t FGPIO_GetPinsInterruptFlags(FGPIO_Type *base);
+T_ULONG FGPIO_GetPinsInterruptFlags(FGPIO_Type *base);
 
 /*!
  * @brief Clears the multiple FGPIO pin interrupt status flag.
@@ -409,7 +409,7 @@ uint32_t FGPIO_GetPinsInterruptFlags(FGPIO_Type *base);
  * @param base FGPIO peripheral base pointer (FGPIOA, FGPIOB, FGPIOC, and so on.)
  * @param mask FGPIO pin number macro
  */
-void FGPIO_ClearPinsInterruptFlags(FGPIO_Type *base, uint32_t mask);
+void FGPIO_ClearPinsInterruptFlags(FGPIO_Type *base, T_ULONG mask);
 
 #if defined(FSL_FEATURE_GPIO_HAS_ATTRIBUTE_CHECKER) && FSL_FEATURE_GPIO_HAS_ATTRIBUTE_CHECKER
 /*!

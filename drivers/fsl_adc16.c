@@ -38,7 +38,7 @@
  *
  * @param base ADC16 peripheral base address
  */
-static uint32_t ADC16_GetInstance(ADC_Type *base);
+static T_ULONG ADC16_GetInstance(ADC_Type *base);
 
 /*******************************************************************************
  * Variables
@@ -54,9 +54,9 @@ static const clock_ip_name_t s_adc16Clocks[] = ADC16_CLOCKS;
 /*******************************************************************************
  * Code
  ******************************************************************************/
-static uint32_t ADC16_GetInstance(ADC_Type *base)
+static T_ULONG ADC16_GetInstance(ADC_Type *base)
 {
-    uint32_t instance;
+    T_ULONG instance;
 
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_adc16Bases); instance++)
@@ -76,7 +76,7 @@ void ADC16_Init(ADC_Type *base, const adc16_config_t *config)
 {
     assert(NULL != config);
 
-    uint32_t tmp32;
+    T_ULONG tmp32;
 
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
     /* Enable the clock. */
@@ -155,7 +155,7 @@ void ADC16_GetDefaultConfig(adc16_config_t *config)
 status_t ADC16_DoAutoCalibration(ADC_Type *base)
 {
     bool bHWTrigger = false;
-    volatile uint32_t tmp32; /* 'volatile' here is for the dummy read of ADCx_R[0] register. */
+    volatile T_ULONG tmp32; /* 'volatile' here is for the dummy read of ADCx_R[0] register. */
     status_t status = kStatus_Success;
 
     /* The calibration would be failed when in hardwar mode.
@@ -225,7 +225,7 @@ void ADC16_SetChannelMuxMode(ADC_Type *base, adc16_channel_mux_mode_t mode)
 
 void ADC16_SetHardwareCompareConfig(ADC_Type *base, const adc16_hardware_compare_config_t *config)
 {
-    uint32_t tmp32 = base->SC2 & ~(ADC_SC2_ACFE_MASK | ADC_SC2_ACFGT_MASK | ADC_SC2_ACREN_MASK);
+    T_ULONG tmp32 = base->SC2 & ~(ADC_SC2_ACFE_MASK | ADC_SC2_ACFGT_MASK | ADC_SC2_ACREN_MASK);
 
     if (!config) /* Pass "NULL" to disable the feature. */
     {
@@ -262,7 +262,7 @@ void ADC16_SetHardwareCompareConfig(ADC_Type *base, const adc16_hardware_compare
 #if defined(FSL_FEATURE_ADC16_HAS_HW_AVERAGE) && FSL_FEATURE_ADC16_HAS_HW_AVERAGE
 void ADC16_SetHardwareAverage(ADC_Type *base, adc16_hardware_average_mode_t mode)
 {
-    uint32_t tmp32 = base->SC3 & ~(ADC_SC3_AVGE_MASK | ADC_SC3_AVGS_MASK);
+    T_ULONG tmp32 = base->SC3 & ~(ADC_SC3_AVGE_MASK | ADC_SC3_AVGS_MASK);
 
     if (kADC16_HardwareAverageDisabled != mode)
     {
@@ -275,7 +275,7 @@ void ADC16_SetHardwareAverage(ADC_Type *base, adc16_hardware_average_mode_t mode
 #if defined(FSL_FEATURE_ADC16_HAS_PGA) && FSL_FEATURE_ADC16_HAS_PGA
 void ADC16_SetPGAConfig(ADC_Type *base, const adc16_pga_config_t *config)
 {
-    uint32_t tmp32;
+    T_ULONG tmp32;
 
     if (!config) /* Passing "NULL" is to disable the feature. */
     {
@@ -307,9 +307,9 @@ void ADC16_SetPGAConfig(ADC_Type *base, const adc16_pga_config_t *config)
 }
 #endif /* FSL_FEATURE_ADC16_HAS_PGA */
 
-uint32_t ADC16_GetStatusFlags(ADC_Type *base)
+T_ULONG ADC16_GetStatusFlags(ADC_Type *base)
 {
-    uint32_t ret = 0;
+    T_ULONG ret = 0;
 
     if (0U != (base->SC2 & ADC_SC2_ADACT_MASK))
     {
@@ -324,7 +324,7 @@ uint32_t ADC16_GetStatusFlags(ADC_Type *base)
     return ret;
 }
 
-void ADC16_ClearStatusFlags(ADC_Type *base, uint32_t mask)
+void ADC16_ClearStatusFlags(ADC_Type *base, T_ULONG mask)
 {
 #if defined(FSL_FEATURE_ADC16_HAS_CALIBRATION) && FSL_FEATURE_ADC16_HAS_CALIBRATION
     if (0U != (mask & kADC16_CalibrationFailedFlag))
@@ -334,12 +334,12 @@ void ADC16_ClearStatusFlags(ADC_Type *base, uint32_t mask)
 #endif /* FSL_FEATURE_ADC16_HAS_CALIBRATION */
 }
 
-void ADC16_SetChannelConfig(ADC_Type *base, uint32_t channelGroup, const adc16_channel_config_t *config)
+void ADC16_SetChannelConfig(ADC_Type *base, T_ULONG channelGroup, const adc16_channel_config_t *config)
 {
     assert(channelGroup < ADC_SC1_COUNT);
     assert(NULL != config);
 
-    uint32_t sc1 = ADC_SC1_ADCH(config->channelNumber); /* Set the channel number. */
+    T_ULONG sc1 = ADC_SC1_ADCH(config->channelNumber); /* Set the channel number. */
 
 #if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
     /* Enable the differential conversion. */
@@ -356,11 +356,11 @@ void ADC16_SetChannelConfig(ADC_Type *base, uint32_t channelGroup, const adc16_c
     base->SC1[channelGroup] = sc1;
 }
 
-uint32_t ADC16_GetChannelStatusFlags(ADC_Type *base, uint32_t channelGroup)
+T_ULONG ADC16_GetChannelStatusFlags(ADC_Type *base, T_ULONG channelGroup)
 {
     assert(channelGroup < ADC_SC1_COUNT);
 
-    uint32_t ret = 0U;
+    T_ULONG ret = 0U;
 
     if (0U != (base->SC1[channelGroup] & ADC_SC1_COCO_MASK))
     {

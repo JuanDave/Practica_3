@@ -167,7 +167,7 @@ enum _uart_flags
 /*! @brief UART configuration structure. */
 typedef struct _uart_config
 {
-    uint32_t baudRate_Bps;         /*!< UART baud rate  */
+    T_ULONG baudRate_Bps;         /*!< UART baud rate  */
     uart_parity_mode_t parityMode; /*!< Parity mode, disabled (default), even, odd */
 #if defined(FSL_FEATURE_UART_HAS_STOP_BIT_CONFIG_SUPPORT) && FSL_FEATURE_UART_HAS_STOP_BIT_CONFIG_SUPPORT
     uart_stop_bit_count_t stopBitCount; /*!< Number of stop bits, 1 stop bit (default) or 2 stop bits  */
@@ -250,7 +250,7 @@ extern "C" {
  * @retval kStatus_UART_BaudrateNotSupport Baudrate is not support in current clock source.
  * @retval kStatus_Success Status UART initialize succeed
  */
-status_t UART_Init(UART_Type *base, const uart_config_t *config, uint32_t srcClock_Hz);
+status_t UART_Init(UART_Type *base, const uart_config_t *config, T_ULONG srcClock_Hz);
 
 /*!
  * @brief Deinitializes a UART instance.
@@ -294,7 +294,7 @@ void UART_GetDefaultConfig(uart_config_t *config);
  * @retval kStatus_UART_BaudrateNotSupport Baudrate is not support in the current clock source.
  * @retval kStatus_Success Set baudrate succeeded.
  */
-status_t UART_SetBaudRate(UART_Type *base, uint32_t baudRate_Bps, uint32_t srcClock_Hz);
+status_t UART_SetBaudRate(UART_Type *base, T_ULONG baudRate_Bps, T_ULONG srcClock_Hz);
 
 /* @} */
 
@@ -320,7 +320,7 @@ status_t UART_SetBaudRate(UART_Type *base, uint32_t baudRate_Bps, uint32_t srcCl
  * @param base UART peripheral base address.
  * @return UART status flags which are ORed by the enumerators in the _uart_flags.
  */
-uint32_t UART_GetStatusFlags(UART_Type *base);
+T_ULONG UART_GetStatusFlags(UART_Type *base);
 
 /*!
  * @brief Clears status flags with the provided mask.
@@ -339,7 +339,7 @@ uint32_t UART_GetStatusFlags(UART_Type *base);
  *         it is cleared automatically by hardware.
  * @retval kStatus_Success Status in the mask is cleared.
  */
-status_t UART_ClearStatusFlags(UART_Type *base, uint32_t mask);
+status_t UART_ClearStatusFlags(UART_Type *base, T_ULONG mask);
 
 /* @} */
 
@@ -361,7 +361,7 @@ status_t UART_ClearStatusFlags(UART_Type *base, uint32_t mask);
  * @param base UART peripheral base address.
  * @param mask The interrupts to enable. Logical OR of @ref _uart_interrupt_enable.
  */
-void UART_EnableInterrupts(UART_Type *base, uint32_t mask);
+void UART_EnableInterrupts(UART_Type *base, T_ULONG mask);
 
 /*!
  * @brief Disables the UART interrupts according to the provided mask.
@@ -376,7 +376,7 @@ void UART_EnableInterrupts(UART_Type *base, uint32_t mask);
  * @param base UART peripheral base address.
  * @param mask The interrupts to disable. Logical OR of @ref _uart_interrupt_enable.
  */
-void UART_DisableInterrupts(UART_Type *base, uint32_t mask);
+void UART_DisableInterrupts(UART_Type *base, T_ULONG mask);
 
 /*!
  * @brief Gets the enabled UART interrupts.
@@ -398,7 +398,7 @@ void UART_DisableInterrupts(UART_Type *base, uint32_t mask);
  * @param base UART peripheral base address.
  * @return UART interrupt flags which are logical OR of the enumerators in @ref _uart_interrupt_enable.
  */
-uint32_t UART_GetEnabledInterrupts(UART_Type *base);
+T_ULONG UART_GetEnabledInterrupts(UART_Type *base);
 
 /* @} */
 
@@ -416,9 +416,9 @@ uint32_t UART_GetEnabledInterrupts(UART_Type *base);
  * @param base UART peripheral base address.
  * @return UART data register addresses which are used both by the transmitter and the receiver.
  */
-static inline uint32_t UART_GetDataRegisterAddress(UART_Type *base)
+static inline T_ULONG UART_GetDataRegisterAddress(UART_Type *base)
 {
-    return (uint32_t) & (base->D);
+    return (T_ULONG) & (base->D);
 }
 
 /*!
@@ -688,7 +688,7 @@ void UART_TransferAbortSend(UART_Type *base, uart_handle_t *handle);
  * @retval kStatus_InvalidArgument The parameter is invalid.
  * @retval kStatus_Success Get successfully through the parameter \p count;
  */
-status_t UART_TransferGetSendCount(UART_Type *base, uart_handle_t *handle, uint32_t *count);
+status_t UART_TransferGetSendCount(UART_Type *base, uart_handle_t *handle, T_ULONG *count);
 
 /*!
  * @brief Receives a buffer of data using an interrupt method.
@@ -744,7 +744,7 @@ void UART_TransferAbortReceive(UART_Type *base, uart_handle_t *handle);
  * @retval kStatus_InvalidArgument Parameter is invalid.
  * @retval kStatus_Success Get successfully through the parameter \p count;
  */
-status_t UART_TransferGetReceiveCount(UART_Type *base, uart_handle_t *handle, uint32_t *count);
+status_t UART_TransferGetReceiveCount(UART_Type *base, uart_handle_t *handle, T_ULONG *count);
 
 /*!
  * @brief UART IRQ handle function.

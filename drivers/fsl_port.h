@@ -161,7 +161,7 @@ typedef enum _port_digital_filter_clock_source
 /*! @brief PORT digital filter feature configuration definition */
 typedef struct _port_digital_filter_config
 {
-    uint32_t digitalFilterWidth;                    /*!< Set digital filter width */
+    T_ULONG digitalFilterWidth;                    /*!< Set digital filter width */
     port_digital_filter_clock_source_t clockSource; /*!< Set digital filter clockSource */
 } port_digital_filter_config_t;
 #endif /* FSL_FEATURE_PORT_HAS_DIGITAL_FILTER */
@@ -253,10 +253,10 @@ extern "C" {
  * @param pin    PORT pin number.
  * @param config PORT PCR register configuration structure.
  */
-static inline void PORT_SetPinConfig(PORT_Type *base, uint32_t pin, const port_pin_config_t *config)
+static inline void PORT_SetPinConfig(PORT_Type *base, T_ULONG pin, const port_pin_config_t *config)
 {
     assert(config);
-    uint32_t addr = (uint32_t)&base->PCR[pin];
+    T_ULONG addr = (T_ULONG)&base->PCR[pin];
     *(volatile uint16_t *)(addr) = *((const uint16_t *)config);
 }
 
@@ -282,7 +282,7 @@ static inline void PORT_SetPinConfig(PORT_Type *base, uint32_t pin, const port_p
  * @param mask   PORT pin number macro.
  * @param config PORT PCR register configuration structure.
  */
-static inline void PORT_SetMultiplePinsConfig(PORT_Type *base, uint32_t mask, const port_pin_config_t *config)
+static inline void PORT_SetMultiplePinsConfig(PORT_Type *base, T_ULONG mask, const port_pin_config_t *config)
 {
     assert(config);
 
@@ -318,7 +318,7 @@ static inline void PORT_SetMultiplePinsConfig(PORT_Type *base, uint32_t mask, co
  *        This function is recommended to use to reset the pin mux
  *
  */
-static inline void PORT_SetPinMux(PORT_Type *base, uint32_t pin, port_mux_t mux)
+static inline void PORT_SetPinMux(PORT_Type *base, T_ULONG pin, port_mux_t mux)
 {
     base->PCR[pin] = (base->PCR[pin] & ~PORT_PCR_MUX_MASK) | PORT_PCR_MUX(mux);
 }
@@ -332,7 +332,7 @@ static inline void PORT_SetPinMux(PORT_Type *base, uint32_t pin, port_mux_t mux)
  * @param base  PORT peripheral base pointer.
  * @param mask  PORT pin number macro.
  */
-static inline void PORT_EnablePinsDigitalFilter(PORT_Type *base, uint32_t mask, bool enable)
+static inline void PORT_EnablePinsDigitalFilter(PORT_Type *base, T_ULONG mask, bool enable)
 {
     if (enable == true)
     {
@@ -386,7 +386,7 @@ static inline void PORT_SetDigitalFilterConfig(PORT_Type *base, const port_digit
  *        - #kPORT_ActiveHighTriggerOutputEnable : Enable active high-trigger output (if the trigger states exit).
  *        - #kPORT_ActiveLowTriggerOutputEnable  : Enable active low-trigger output (if the trigger states exit).
  */
-static inline void PORT_SetPinInterruptConfig(PORT_Type *base, uint32_t pin, port_interrupt_t config)
+static inline void PORT_SetPinInterruptConfig(PORT_Type *base, T_ULONG pin, port_interrupt_t config)
 {
     base->PCR[pin] = (base->PCR[pin] & ~PORT_PCR_IRQC_MASK) | PORT_PCR_IRQC(config);
 }
@@ -404,7 +404,7 @@ static inline void PORT_SetPinInterruptConfig(PORT_Type *base, uint32_t pin, por
  * @return Current port interrupt status flags, for example, 0x00010001 means the
  *         pin 0 and 16 have the interrupt.
  */
-static inline uint32_t PORT_GetPinsInterruptFlags(PORT_Type *base)
+static inline T_ULONG PORT_GetPinsInterruptFlags(PORT_Type *base)
 {
     return base->ISFR;
 }
@@ -415,7 +415,7 @@ static inline uint32_t PORT_GetPinsInterruptFlags(PORT_Type *base)
  * @param base PORT peripheral base pointer.
  * @param mask PORT pin number macro.
  */
-static inline void PORT_ClearPinsInterruptFlags(PORT_Type *base, uint32_t mask)
+static inline void PORT_ClearPinsInterruptFlags(PORT_Type *base, T_ULONG mask)
 {
     base->ISFR = mask;
 }

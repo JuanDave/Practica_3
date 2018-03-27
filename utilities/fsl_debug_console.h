@@ -128,7 +128,7 @@ extern "C" {
  * @retval kStatus_Fail             Execution failure
  * @retval kStatus_InvalidArgument  Invalid argument existed
  */
-status_t DbgConsole_Init(uint32_t baseAddr, uint32_t baudRate, uint8_t device, uint32_t clkSrcFreq);
+status_t DbgConsole_Init(T_ULONG baseAddr, T_ULONG baudRate, uint8_t device, T_ULONG clkSrcFreq);
 
 /*!
  * @brief De-initializes the peripheral used for debug messages.

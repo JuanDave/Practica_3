@@ -13,55 +13,55 @@
 #include "fsl_gpio.h"
 
 
-uint32_t contadorDeBounceAsc=0;
-uint32_t contadorDeBounceDesc=0;
+T_ULONG contadorDeBounceAsc=0;
+T_ULONG contadorDeBounceDesc=0;
 
 
-uint32_t DISPLAY_manager_checkButtonAsc_Desc(uint32_t valor){
-	uint32_t a=valor;
-			if(GPIO_ReadPinInput(GPIOB, BUTTON_ASCENDENT_PIN_NUMBER)==FALSE){ //CHECK ASCENDENT BUTTON
-					if(contadorDeBounceAsc>=500){
-						contadorDeBounceAsc=0;
-						if(a==100){
-						   	    a=0;
-						   	    		}
-						   	    		else{
-						   	    		a++;
-						   	    		}
-							}
-						else {  		contadorDeBounceAsc++;
-						}
-						}
-
-						if(GPIO_ReadPinInput(GPIOB, BUTTON_DESCENDENT_PIN_NUMBER)==FALSE){ //CHECK DESCENDENT BUTTON
-						if(contadorDeBounceDesc>=500){
-						contadorDeBounceDesc=0;
-						if(a==0){
-							a=100;
-						}
-						else{
-						a--;
-						}
-							}
-						else {  		contadorDeBounceDesc++;
-														}
-										}
-		return a;
+T_ULONG DISPLAY_manager_checkButtonAsc_Desc(T_ULONG valor){
+	T_ULONG a=valor;
+	if(GPIO_ReadPinInput(GPIOB, BUTTON_ASCENDENT_PIN_NUMBER)==FALSE){ //CHECK ASCENDENT BUTTON
+		if(contadorDeBounceAsc>=500){
+			contadorDeBounceAsc=0;
+			if(a==100){
+				a=0;
+			}
+			else{
+				a++;
+			}
 		}
+		else {  		contadorDeBounceAsc++;
+		}
+	}
+
+	if(GPIO_ReadPinInput(GPIOB, BUTTON_DESCENDENT_PIN_NUMBER)==FALSE){ //CHECK DESCENDENT BUTTON
+		if(contadorDeBounceDesc>=500){
+			contadorDeBounceDesc=0;
+			if(a==0){
+				a=100;
+			}
+			else{
+				a--;
+			}
+		}
+		else {  		contadorDeBounceDesc++;
+		}
+	}
+	return a;
+}
 
 
 
 
 void ADC_Pin_init(void){
 	CLOCK_EnableClock(kCLOCK_PortE);
-	PORT_SetPinMux(PORTE, 20, kPORT_PinDisabledOrAnalog); /* PORTE20 (pin 13) is configured as ADC0_DP0 */
+	PORT_SetPinMux(PORTE, 20U, kPORT_PinDisabledOrAnalog); /* PORTE20 (pin 13) is configured as ADC0_DP0 */
 }
 
 
 extern void DISPLAY_manager_Input_Init(void){
 	///PORTB Clock Source Enable
 	CLOCK_EnableClock(kCLOCK_PortB);
-// SET PINS AS GPIO'S STRUCTURES
+	// SET PINS AS GPIO'S STRUCTURES
 	port_pin_config_t  ls_ButtonReset_PinGPIO , ls_ButtonAsc_PinGPIO ,ls_ButtonDes_PinGPIO;
 	// SET AS GPIO
 	ls_ButtonReset_PinGPIO.mux=kPORT_MuxAsGpio;
@@ -74,28 +74,28 @@ extern void DISPLAY_manager_Input_Init(void){
 	PORT_SetPinConfig(PORTB,BUTTON_DESCENDENT_PIN_NUMBER,&ls_ButtonDes_PinGPIO);//BUTTON DESCENDENT
 
 	//PIN INITIALIZATION
-		//Pin Config Structures //Local Variables
-		gpio_pin_config_t ls_ButtonReset_PinCfg ,ls_ButtonAsc_PinCfg,ls_ButtonDes_PinCfg;
+	//Pin Config Structures //Local Variables
+	gpio_pin_config_t ls_ButtonReset_PinCfg ,ls_ButtonAsc_PinCfg,ls_ButtonDes_PinCfg;
 
-		/// Pin As Outputs
-		ls_ButtonReset_PinCfg.pinDirection=kGPIO_DigitalInput;
-		ls_ButtonAsc_PinCfg.pinDirection=kGPIO_DigitalInput;
-		ls_ButtonDes_PinCfg.pinDirection=kGPIO_DigitalInput;
+	/// Pin As Outputs
+	ls_ButtonReset_PinCfg.pinDirection=kGPIO_DigitalInput;
+	ls_ButtonAsc_PinCfg.pinDirection=kGPIO_DigitalInput;
+	ls_ButtonDes_PinCfg.pinDirection=kGPIO_DigitalInput;
 
-		GPIO_PinInit(GPIOB, BUTTON_RESET_PIN_NUMBER,&ls_ButtonReset_PinCfg);//BUTTON RESET
-		GPIO_PinInit(GPIOB, BUTTON_ASCENDENT_PIN_NUMBER,&ls_ButtonAsc_PinCfg);// BUTTON ASCENDENT
-		GPIO_PinInit(GPIOB, BUTTON_DESCENDENT_PIN_NUMBER,&ls_ButtonDes_PinCfg);// BUTTON DESCENDENT
+	GPIO_PinInit(GPIOB, BUTTON_RESET_PIN_NUMBER,&ls_ButtonReset_PinCfg);//BUTTON RESET
+	GPIO_PinInit(GPIOB, BUTTON_ASCENDENT_PIN_NUMBER,&ls_ButtonAsc_PinCfg);// BUTTON ASCENDENT
+	GPIO_PinInit(GPIOB, BUTTON_DESCENDENT_PIN_NUMBER,&ls_ButtonDes_PinCfg);// BUTTON DESCENDENT
 
-		///STRUSCTURES FOR INPUT CONFIGURATION
-		port_pin_config_t ls_ButtonReset_PortCfg , ls_ButtonAsc_PortCfg,ls_ButtonDes_PortCfg;
-		//INPUTS WITH PULL-UPS
-		ls_ButtonReset_PortCfg.pullSelect=kPORT_PullUp;
-		ls_ButtonAsc_PortCfg.pullSelect=kPORT_PullUp;
-		ls_ButtonDes_PortCfg.pullSelect=kPORT_PullUp;
+	///STRUSCTURES FOR INPUT CONFIGURATION
+	port_pin_config_t ls_ButtonReset_PortCfg , ls_ButtonAsc_PortCfg,ls_ButtonDes_PortCfg;
+	//INPUTS WITH PULL-UPS
+	ls_ButtonReset_PortCfg.pullSelect=kPORT_PullUp;
+	ls_ButtonAsc_PortCfg.pullSelect=kPORT_PullUp;
+	ls_ButtonDes_PortCfg.pullSelect=kPORT_PullUp;
 
-		PORT_SetPinConfig(PORTB,BUTTON_RESET_PIN_NUMBER,&ls_ButtonReset_PortCfg );
-		PORT_SetPinConfig(PORTB,BUTTON_ASCENDENT_PIN_NUMBER,&ls_ButtonAsc_PortCfg );
-		PORT_SetPinConfig(PORTB,BUTTON_DESCENDENT_PIN_NUMBER,&ls_ButtonDes_PortCfg );
+	PORT_SetPinConfig(PORTB,BUTTON_RESET_PIN_NUMBER,&ls_ButtonReset_PortCfg );
+	PORT_SetPinConfig(PORTB,BUTTON_ASCENDENT_PIN_NUMBER,&ls_ButtonAsc_PortCfg );
+	PORT_SetPinConfig(PORTB,BUTTON_DESCENDENT_PIN_NUMBER,&ls_ButtonDes_PortCfg );
 
 	return;
 }
@@ -181,12 +181,12 @@ void DISPLAY_manager_Output_Init(void){
 	ls_senal_AdcCfg.pinDirection=kGPIO_DigitalOutput;
 
 
-    /// MUX LOGIC OUTPUT
+	/// MUX LOGIC OUTPUT
 	ls_TRANSISTOR_unidadesCfg.outputLogic= FALSE;
 	ls_TRANSISTOR_decenasCfg.outputLogic= FALSE;
 	ls_TRANSISTOR_centenasCfg.outputLogic= FALSE;
 
-//// LED LOGIC INITIALIZATION
+	//// LED LOGIC INITIALIZATION
 	ls_LedA_PinCfg.outputLogic= TRUE;
 	ls_LedB_PinCfg.outputLogic= TRUE;
 	ls_LedC_PinCfg.outputLogic= TRUE;
